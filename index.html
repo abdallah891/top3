@@ -1,0 +1,2829 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>أهم 3 · مهام اليوم</title>
+
+<!-- PWA: بتنضاف على الشاشة الرئيسية بالآيفون والآيباد وبتشتغل بدون إنترنت -->
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="أهم 3">
+<meta name="theme-color" content="#EDF0F6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#07080C" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%2334C759'/%3E%3Cpath d='M10 16.5l4 4 8-9' stroke='white' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>
+/* =====================================================================
+   1. الألوان والمتغيرات (ألوان أبل الرسمية + Light / Dark تلقائي)
+   ===================================================================== */
+:root {
+  color-scheme: light dark;
+  --blue: #007AFF; --green: #34C759; --orange: #FF9500; --red: #FF3B30;
+  --indigo: #5856D6; --purple: #AF52DE; --pink: #FF2D55; --teal: #30B0C7; --yellow: #FFCC00;
+
+  --bg: #EDF0F6;
+  --text: #1d1d1f;
+  --text-2: rgba(60, 60, 67, .64);
+  --text-3: rgba(60, 60, 67, .34);
+  --sep: rgba(60, 60, 67, .12);
+  --fill: rgba(120, 120, 128, .10);
+  --fill-2: rgba(120, 120, 128, .18);
+  --hover: rgba(255, 255, 255, .45);
+
+  /* الزجاج */
+  --glass-bg: rgba(255, 255, 255, .40);
+  --glass-bg-strong: rgba(255, 255, 255, .58);
+  --glass-edge: rgba(255, 255, 255, .60);
+  --spec-top: rgba(255, 255, 255, .95);
+  --spec-bottom: rgba(255, 255, 255, .30);
+  --spec-glow: rgba(255, 255, 255, .70);
+  --rim: rgba(255, 255, 255, .95);
+  --shadow: rgba(31, 41, 82, .16);
+
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro", "SF Pro Text", "SF Arabic", system-ui, "Segoe UI", sans-serif;
+
+  /* منحنيات الحركة: spring بأسلوب iOS */
+  --spring: cubic-bezier(.34, 1.36, .64, 1);
+  --ease-out: cubic-bezier(.22, 1, .36, 1);
+}
+@supports (transition-timing-function: linear(0, 1)) {
+  :root {
+    --spring: linear(0, .0063, .0245 1.7%, .0961 3.6%, .2048 5.6%, .4214 9%, .6331 12.6%, .8011 16.4%,
+      .9158 20.2%, .9844 24.1%, 1.0204 28%, 1.0347 31.9%, 1.0358 35.4%, 1.0298 39.4%, 1.0159 46.4%,
+      1.0035 55.6%, .998 66.1%, .9995 85.2%, 1);
+  }
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --blue: #0A84FF; --green: #30D158; --orange: #FF9F0A; --red: #FF453A;
+    --indigo: #5E5CE6; --purple: #BF5AF2; --pink: #FF375F; --teal: #40C8E0; --yellow: #FFD60A;
+    --bg: #07080C;
+    --text: #F5F5F7;
+    --text-2: rgba(235, 235, 245, .62);
+    --text-3: rgba(235, 235, 245, .30);
+    --sep: rgba(255, 255, 255, .08);
+    --fill: rgba(118, 118, 128, .20);
+    --fill-2: rgba(118, 118, 128, .30);
+    --hover: rgba(255, 255, 255, .06);
+    --glass-bg: rgba(28, 30, 38, .42);
+    --glass-bg-strong: rgba(40, 42, 52, .62);
+    --glass-edge: rgba(255, 255, 255, .12);
+    --spec-top: rgba(255, 255, 255, .30);
+    --spec-bottom: rgba(255, 255, 255, .05);
+    --spec-glow: rgba(255, 255, 255, .13);
+    --rim: rgba(255, 255, 255, .55);
+    --shadow: rgba(0, 0, 0, .55);
+  }
+}
+
+/* =====================================================================
+   2. الأساسيات
+   ===================================================================== */
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+[hidden] { display: none !important; }
+html, body { margin: 0; min-height: 100%; }
+body {
+  font-family: var(--font);
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  font-size: 15px;
+  line-height: 1.45;
+  overflow-x: hidden;
+}
+button { font: inherit; color: inherit; }
+input, textarea { font: inherit; color: inherit; }
+::selection { background: color-mix(in srgb, var(--blue) 30%, transparent); }
+
+/* أيقونات خطية رفيعة بأسلوب SF Symbols */
+.ic { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+
+/* =====================================================================
+   3. الخلفية المتحركة (blobs) + parallax خفيف مع الماوس
+   ===================================================================== */
+.bg { --px: 0; --py: 0; position: fixed; inset: 0; z-index: -2; overflow: hidden; background: var(--bg); }
+.blob {
+  --d: 40px;
+  position: absolute; width: 58vmax; height: 58vmax; border-radius: 50%;
+  opacity: .55; will-change: transform;
+  animation: drift 38s ease-in-out infinite alternate;
+  translate: calc(var(--px) * var(--d)) calc(var(--py) * var(--d));
+  transition: translate 1.6s var(--ease-out);
+}
+.b1 { background: radial-gradient(circle, color-mix(in srgb, var(--blue) 70%, transparent) 0%, transparent 62%); top: -22vmax; right: -12vmax; --d: 50px; }
+.b2 { background: radial-gradient(circle, color-mix(in srgb, var(--purple) 60%, transparent) 0%, transparent 62%); bottom: -26vmax; left: -14vmax; animation-duration: 46s; animation-delay: -12s; --d: -60px; }
+.b3 { background: radial-gradient(circle, color-mix(in srgb, var(--teal) 60%, transparent) 0%, transparent 60%); top: 30%; left: 30%; width: 44vmax; height: 44vmax; animation-duration: 52s; animation-delay: -20s; --d: 30px; }
+.b4 { background: radial-gradient(circle, color-mix(in srgb, var(--pink) 45%, transparent) 0%, transparent 60%); top: -10vmax; left: 10%; width: 36vmax; height: 36vmax; animation-duration: 42s; animation-delay: -6s; --d: -40px; }
+.b5 { background: radial-gradient(circle, color-mix(in srgb, var(--orange) 40%, transparent) 0%, transparent 60%); bottom: -12vmax; right: 18%; width: 34vmax; height: 34vmax; animation-duration: 48s; animation-delay: -30s; --d: 70px; }
+@media (prefers-color-scheme: dark) { .blob { opacity: .42; } }
+@keyframes drift {
+  0%   { transform: translate(0, 0) scale(1); }
+  33%  { transform: translate(6vw, 5vh) scale(1.12); }
+  66%  { transform: translate(-5vw, 8vh) scale(.92); }
+  100% { transform: translate(4vw, -6vh) scale(1.06); }
+}
+
+/* =====================================================================
+   4. Liquid Glass
+   ===================================================================== */
+.glass {
+  --mx: 50%; --my: -20%; --hl: .5; --r: 24px;
+  position: relative;
+  isolation: isolate;
+  border-radius: var(--r);
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(22px) saturate(185%);
+  backdrop-filter: blur(22px) saturate(185%);
+  box-shadow:
+    inset 0 1px 0 0 var(--spec-top),
+    inset 0 -1px 0 0 var(--spec-bottom),
+    inset 0 0 0 .5px var(--glass-edge),
+    0 1px 2px rgba(0, 0, 0, .05),
+    0 14px 40px -10px var(--shadow);
+}
+/* اللمعة المتحركة مع الماوس */
+.glass::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: -1;
+  background:
+    radial-gradient(520px circle at var(--mx) var(--my), var(--spec-glow), transparent 42%),
+    linear-gradient(180deg, rgba(255, 255, 255, .18), transparent 38%);
+  opacity: var(--hl);
+  transition: opacity .4s;
+}
+/* الحافة الرفيعة اللامعة — أقوى بالجهة القريبة من الماوس */
+.glass::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; padding: 1px;
+  background:
+    radial-gradient(260px circle at var(--mx) var(--my), var(--rim), transparent 70%),
+    linear-gradient(160deg, rgba(255, 255, 255, .55), rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, 0) 70%, rgba(255, 255, 255, .25));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  opacity: calc(.35 + var(--hl) * .65);
+}
+/* الانكسار (Chromium بس يدعم url() داخل backdrop-filter، والباقي بيرجع للـ blur العادي) */
+.refract .glass.lens {
+  -webkit-backdrop-filter: url(#lg-refract) blur(20px) saturate(190%);
+  backdrop-filter: url(#lg-refract) blur(20px) saturate(190%);
+}
+
+/* =====================================================================
+   5. التخطيط العام + دخول الصفحة بتتابع
+   ===================================================================== */
+.app { max-width: 1240px; margin: 0 auto; padding: 44px 48px 140px; }
+.top { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 26px; }
+.eyebrow { font-size: 13px; font-weight: 600; color: var(--text-2); margin-bottom: 2px; }
+.large-title { font-size: 40px; line-height: 1.15; font-weight: 800; margin: 0; }
+.motto { margin: 6px 0 0; font-size: 16px; color: var(--text-2); min-height: 1.4em; }
+.motto.swap { animation: mottoIn .5s var(--spring); }
+@keyframes mottoIn { from { opacity: 0; transform: translateY(6px); filter: blur(4px); } }
+.top-actions { display: flex; gap: 10px; padding-bottom: 6px; }
+.icon-btn {
+  --r: 50%; width: 42px; height: 42px; display: grid; place-items: center;
+  border: 0; cursor: pointer; color: var(--text-2);
+  transition: transform .35s var(--spring), color .2s;
+}
+.icon-btn:hover { color: var(--blue); transform: scale(1.06); }
+.icon-btn:active { transform: scale(.92); }
+.icon-btn .ic { width: 20px; height: 20px; }
+
+body.intro .rise { animation: rise .75s var(--spring) backwards; animation-delay: calc(var(--i, 0) * 70ms); }
+@keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.97); filter: blur(6px); } }
+
+.layout { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 28px; align-items: start; }
+.side-col { position: sticky; top: 24px; display: flex; flex-direction: column; gap: 18px; }
+.section-head { display: flex; align-items: center; gap: 10px; margin: 0 4px 12px; }
+.section-head h2 { margin: 0; font-size: 22px; font-weight: 700; }
+.section-head .spacer { flex: 1; }
+.pill {
+  display: inline-flex; align-items: center; gap: 5px; font-size: 13px; font-weight: 600;
+  padding: 4px 10px; border-radius: 999px; background: var(--fill); color: var(--text-2);
+  transition: color .3s, background .3s;
+}
+.pill.win { color: var(--green); background: color-mix(in srgb, var(--green) 14%, transparent); }
+
+/* =====================================================================
+   6. أهم 3 مهام (مع ميلان ثلاثي الأبعاد خفيف)
+   ===================================================================== */
+.top3 { margin-bottom: 18px; }
+.top3-hint {
+  display: flex; align-items: center; gap: 8px; margin: -2px 4px 12px; flex-wrap: wrap;
+  color: var(--blue); font-weight: 600; font-size: 14px;
+  animation: hintIn .5s var(--spring) both;
+}
+.top3-hint .ic { width: 16px; height: 16px; animation: twinkle 2.4s ease-in-out infinite; }
+.top3-hint span { color: var(--text-2); font-weight: 400; }
+@keyframes hintIn { from { opacity: 0; transform: translateY(-6px); } }
+@keyframes twinkle { 50% { transform: scale(1.25) rotate(15deg); opacity: .7; } }
+
+.slots { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; perspective: 1000px; }
+.slot {
+  --r: 28px; --rx: 0deg; --ry: 0deg; --sc: 1;
+  min-height: 136px; padding: 16px 18px 16px;
+  background: var(--glass-bg-strong);
+  transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry)) scale(var(--sc));
+  transition: transform .5s var(--spring), box-shadow .3s, background .3s;
+}
+.slot-num {
+  position: absolute; top: 12px; left: 14px; width: 26px; height: 26px; border-radius: 50%;
+  display: grid; place-items: center; font-size: 13px; font-weight: 700;
+  color: var(--blue); background: color-mix(in srgb, var(--blue) 12%, transparent);
+  transition: background .3s, color .3s, opacity .3s;
+}
+.slot.done .slot-num { color: #fff; background: var(--green); }
+.slot:not(.filled) .slot-num { opacity: 0; }
+.slot-empty {
+  position: absolute; inset: 10px; border-radius: 20px;
+  border: 1.5px dashed var(--text-3);
+  display: grid; place-items: center; text-align: center;
+  color: var(--text-3); font-size: 14px; font-weight: 500;
+  transition: border-color .25s, color .25s, background .25s, opacity .3s;
+  pointer-events: none;
+}
+.slot-empty b { display: block; font-size: 30px; font-weight: 700; line-height: 1; margin-bottom: 4px; color: var(--text-3); }
+.slot.filled .slot-empty { opacity: 0; }
+.top3.empty .slot-empty { animation: breathe 3s ease-in-out infinite; }
+.top3.empty .slot:nth-child(2) .slot-empty { animation-delay: .4s; }
+.top3.empty .slot:nth-child(3) .slot-empty { animation-delay: .8s; }
+@keyframes breathe { 50% { border-color: color-mix(in srgb, var(--blue) 45%, transparent); } }
+.slot-list { list-style: none; margin: 0; padding: 0; position: relative; }
+.slot .task-row { padding: 2px 0 0 30px; align-items: flex-start; cursor: grab; }
+.slot .task-row:hover { background: none; }
+.slot .check { --s: 28px; margin-top: 1px; }
+.slot .title-text { font-size: 18px; font-weight: 600; line-height: 1.35; }
+.slot .task-main { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+.slot .actions { position: absolute; bottom: -6px; left: -4px; }
+.slot .task { padding-bottom: 22px; }
+.slot.done { box-shadow:
+    inset 0 1px 0 0 var(--spec-top), inset 0 0 0 1px color-mix(in srgb, var(--green) 40%, transparent),
+    0 14px 40px -12px color-mix(in srgb, var(--green) 45%, transparent); }
+
+/* أثناء السحب: الخانات بتضوي لما تقرب منها */
+body.is-dragging .slot:not(.drag-from) .slot-empty { border-color: color-mix(in srgb, var(--blue) 45%, transparent); }
+.slot.drop-near { --sc: 1.01; box-shadow:
+    inset 0 1px 0 0 var(--spec-top), inset 0 0 0 1px color-mix(in srgb, var(--blue) 35%, transparent),
+    0 0 0 4px color-mix(in srgb, var(--blue) 10%, transparent), 0 14px 40px -10px var(--shadow); }
+.slot.drop-over { --sc: 1.035; box-shadow:
+    inset 0 1px 0 0 var(--spec-top), inset 0 0 0 1.5px var(--blue),
+    0 0 0 6px color-mix(in srgb, var(--blue) 18%, transparent),
+    0 0 36px color-mix(in srgb, var(--blue) 35%, transparent), 0 18px 46px -10px var(--shadow); }
+.slot.drop-over .slot-empty { border-color: var(--blue); color: var(--blue); background: color-mix(in srgb, var(--blue) 6%, transparent); }
+
+/* احتفال: توهج أخضر على الخانات */
+.top3.complete .slot { background: color-mix(in srgb, var(--green) 8%, var(--glass-bg-strong)); }
+.top3.celebrating .slot { animation: glowPulse 1.8s var(--ease-out); }
+.top3.celebrating .slot:nth-child(2) { animation-delay: .08s; }
+.top3.celebrating .slot:nth-child(3) { animation-delay: .16s; }
+@keyframes glowPulse {
+  0% { transform: scale(1); }
+  25% { transform: scale(1.04); box-shadow: inset 0 0 0 1.5px var(--green), 0 0 0 8px color-mix(in srgb, var(--green) 22%, transparent), 0 0 60px color-mix(in srgb, var(--green) 60%, transparent); }
+  100% { transform: scale(1); }
+}
+
+/* =====================================================================
+   7. العادات اليومية
+   ===================================================================== */
+.habits { --r: 999px; display: flex; align-items: center; gap: 8px; padding: 8px 10px 8px 8px; margin-bottom: 18px; flex-wrap: wrap; }
+.habits-label { font-size: 13px; font-weight: 600; color: var(--text-2); padding: 0 8px 0 4px; }
+.habit-wrap { position: relative; }
+.habit {
+  display: inline-flex; align-items: center; gap: 7px; height: 34px; padding: 0 12px 0 8px;
+  border: 0; border-radius: 999px; background: var(--fill); cursor: pointer; font-size: 14px; font-weight: 500;
+  transition: background .25s, transform .35s var(--spring), color .25s;
+}
+.habit:hover { background: var(--fill-2); }
+.habit:active { transform: scale(.94); }
+.hcheck {
+  width: 20px; height: 20px; border-radius: 50%; border: 1.6px solid var(--text-3);
+  display: grid; place-items: center; transition: background .25s, border-color .25s;
+}
+.hcheck .ic { width: 12px; height: 12px; stroke: #fff; stroke-width: 3; stroke-dasharray: 20; stroke-dashoffset: 20; transition: stroke-dashoffset .3s var(--ease-out) .05s; }
+.habit.on { background: color-mix(in srgb, var(--green) 16%, transparent); }
+.habit.on .hcheck { background: var(--green); border-color: var(--green); }
+.habit.on .hcheck .ic { stroke-dashoffset: 0; }
+.habit.pop { animation: habitPop .5s var(--spring); }
+@keyframes habitPop { 30% { transform: scale(.88); } 65% { transform: scale(1.1); } }
+.hstreak { display: inline-flex; align-items: center; gap: 2px; font-size: 12px; font-weight: 700; color: var(--orange); }
+.hstreak .ic { width: 12px; height: 12px; }
+.habit-del {
+  position: absolute; top: -5px; left: -5px; width: 18px; height: 18px; border-radius: 50%; border: 0; padding: 0;
+  display: grid; place-items: center; background: var(--text-2); color: var(--bg); cursor: pointer;
+  opacity: 0; transform: scale(.6); transition: opacity .2s, transform .3s var(--spring);
+}
+.habit-del .ic { width: 10px; height: 10px; stroke-width: 2.6; }
+.habit-wrap:hover .habit-del { opacity: 1; transform: scale(1); }
+.habit-add {
+  width: 34px; height: 34px; border-radius: 50%; border: 0; background: transparent; color: var(--text-3);
+  display: grid; place-items: center; cursor: pointer; transition: color .2s, background .2s, transform .35s var(--spring);
+}
+.habit-add:hover { color: var(--blue); background: var(--fill); transform: rotate(90deg); }
+.habit-input {
+  height: 34px; border-radius: 999px; border: 0; outline: 0; padding: 0 14px; width: 150px;
+  background: var(--fill); box-shadow: inset 0 0 0 1.5px var(--blue);
+  animation: popIn .3s var(--spring);
+}
+
+/* =====================================================================
+   8. قائمة المهام
+   ===================================================================== */
+.tasks { --r: 30px; padding: 20px 20px 14px; transition: box-shadow .3s; }
+.tasks.drop-over { box-shadow: inset 0 1px 0 0 var(--spec-top), inset 0 0 0 1.5px var(--blue), 0 0 0 6px color-mix(in srgb, var(--blue) 14%, transparent), 0 14px 40px -10px var(--shadow); }
+.tasks-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0 4px 14px; }
+.tasks-head h2 { margin: 0; font-size: 22px; font-weight: 700; }
+
+/* Segmented control بأسلوب iOS */
+.segmented { position: relative; display: inline-flex; padding: 2px; border-radius: 10px; background: var(--fill); }
+.seg-thumb {
+  position: absolute; top: 2px; bottom: 2px; left: 0; width: 0; border-radius: 8px;
+  background: var(--glass-bg-strong);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, .12), 0 0 0 .5px rgba(0, 0, 0, .04), inset 0 1px 0 var(--spec-top);
+  transition: transform .45s var(--spring), width .45s var(--spring);
+}
+@media (prefers-color-scheme: dark) { .seg-thumb { background: rgba(99, 99, 102, .7); } }
+.segmented button {
+  position: relative; z-index: 1; border: 0; background: none; cursor: pointer;
+  padding: 5px 14px; font-size: 13px; font-weight: 500; border-radius: 8px; color: var(--text-2);
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px; transition: color .2s, transform .3s var(--spring);
+}
+.segmented button:active { transform: scale(.94); }
+.segmented button.on { color: var(--text); font-weight: 600; }
+.dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+.dot.work, .cat-work { --c: var(--blue); }
+.dot.study, .cat-study { --c: var(--indigo); }
+.dot.personal, .cat-personal { --c: var(--pink); }
+.dot { background: var(--c); }
+
+/* حقل الإضافة */
+.add {
+  display: flex; align-items: center; gap: 10px; padding: 4px 6px 4px 14px; margin-bottom: 8px;
+  border-radius: 16px; background: var(--fill); transition: box-shadow .25s, background .25s;
+}
+.add:focus-within { background: var(--hover); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--blue) 60%, transparent), 0 0 0 4px color-mix(in srgb, var(--blue) 12%, transparent); }
+.add > .ic { color: var(--blue); width: 20px; height: 20px; transition: transform .45s var(--spring); }
+.add:focus-within > .ic { transform: rotate(90deg); }
+.add input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; height: 42px; font-size: 16px; }
+.add input::placeholder { color: var(--text-3); }
+.add.shake { animation: shake .35s; }
+@keyframes shake { 25% { transform: translateX(-6px); } 50% { transform: translateX(5px); } 75% { transform: translateX(-3px); } }
+
+.chip {
+  display: inline-flex; align-items: center; height: 20px; padding: 0 8px; border-radius: 999px;
+  font-size: 11.5px; font-weight: 600; white-space: nowrap;
+  color: var(--c, var(--text-2)); background: color-mix(in srgb, var(--c, var(--text-2)) 13%, transparent);
+}
+.chip.postponed { --c: var(--orange); }
+button.chip { border: 0; cursor: pointer; height: 28px; padding: 0 12px; font-size: 13px; transition: transform .3s var(--spring); }
+button.chip:active { transform: scale(.9); }
+button.chip.flip { animation: chipFlip .4s var(--spring); }
+@keyframes chipFlip { 40% { transform: scale(.8) rotateX(70deg); } }
+
+.task-list { list-style: none; margin: 0; padding: 0; }
+.task { position: relative; border-radius: 14px; transition: opacity .35s, filter .35s, background .2s; -webkit-touch-callout: none; }
+.task-row {
+  display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 14px;
+  user-select: none; -webkit-user-select: none; cursor: default;
+  transition: background .2s;
+  touch-action: pan-y;
+}
+.task-list .task-row:hover, .task-list .task.expanded > .task-row { background: var(--hover); }
+.task-list .task-row { cursor: grab; }
+.task-list#doneList .task-row { cursor: default; }
+.task-main { flex: 1; min-width: 0; display: flex; align-items: center; flex-wrap: wrap; gap: 6px 10px; }
+.title-text {
+  font-size: 15.5px; outline: none; border-radius: 6px; word-break: break-word;
+  /* خط الشطب: بيترسم بحركة من اليمين لليسار */
+  background: linear-gradient(currentColor, currentColor) no-repeat right 58% / 0% 1.5px;
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
+  transition: background-size .38s var(--ease-out), color .3s;
+}
+.is-done > .task-row .title-text, .completing > .task-row .title-text { color: var(--text-2); background-size: 100% 1.5px; }
+.task.editing .title-text {
+  user-select: text; -webkit-user-select: text; cursor: text; background: var(--fill);
+  box-shadow: 0 0 0 4px var(--fill), 0 0 0 5.5px color-mix(in srgb, var(--blue) 55%, transparent);
+}
+.meta { display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.meta-item { display: inline-flex; align-items: center; gap: 3px; font-size: 12px; color: var(--text-2); font-variant-numeric: tabular-nums; }
+.meta-item .ic { width: 13px; height: 13px; }
+.meta-item.pomo { color: var(--orange); font-weight: 600; }
+.meta-item.live { color: var(--orange); font-weight: 600; }
+.meta-item.live .ic { animation: tickle 1s ease-in-out infinite; }
+@keyframes tickle { 50% { transform: rotate(12deg); } }
+
+/* دائرة الصح */
+.check {
+  --s: 24px; width: var(--s); height: var(--s); flex: none; padding: 0; border-radius: 50%;
+  border: 1.75px solid var(--text-3); background: transparent; cursor: pointer;
+  display: grid; place-items: center;
+  transition: background .25s, border-color .25s, transform .35s var(--spring);
+}
+.check:hover { border-color: var(--green); transform: scale(1.08); }
+.check .ic { width: 62%; height: 62%; stroke: #fff; stroke-width: 3; stroke-dasharray: 20; stroke-dashoffset: 20; transition: stroke-dashoffset .3s var(--ease-out) .12s; }
+.is-done > .task-row .check, .completing > .task-row .check { background: var(--green); border-color: var(--green); }
+.is-done > .task-row .check .ic, .completing > .task-row .check .ic { stroke-dashoffset: 0; }
+/* 1) ترجرج  2) يضوي أخضر مع glow  3) يرجع بحركة spring */
+.completing > .task-row .check { animation: checkPop .44s linear both; }
+@keyframes checkPop {
+  0%   { transform: scale(1) rotate(0); }
+  16%  { transform: scale(.8) rotate(-12deg); }
+  34%  { transform: scale(1.2) rotate(9deg); box-shadow: 0 0 0 6px color-mix(in srgb, var(--green) 25%, transparent), 0 0 20px var(--green); }
+  52%  { transform: scale(.94) rotate(-4deg); }
+  72%  { transform: scale(1.04) rotate(1.5deg); box-shadow: 0 0 0 3px color-mix(in srgb, var(--green) 10%, transparent), 0 0 10px color-mix(in srgb, var(--green) 50%, transparent); }
+  100% { transform: scale(1) rotate(0); box-shadow: 0 0 0 0 transparent; }
+}
+
+/* أزرار تظهر بس عند hover */
+.actions { display: flex; gap: 2px; opacity: 0; transform: translateX(-6px); transition: opacity .2s, transform .3s var(--spring); }
+.task-row:hover .actions, .task:focus-within > .task-row .actions { opacity: 1; transform: none; }
+.act {
+  width: 30px; height: 30px; border-radius: 50%; border: 0; padding: 0; background: none; cursor: pointer;
+  color: var(--text-2); display: grid; place-items: center; transition: background .2s, color .2s, transform .3s var(--spring);
+}
+.act:hover { background: var(--fill-2); color: var(--blue); transform: scale(1.1); }
+.act:active { transform: scale(.85); }
+.act-del:hover { color: var(--red); }
+.act-timer:hover, .task.timing .act-timer { color: var(--orange); }
+.act .ic { width: 17px; height: 17px; }
+
+/* التفاصيل الاختيارية (وقت تقديري + ملاحظات) */
+.details { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .35s var(--spring); }
+.task.expanded > .details { grid-template-rows: 1fr; }
+.details-inner { overflow: hidden; min-height: 0; }
+.details-body { padding: 4px 48px 12px 12px; display: flex; flex-direction: column; gap: 10px; opacity: 0; transform: translateY(-6px); transition: opacity .25s, transform .35s var(--spring); }
+.task.expanded .details-body { opacity: 1; transform: none; transition-delay: .06s; }
+.slot .details-body { padding: 10px 0 4px; }
+.detail-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.est { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-2); background: var(--fill); border-radius: 10px; padding: 0 10px; height: 32px; }
+.est .ic { width: 15px; height: 15px; }
+.est input { width: 52px; border: 0; outline: 0; background: none; text-align: center; font-variant-numeric: tabular-nums; }
+.mini-seg { display: inline-flex; gap: 4px; }
+.mini-seg button { border: 0; cursor: pointer; height: 30px; padding: 0 12px; border-radius: 999px; font-size: 12.5px; font-weight: 600; color: var(--text-2); background: var(--fill); transition: background .2s, color .2s, transform .3s var(--spring); }
+.mini-seg button:active { transform: scale(.9); }
+.mini-seg button.on { color: var(--c); background: color-mix(in srgb, var(--c) 16%, transparent); }
+.details textarea {
+  width: 100%; min-height: 60px; resize: none; border: 0; outline: 0; border-radius: 12px;
+  padding: 10px 12px; background: var(--fill); font-size: 14px; line-height: 1.5; field-sizing: content;
+  transition: box-shadow .2s;
+}
+.details textarea:focus { box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--blue) 55%, transparent); }
+
+/* باقي المهام باهتة لحد ما تخلص أهم 3 */
+.tasks.dimmed #taskList > .task:not(:hover):not(.expanded):not(.leaving) { opacity: .45; filter: saturate(.4); }
+
+/* دخول وخروج المهام */
+.task.entering { animation: taskIn .45s var(--spring) both; }
+@keyframes taskIn { from { opacity: 0; transform: translateY(-12px) scale(.95); filter: blur(3px); } }
+.slot .task.entering { animation: slotIn .5s var(--spring) both; }
+@keyframes slotIn { from { opacity: 0; transform: scale(.82); } }
+.task.leaving { overflow: hidden; pointer-events: none; opacity: 0; transform: scale(.92); transition: height .3s var(--ease-out), opacity .22s, transform .3s var(--ease-out); }
+.task.drag-source { opacity: .25 !important; filter: none !important; }
+
+/* السحب بالإصبع (موبايل): يمين = إنجاز، يسار = حذف */
+.task.swiping { overflow: hidden; }
+.task.swiping > .task-row { position: relative; background: var(--glass-bg-strong); }
+.swipe-bg {
+  position: absolute; inset: 0; border-radius: 14px; display: flex; align-items: center; justify-content: space-between;
+  padding: 0 22px; color: #fff; background: var(--fill-2); transition: background .2s;
+}
+.swipe-bg .ic { width: 22px; height: 22px; stroke-width: 2.2; }
+.swipe-bg .sw { opacity: 0; transform: scale(.5); transition: transform .35s var(--spring), opacity .2s; display: grid; }
+.swipe-bg.done { background: color-mix(in srgb, var(--green) 55%, transparent); }
+.swipe-bg.del { background: color-mix(in srgb, var(--red) 55%, transparent); }
+.swipe-bg.done.armed { background: var(--green); }
+.swipe-bg.del.armed { background: var(--red); }
+.swipe-bg.done .sw-done, .swipe-bg.del .sw-del { opacity: 1; transform: scale(.9); }
+.swipe-bg.armed .sw { transform: scale(1.2); }
+
+.empty { text-align: center; color: var(--text-3); padding: 26px 10px 18px; font-size: 14px; animation: hintIn .5s var(--spring); }
+.empty .ic { width: 34px; height: 34px; stroke-width: 1.3; display: block; margin: 0 auto 8px; animation: floaty 3s ease-in-out infinite; }
+@keyframes floaty { 50% { transform: translateY(-4px); } }
+
+/* قسم "تمت" المطوي */
+.done-section { margin-top: 8px; border-top: .5px solid var(--sep); padding-top: 6px; }
+.done-toggle {
+  display: flex; align-items: center; gap: 6px; border: 0; background: none; cursor: pointer;
+  color: var(--text-2); font-size: 14px; font-weight: 600; padding: 8px 12px; border-radius: 10px;
+}
+.done-toggle:hover { color: var(--text); }
+.done-toggle .ic { width: 15px; height: 15px; transition: transform .35s var(--spring); }
+.done-section.open .done-toggle .ic { transform: rotate(180deg); }
+.done-wrap { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .4s var(--spring); }
+.done-section.open .done-wrap { grid-template-rows: 1fr; }
+.done-wrap > div { overflow: hidden; min-height: 0; }
+
+/* السحب: المهمة بترتفع */
+.drag-ghost { position: fixed; z-index: 1000; pointer-events: none; will-change: transform; }
+.drag-ghost .ghost-card {
+  --r: 18px; list-style: none; background: var(--glass-bg-strong);
+  animation: lift .3s var(--spring) forwards;
+}
+@keyframes lift { to { transform: scale(1.05) rotate(-1.5deg); box-shadow: inset 0 1px 0 var(--spec-top), 0 24px 50px -10px var(--shadow), 0 8px 18px -6px var(--shadow); } }
+.drag-ghost .ghost-card .actions { display: none; }
+.drag-ghost.dropping .ghost-card { transition: opacity .2s, transform .2s; opacity: 0; transform: scale(.9); animation: none; }
+.drag-ghost.returning { transition: transform .38s var(--spring); }
+body.is-dragging, body.is-dragging * { cursor: grabbing !important; user-select: none !important; -webkit-user-select: none !important; }
+
+/* شرارات الإنجاز */
+.spark { position: fixed; left: 0; top: 0; border-radius: 50%; pointer-events: none; z-index: 95; background: var(--c); animation: spark .65s var(--ease-out) forwards; }
+@keyframes spark {
+  0% { transform: translate(var(--x0), var(--y0)) scale(1); opacity: 1; }
+  100% { transform: translate(var(--x1), var(--y1)) scale(.15); opacity: 0; }
+}
+.ripple { position: fixed; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%; border: 2px solid var(--c); pointer-events: none; z-index: 94; animation: ripple .55s var(--ease-out) forwards; }
+@keyframes ripple { from { transform: scale(1); opacity: .9; } to { transform: scale(5); opacity: 0; } }
+
+/* =====================================================================
+   9. بطاقة التقدم (الجانب)
+   ===================================================================== */
+.stats { --r: 30px; padding: 22px; }
+.ring-wrap { display: flex; align-items: center; gap: 18px; }
+.ring { width: 112px; height: 112px; flex: none; position: relative; }
+.ring.bump { animation: ringBump .6s var(--spring); }
+@keyframes ringBump { 35% { transform: scale(1.07); } }
+.ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.ring circle { fill: none; stroke-width: 11; }
+.ring .track { stroke: var(--fill-2); }
+.ring .prog { stroke-dasharray: 314.16; stroke-dashoffset: 314.16; stroke: url(#ringGrad); stroke-linecap: round; transition: stroke-dashoffset .9s var(--spring); filter: drop-shadow(0 0 6px color-mix(in srgb, var(--green) 45%, transparent)); }
+.ring-label { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; }
+.ring-label b { display: block; font-size: 26px; font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1; }
+.ring-label small { font-size: 11px; color: var(--text-2); }
+.ring-side { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.ring-side .big { font-size: 15px; font-weight: 700; }
+.ring-side .sub { font-size: 13px; color: var(--text-2); }
+.cmp { display: inline-flex; align-items: center; gap: 3px; font-size: 12.5px; font-weight: 600; margin-top: 4px; }
+.cmp .ic { width: 13px; height: 13px; stroke-width: 2.2; }
+.cmp.up { color: var(--green); } .cmp.down { color: var(--orange); } .cmp.same { color: var(--text-2); }
+.pomo-line { display: inline-flex; align-items: center; gap: 4px; font-size: 12.5px; color: var(--orange); font-weight: 600; }
+.pomo-line .ic { width: 14px; height: 14px; }
+.stat-sep { height: .5px; background: var(--sep); margin: 18px 0; }
+.streak-row { display: flex; align-items: center; gap: 12px; }
+.flame {
+  --fs: 1; width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; color: #fff; flex: none;
+  background: linear-gradient(160deg, var(--orange), var(--red));
+  box-shadow: 0 6px 16px -4px color-mix(in srgb, var(--orange) 60%, transparent), 0 0 calc(var(--fs) * 14px - 14px) color-mix(in srgb, var(--orange) 70%, transparent);
+  transform: scale(var(--fs)); transition: transform .6s var(--spring);
+}
+.flame .ic { width: 22px; height: 22px; stroke-width: 1.8; transform-origin: 50% 85%; animation: flicker 1.8s ease-in-out infinite; }
+@keyframes flicker { 0%, 100% { transform: scale(1) rotate(-3deg); } 30% { transform: scale(1.08, .96) rotate(2deg); } 60% { transform: scale(.96, 1.06) rotate(4deg); } }
+.flame.off { background: var(--fill-2); color: var(--text-3); box-shadow: none; }
+.flame.off .ic { animation: none; }
+.streak-row b { font-size: 24px; font-weight: 800; line-height: 1.1; display: block; }
+.streak-row span { font-size: 12.5px; color: var(--text-2); }
+.week-title { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--text-2); margin-bottom: 10px; font-weight: 600; }
+.week { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; height: 92px; align-items: end; }
+.wk { display: flex; flex-direction: column; align-items: center; gap: 6px; height: 100%; justify-content: flex-end; }
+.wk-bar-wrap { flex: 1; width: 100%; display: flex; align-items: flex-end; }
+.wk-bar { width: 100%; border-radius: 6px; background: var(--fill-2); min-height: 4px; transition: height .8s var(--spring), background .3s; }
+.wk.has .wk-bar { background: color-mix(in srgb, var(--blue) 55%, transparent); }
+.wk.win .wk-bar { background: var(--green); }
+.wk.today .wk-bar { box-shadow: 0 0 0 2px color-mix(in srgb, var(--blue) 30%, transparent); }
+.wk small { font-size: 11px; color: var(--text-3); font-weight: 600; }
+.wk.today small { color: var(--blue); }
+.legend { display: flex; gap: 12px; margin-top: 12px; font-size: 11.5px; color: var(--text-2); }
+.legend i { display: inline-block; width: 8px; height: 8px; border-radius: 3px; margin-left: 4px; vertical-align: middle; }
+
+/* =====================================================================
+   10. مؤقت التركيز (بومودورو)
+   ===================================================================== */
+/* اختيار المدة */
+.pomo-pop {
+  --r: 20px; position: fixed; z-index: 72; padding: 12px; width: 248px;
+  background: color-mix(in srgb, var(--bg) 70%, transparent);
+  animation: popIn .32s var(--spring) both; transform-origin: top center;
+}
+@keyframes popIn { from { opacity: 0; transform: scale(.88) translateY(-6px); } }
+.pp-title { font-size: 12.5px; font-weight: 600; color: var(--text-2); margin: 0 4px 8px; display: flex; align-items: center; gap: 6px; }
+.pp-title .ic { width: 15px; height: 15px; color: var(--orange); }
+.pp-chips { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.pp-chips button, .pp-custom {
+  height: 46px; border-radius: 12px; border: 0; background: var(--fill); font-weight: 700; font-size: 17px; cursor: pointer;
+  display: flex; align-items: baseline; justify-content: center; gap: 2px; padding-top: 12px;
+  transition: background .2s, transform .3s var(--spring), color .2s;
+}
+.pp-chips button:hover { background: var(--fill-2); }
+.pp-chips button:active { transform: scale(.9); }
+.pp-chips button.on { background: color-mix(in srgb, var(--orange) 18%, transparent); color: var(--orange); }
+.pp-chips small { font-size: 10.5px; font-weight: 600; color: var(--text-2); }
+.pp-custom { padding-top: 0; align-items: center; cursor: text; }
+.pp-custom input { width: 100%; border: 0; outline: 0; background: none; text-align: center; font-weight: 700; font-size: 15px; }
+.pp-custom input::placeholder { color: var(--text-3); font-weight: 500; font-size: 12px; }
+.pp-hint { font-size: 11.5px; color: var(--text-2); margin: 9px 4px 0; }
+
+/* الحبة الصغيرة العائمة */
+.timer-pill {
+  --r: 999px; --mc: var(--orange); position: fixed; bottom: 24px; left: 24px; z-index: 50;
+  display: flex; align-items: center; gap: 8px; padding: 6px 6px 6px 8px; max-width: 360px;
+  animation: pillIn .5s var(--spring) both;
+}
+@keyframes pillIn { from { opacity: 0; transform: translateY(24px) scale(.85); } }
+.tp-ring { position: relative; width: 40px; height: 40px; border: 0; padding: 0; background: none; cursor: pointer; flex: none; color: var(--mc); }
+.tp-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.tp-ring > span { position: absolute; inset: 0; display: grid; place-items: center; }
+.tp-ring .ic { width: 15px; height: 15px; }
+.mini-ring circle { fill: none; stroke-width: 3.5; }
+.mini-ring .track { stroke: var(--fill-2); }
+.mini-ring .prog { stroke: var(--mc); stroke-linecap: round; transition: stroke-dashoffset 1s linear, stroke .3s; }
+.tp-text { display: flex; flex-direction: column; min-width: 0; padding-inline-end: 4px; cursor: pointer; }
+.tp-text b { font-size: 17px; font-weight: 700; font-variant-numeric: tabular-nums; direction: ltr; text-align: right; }
+.tp-text span { font-size: 12px; color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px; }
+.timer-pill.paused .tp-text b, .focus-view.paused .fv-time { animation: blink 1.4s ease-in-out infinite; }
+@keyframes blink { 50% { opacity: .35; } }
+.tp-btn { width: 32px; height: 32px; border-radius: 50%; border: 0; background: var(--fill); color: var(--text-2); cursor: pointer; display: grid; place-items: center; flex: none; transition: background .2s, color .2s, transform .3s var(--spring); }
+.tp-btn:hover { background: var(--fill-2); color: var(--text); }
+.tp-btn:active { transform: scale(.88); }
+.tp-btn.stop:hover { color: var(--red); }
+.tp-btn .ic { width: 15px; height: 15px; stroke-width: 2; }
+
+/* وضع التركيز الكامل */
+.focus-view {
+  --mc: var(--orange);
+  position: fixed; inset: 0; z-index: 75; display: grid; place-items: center;
+  padding: calc(env(safe-area-inset-top) + 16px) 16px calc(env(safe-area-inset-bottom) + 16px);
+  background: color-mix(in srgb, var(--bg) 55%, transparent);
+  -webkit-backdrop-filter: blur(34px) saturate(160%); backdrop-filter: blur(34px) saturate(160%);
+  animation: fadeIn .35s both;
+}
+.focus-view.out { animation: fadeOut .25s forwards; }
+.fv-inner { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 14px; animation: sheetIn .55s var(--spring) both; }
+.focus-view.out .fv-inner { animation: sheetOut .25s var(--ease-out) forwards; }
+.fv-mode { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; color: var(--mc); background: color-mix(in srgb, var(--mc) 15%, transparent); padding: 6px 14px; border-radius: 999px; transition: color .4s, background .4s; }
+.fv-mode .ic { width: 16px; height: 16px; }
+.fv-task { font-size: 26px; font-weight: 700; margin: 0; max-width: min(560px, 90vw); line-height: 1.3; }
+.fv-ring { position: relative; width: min(320px, 70vw); aspect-ratio: 1; }
+.fv-ring::before {
+  content: ""; position: absolute; inset: 8%; border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--mc) 30%, transparent), transparent 70%);
+  animation: breatheGlow 4s ease-in-out infinite; transition: background .4s;
+}
+.focus-view.paused .fv-ring::before { animation-play-state: paused; opacity: .3; }
+@keyframes breatheGlow { 0%, 100% { transform: scale(.85); opacity: .5; } 50% { transform: scale(1.08); opacity: 1; } }
+.fv-ring svg { position: relative; width: 100%; height: 100%; transform: rotate(-90deg); }
+.fv-ring circle { fill: none; stroke-width: 9; }
+.fv-ring .track { stroke: var(--fill-2); }
+.fv-ring .prog { stroke: var(--mc); stroke-linecap: round; transition: stroke-dashoffset 1s linear, stroke .4s; filter: drop-shadow(0 0 10px color-mix(in srgb, var(--mc) 60%, transparent)); }
+.fv-time { position: absolute; inset: 0; display: grid; place-items: center; font-size: clamp(52px, 15vw, 80px); font-weight: 200; font-variant-numeric: tabular-nums; direction: ltr; letter-spacing: -1px; }
+.fv-dots { display: flex; gap: 8px; min-height: 10px; }
+.fv-dots i { width: 9px; height: 9px; border-radius: 50%; background: var(--fill-2); transition: background .4s, transform .4s var(--spring); }
+.fv-dots i.on { background: var(--orange); transform: scale(1.15); }
+.fv-controls { display: flex; gap: 22px; align-items: center; margin-top: 6px; }
+.fv-btn { width: 56px; height: 56px; border-radius: 50%; border: 0; cursor: pointer; display: grid; place-items: center; background: var(--fill-2); color: var(--text); transition: transform .35s var(--spring), background .2s; }
+.fv-btn:hover { transform: scale(1.07); }
+.fv-btn:active { transform: scale(.9); }
+.fv-btn .ic { width: 22px; height: 22px; stroke-width: 2; }
+.fv-btn.big { width: 78px; height: 78px; background: var(--mc); color: #fff; box-shadow: 0 10px 30px -8px var(--mc); }
+.fv-btn.big .ic { width: 30px; height: 30px; }
+.fv-hint { font-size: 12.5px; color: var(--text-3); }
+
+/* =====================================================================
+   11. التنبيهات (toast) + تراجع
+   ===================================================================== */
+.toasts { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 80; display: flex; flex-direction: column-reverse; gap: 8px; align-items: center; pointer-events: none; }
+.toast {
+  --r: 999px; pointer-events: auto; display: flex; align-items: center; gap: 14px; padding: 10px 10px 10px 18px;
+  padding-inline-start: 18px; font-size: 14px; font-weight: 500; overflow: hidden; max-width: min(560px, calc(100vw - 24px));
+  background: color-mix(in srgb, var(--bg) 55%, transparent);
+  animation: toastIn .45s var(--spring) both;
+}
+.toast.no-btn { padding: 11px 20px; }
+.toast.out { animation: toastOut .25s var(--ease-out) forwards; }
+@keyframes toastIn { from { opacity: 0; transform: translateY(18px) scale(.9); } }
+@keyframes toastOut { to { opacity: 0; transform: translateY(8px) scale(.95); } }
+.toast-btn { border: 0; cursor: pointer; border-radius: 999px; padding: 6px 14px; font-weight: 700; font-size: 13px; white-space: nowrap; color: var(--blue); background: color-mix(in srgb, var(--blue) 14%, transparent); }
+.toast-btn:hover { background: color-mix(in srgb, var(--blue) 22%, transparent); }
+.toast-bar { position: absolute; bottom: 0; right: 0; height: 2px; width: 100%; background: var(--blue); opacity: .5; transform-origin: right; animation: bar linear forwards; }
+@keyframes bar { to { transform: scaleX(0); } }
+
+/* =====================================================================
+   12. الإعدادات (sheet) + toggle + stepper بأسلوب iOS
+   ===================================================================== */
+.sheet-backdrop { position: fixed; inset: 0; z-index: 85; display: grid; place-items: center; background: rgba(0, 0, 0, .25); animation: fadeIn .25s both; padding: 16px; }
+.sheet-backdrop.out { animation: fadeOut .22s forwards; }
+@keyframes fadeIn { from { opacity: 0; } }
+@keyframes fadeOut { to { opacity: 0; } }
+.sheet {
+  --r: 30px; width: 440px; max-width: 100%; max-height: calc(100dvh - 32px); overflow-y: auto; overscroll-behavior: contain;
+  padding: 22px; background: color-mix(in srgb, var(--bg) 72%, transparent); animation: sheetIn .45s var(--spring) both;
+}
+.sheet.glass, .refract .sheet.glass.lens { -webkit-backdrop-filter: blur(40px) saturate(180%); backdrop-filter: blur(40px) saturate(180%); }
+.sheet-backdrop.out .sheet { animation: sheetOut .22s var(--ease-out) forwards; }
+@keyframes sheetIn { from { opacity: 0; transform: scale(.9) translateY(10px); } }
+@keyframes sheetOut { to { opacity: 0; transform: scale(.95); } }
+.sheet h3 { margin: 0 4px 16px; font-size: 22px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+.group { border-radius: 14px; background: var(--fill); margin-bottom: 16px; overflow: hidden; }
+.group-title { font-size: 12.5px; color: var(--text-2); margin: 0 12px 6px; font-weight: 600; }
+.row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 14px; min-height: 48px; }
+.row + .row, .group > * + * { border-top: .5px solid var(--sep); }
+.row .lbl { display: flex; align-items: center; gap: 10px; font-weight: 500; }
+.row .lbl .ic { color: var(--blue); }
+.row-btn { width: 100%; border: 0; background: none; cursor: pointer; text-align: right; color: var(--blue); font-weight: 500; }
+.row-btn:hover { background: var(--fill); }
+.note { font-size: 12.5px; color: var(--text-2); margin: 0 12px 4px; line-height: 1.6; }
+.switch { appearance: none; -webkit-appearance: none; position: relative; width: 51px; height: 31px; border-radius: 999px; background: var(--fill-2); cursor: pointer; margin: 0; transition: background .25s; flex: none; }
+.switch::after { content: ""; position: absolute; top: 2px; right: 2px; width: 27px; height: 27px; border-radius: 50%; background: #fff; box-shadow: 0 3px 8px rgba(0, 0, 0, .15), 0 1px 1px rgba(0, 0, 0, .16); transition: transform .35s var(--spring), width .2s; }
+.switch:checked { background: var(--green); }
+.switch:checked::after { transform: translateX(-20px); }
+.switch:active::after { width: 32px; }
+.switch:checked:active::after { transform: translateX(-15px); }
+.stepper { display: inline-flex; align-items: center; background: var(--fill-2); border-radius: 10px; overflow: hidden; flex: none; }
+.stepper button { width: 36px; height: 32px; border: 0; background: none; cursor: pointer; font-size: 20px; line-height: 1; color: var(--blue); transition: background .15s; }
+.stepper button:active { background: var(--fill-2); }
+.stepper b { min-width: 70px; text-align: center; font-size: 14px; font-variant-numeric: tabular-nums; font-weight: 600; }
+.stepper b.bump { animation: numBump .35s var(--spring); }
+@keyframes numBump { 40% { transform: scale(1.18); } }
+.confirm-import { padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; font-size: 13.5px; }
+.btns { display: flex; gap: 8px; flex-wrap: wrap; }
+.btn { border: 0; cursor: pointer; border-radius: 999px; padding: 7px 16px; font-weight: 600; font-size: 13.5px; background: var(--fill-2); transition: transform .3s var(--spring), opacity .2s; }
+.btn:active { transform: scale(.94); }
+.btn:disabled { opacity: .5; cursor: default; }
+.btn.primary { background: var(--blue); color: #fff; }
+.btn.danger { background: var(--red); color: #fff; }
+
+/* المزامنة */
+.sync-box { padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; font-size: 13.5px; line-height: 1.6; }
+.sync-box p { margin: 0; color: var(--text-2); }
+.steps { margin: 0; padding-inline-start: 20px; color: var(--text-2); }
+.steps a { color: var(--blue); font-weight: 600; text-decoration: none; }
+.steps a:hover { text-decoration: underline; }
+.token-row { display: flex; gap: 8px; }
+.token-row input { flex: 1; min-width: 0; height: 36px; border-radius: 10px; border: 0; outline: 0; padding: 0 12px; background: var(--fill-2); direction: ltr; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; }
+.token-row input:focus { box-shadow: inset 0 0 0 1.5px var(--blue); }
+.sync-status { display: flex; align-items: center; gap: 8px; font-weight: 600; }
+.sync-status .ic { color: var(--green); }
+.sync-status.error .ic { color: var(--red); }
+.sync-err { color: var(--red); font-size: 12.5px; }
+#syncBtn { position: relative; }
+#syncBtn.sync-syncing .ic { animation: spin 1s linear infinite; color: var(--blue); }
+#syncBtn.sync-error { color: var(--red); }
+#syncBtn.sync-offline { opacity: .55; }
+#syncBtn.sync-idle::before { content: ""; } /* يبقى للزجاج */
+@keyframes spin { to { transform: rotate(-360deg); } }
+
+/* =====================================================================
+   13. الاحتفال
+   ===================================================================== */
+#confetti { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 96; }
+.celebrate { position: fixed; inset: 0; z-index: 90; display: grid; place-items: center; pointer-events: none; padding: 16px; }
+.celebrate-card {
+  --r: 34px; pointer-events: auto; text-align: center; padding: 30px 40px 26px; min-width: min(340px, 100%);
+  background: color-mix(in srgb, var(--bg) 60%, transparent); cursor: pointer;
+  animation: celebIn .65s var(--spring) both;
+}
+.celebrate.out .celebrate-card { animation: sheetOut .3s var(--ease-out) forwards; }
+@keyframes celebIn { from { opacity: 0; transform: scale(.6) rotate(-4deg); } }
+.celebrate-card .medal {
+  width: 76px; height: 76px; margin: 0 auto 14px; border-radius: 50%; display: grid; place-items: center; color: #fff;
+  background: radial-gradient(circle at 35% 30%, #5BE37D, var(--green));
+  box-shadow: 0 0 0 8px color-mix(in srgb, var(--green) 18%, transparent), 0 0 50px color-mix(in srgb, var(--green) 60%, transparent);
+  animation: medal 1.6s ease-in-out infinite alternate, medalSpin .9s var(--spring) both;
+}
+.celebrate-card .medal.gold {
+  background: radial-gradient(circle at 35% 30%, #FFD66B, var(--orange));
+  box-shadow: 0 0 0 8px color-mix(in srgb, var(--orange) 20%, transparent), 0 0 60px color-mix(in srgb, var(--orange) 65%, transparent);
+}
+.celebrate-card .medal .ic { width: 38px; height: 38px; stroke-width: 2.4; }
+@keyframes medal { to { box-shadow: 0 0 0 14px color-mix(in srgb, var(--green) 10%, transparent), 0 0 70px color-mix(in srgb, var(--green) 70%, transparent); } }
+@keyframes medalSpin { from { transform: rotateY(180deg) scale(.4); } }
+.celebrate-card h3 { margin: 0 0 6px; font-size: 26px; font-weight: 800; }
+.celebrate-card p { margin: 0; color: var(--text-2); font-size: 15px; }
+.celebrate-card .streak-line { margin-top: 14px; display: inline-flex; gap: 6px; align-items: center; color: var(--orange); font-weight: 700; }
+
+/* =====================================================================
+   14. الآيباد والتلفون
+   ===================================================================== */
+@media (max-width: 1024px) {
+  .app { padding: calc(env(safe-area-inset-top) + 28px) 28px calc(env(safe-area-inset-bottom) + 130px); }
+  .layout { grid-template-columns: 1fr; }
+  .side-col { position: static; }
+  .stats { display: grid; grid-template-columns: auto 1fr 1.2fr; gap: 0 24px; align-items: center; }
+  .stats .stat-sep { display: none; }
+  .stats .week-box { grid-column: 3; grid-row: 1 / span 2; }
+  .stats .ring-wrap { grid-row: 1 / span 2; }
+}
+@media (max-width: 640px) {
+  .app { padding: calc(env(safe-area-inset-top) + 18px) 16px calc(env(safe-area-inset-bottom) + 120px); }
+  .top { align-items: flex-start; margin-bottom: 18px; }
+  .large-title { font-size: 32px; }
+  .motto { font-size: 15px; }
+  .top-actions { gap: 8px; padding: 0; }
+  .icon-btn { width: 38px; height: 38px; }
+  .section-head h2, .tasks-head h2 { font-size: 20px; }
+  .slots { grid-template-columns: 1fr; gap: 10px; }
+  .slot { min-height: 74px; padding: 14px 16px; }
+  .slot-empty { flex-direction: row; }
+  .slot-empty > div { display: flex; align-items: center; gap: 10px; }
+  .slot-empty b { display: inline; font-size: 22px; margin: 0; }
+  .slot .task { padding-bottom: 0; }
+  .slot .task.expanded { padding-bottom: 30px; }
+  .slot .title-text { font-size: 17px; }
+  .habits { --r: 22px; }
+  .tasks { --r: 24px; padding: 14px 8px 10px; }
+  .tasks-head { flex-direction: column; align-items: stretch; gap: 10px; }
+  .segmented { display: grid; grid-template-columns: repeat(4, 1fr); }
+  .add { margin: 0 4px 8px; }
+  .task-row { padding: 12px 10px; }
+  .details-body { padding: 4px 12px 12px; }
+  input, textarea { font-size: 16px !important; } /* بيمنع الزوم التلقائي بالآيفون */
+  .stats { display: block; padding: 18px; }
+  .stats .stat-sep { display: block; margin: 14px 0; }
+  .ring { width: 96px; height: 96px; }
+  .timer-pill { left: 12px; right: 12px; bottom: calc(env(safe-area-inset-bottom) + 12px); max-width: none; }
+  .tp-text { flex: 1; }
+  .tp-text span { max-width: none; }
+  .toasts { bottom: calc(env(safe-area-inset-bottom) + 82px); }
+  .fv-task { font-size: 21px; }
+  .celebrate-card { padding: 26px 22px 22px; }
+}
+/* أجهزة اللمس: ما في hover، فالأزرار بتظهر لما تفتح المهمة */
+@media (hover: none) {
+  .actions { opacity: 0; pointer-events: none; }
+  .task.expanded > .task-row .actions { opacity: 1; pointer-events: auto; transform: none; }
+  .act { width: 36px; height: 36px; }
+  .habit-del { opacity: .55; transform: scale(.85); }
+  .task-list .task-row:hover { background: none; }
+  .tasks.dimmed #taskList > .task:hover:not(.expanded) { opacity: .45; filter: saturate(.4); }
+}
+
+/* =====================================================================
+   15. احترام prefers-reduced-motion
+   ===================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; transition-delay: 0s !important; }
+  .blob { animation: none; translate: none; }
+}
+</style>
+</head>
+<body class="intro">
+
+<!-- فلتر SVG للانكسار (Liquid Glass refraction) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <filter id="lg-refract" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.007 0.011" numOctaves="2" seed="11" result="noise"/>
+      <feGaussianBlur in="noise" stdDeviation="2.5" result="soft"/>
+      <feDisplacementMap in="SourceGraphic" in2="soft" scale="38" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" style="stop-color: var(--teal)"/>
+      <stop offset="1" style="stop-color: var(--green)"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<!-- الخلفية المتحركة -->
+<div class="bg" id="bg" aria-hidden="true">
+  <span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span><span class="blob b4"></span><span class="blob b5"></span>
+</div>
+
+<div class="app">
+  <!-- العنوان الكبير -->
+  <header class="top rise">
+    <div>
+      <div class="eyebrow" id="dateLabel"></div>
+      <h1 class="large-title" id="greeting">أهلاً</h1>
+      <p class="motto" id="motto"></p>
+    </div>
+    <div class="top-actions">
+      <button class="icon-btn glass" id="syncBtn" title="مزامنة" hidden></button>
+      <button class="icon-btn glass" id="muteBtn" title="كتم الأصوات"></button>
+      <button class="icon-btn glass" id="settingsBtn" title="الإعدادات"></button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="main-col">
+
+      <!-- 1) أهم 3 مهام -->
+      <section class="top3" id="top3">
+        <div class="section-head rise" style="--i:1">
+          <h2>أهم 3 مهام اليوم</h2>
+          <span class="pill" id="top3Count">0/3</span>
+          <span class="spacer"></span>
+        </div>
+        <div class="top3-hint" id="top3Hint"></div>
+        <div class="slots" id="slots">
+          <div class="slot glass lens rise" style="--i:2" data-slot="0"><span class="slot-num">1</span><div class="slot-empty"><div><b>1</b>اسحب مهمة لهون</div></div><ul class="slot-list"></ul></div>
+          <div class="slot glass lens rise" style="--i:3" data-slot="1"><span class="slot-num">2</span><div class="slot-empty"><div><b>2</b>اسحب مهمة لهون</div></div><ul class="slot-list"></ul></div>
+          <div class="slot glass lens rise" style="--i:4" data-slot="2"><span class="slot-num">3</span><div class="slot-empty"><div><b>3</b>اسحب مهمة لهون</div></div><ul class="slot-list"></ul></div>
+        </div>
+      </section>
+
+      <!-- 3) العادات اليومية -->
+      <section class="habits glass rise" style="--i:5" id="habits">
+        <span class="habits-label">عادات اليوم</span>
+        <div id="habitList" style="display:contents"></div>
+        <button class="habit-add" id="habitAdd" title="عادة جديدة"></button>
+      </section>
+
+      <!-- 2) قائمة المهام -->
+      <section class="tasks glass rise" style="--i:6" id="tasksPanel">
+        <div class="tasks-head">
+          <h2>المهام</h2>
+          <div class="segmented" id="filter">
+            <span class="seg-thumb"></span>
+            <button data-filter="all" class="on">الكل</button>
+            <button data-filter="work"><i class="dot work"></i>شغل</button>
+            <button data-filter="study"><i class="dot study"></i>دراسة</button>
+            <button data-filter="personal"><i class="dot personal"></i>شخصي</button>
+          </div>
+        </div>
+        <form class="add" id="addForm" autocomplete="off">
+          <span id="addIcon"></span>
+          <input id="addInput" placeholder="مهمة جديدة… واكبس Enter" maxlength="200" enterkeyhint="done">
+          <button type="button" class="chip cat-personal" id="addCat" title="غيّر التصنيف">شخصي</button>
+        </form>
+        <ul class="task-list" id="taskList"></ul>
+        <div class="empty" id="listEmpty" hidden></div>
+        <div class="done-section" id="doneSection" hidden>
+          <button class="done-toggle" id="doneToggle"><span id="doneLabel">تمت</span></button>
+          <div class="done-wrap"><div><ul class="task-list" id="doneList"></ul></div></div>
+        </div>
+      </section>
+    </section>
+
+    <!-- 5) التحفيز -->
+    <aside class="side-col">
+      <section class="stats glass lens rise" style="--i:3" id="stats">
+        <div class="ring-wrap">
+          <div class="ring" id="ring">
+            <svg viewBox="0 0 120 120"><circle class="track" cx="60" cy="60" r="50"/><circle class="prog" id="ringProg" cx="60" cy="60" r="50"/></svg>
+            <div class="ring-label"><div><b id="ringPct">0%</b><small>إنجاز اليوم</small></div></div>
+          </div>
+          <div class="ring-side">
+            <span class="big" id="ringBig"></span>
+            <span class="sub" id="ringSub"></span>
+            <span class="cmp" id="cmp"></span>
+            <span class="pomo-line" id="pomoLine"></span>
+          </div>
+        </div>
+        <div class="stat-sep"></div>
+        <div class="streak-row">
+          <div class="flame" id="flame"></div>
+          <div><b id="streakNum">0</b><span id="streakLbl">أيام متتالية خلصت فيها أهم 3</span></div>
+        </div>
+        <div class="stat-sep"></div>
+        <div class="week-box">
+          <div class="week-title"><span>آخر 7 أيام</span><span id="weekTotal"></span></div>
+          <div class="week" id="week"></div>
+          <div class="legend"><span><i style="background:var(--green)"></i>أهم 3 كاملين</span><span><i style="background:color-mix(in srgb,var(--blue) 55%,transparent)"></i>مهام منجزة</span></div>
+        </div>
+      </section>
+    </aside>
+  </main>
+</div>
+
+<!-- 4) مؤقت التركيز: اختيار المدة -->
+<div class="pomo-pop glass" id="pomoPop" hidden>
+  <div class="pp-title"><span id="ppIcon"></span>مدة التركيز</div>
+  <div class="pp-chips">
+    <button data-min="15">15<small>د</small></button>
+    <button data-min="25">25<small>د</small></button>
+    <button data-min="50">50<small>د</small></button>
+    <label class="pp-custom"><input type="number" min="1" max="180" placeholder="غيرها" id="ppCustom" enterkeyhint="go"></label>
+  </div>
+  <div class="pp-hint" id="ppHint"></div>
+</div>
+
+<!-- المؤقت: حبة صغيرة عائمة -->
+<div class="timer-pill glass lens" id="timerPill" hidden>
+  <button class="tp-ring" id="tpOpen" title="وضع التركيز">
+    <svg class="mini-ring" viewBox="0 0 36 36"><circle class="track" cx="18" cy="18" r="15"/><circle class="prog" id="tpRing" cx="18" cy="18" r="15"/></svg>
+    <span id="tpIcon"></span>
+  </button>
+  <div class="tp-text" id="tpTextBtn" title="وضع التركيز"><b id="tpTime">25:00</b><span id="tpTask"></span></div>
+  <button class="tp-btn" id="tpPause"></button>
+  <button class="tp-btn stop" id="tpStop" title="إيقاف المؤقت"></button>
+</div>
+
+<!-- المؤقت: وضع التركيز الكامل -->
+<div class="focus-view" id="focusView" hidden>
+  <div class="fv-inner">
+    <span class="fv-mode" id="fvMode"></span>
+    <h2 class="fv-task" id="fvTask"></h2>
+    <div class="fv-ring">
+      <svg viewBox="0 0 240 240"><circle class="track" cx="120" cy="120" r="108"/><circle class="prog" id="fvRing" cx="120" cy="120" r="108"/></svg>
+      <div class="fv-time" id="fvTime">25:00</div>
+    </div>
+    <div class="fv-dots" id="fvDots"></div>
+    <div class="fv-controls">
+      <button class="fv-btn" id="fvStop" title="إنهاء"></button>
+      <button class="fv-btn big" id="fvPause"></button>
+      <button class="fv-btn" id="fvMin" title="تصغير"></button>
+    </div>
+    <div class="fv-hint">مسافة = إيقاف مؤقت · Esc = تصغير</div>
+  </div>
+</div>
+
+<div class="toasts" id="toasts"></div>
+<canvas id="confetti"></canvas>
+<div class="celebrate" id="celebrate" hidden></div>
+
+<!-- الإعدادات -->
+<div class="sheet-backdrop" id="settings" hidden>
+  <div class="sheet glass lens" role="dialog" aria-label="الإعدادات">
+    <h3>الإعدادات <button class="act" id="settingsClose" title="إغلاق"></button></h3>
+    <div class="group">
+      <div class="row"><span class="lbl" id="soundLbl">الأصوات</span><input type="checkbox" class="switch" id="soundSwitch"></div>
+    </div>
+
+    <div class="group-title">مؤقت التركيز (بومودورو)</div>
+    <div class="group" id="pomoGroup">
+      <div class="row"><span class="lbl">مدة التركيز</span><div class="stepper" data-key="focus" data-step="5" data-min="5" data-max="180"><button data-d="-1">−</button><b></b><button data-d="1">+</button></div></div>
+      <div class="row"><span class="lbl">استراحة قصيرة</span><div class="stepper" data-key="short" data-step="1" data-min="1" data-max="30"><button data-d="-1">−</button><b></b><button data-d="1">+</button></div></div>
+      <div class="row"><span class="lbl">استراحة طويلة</span><div class="stepper" data-key="long" data-step="5" data-min="5" data-max="60"><button data-d="-1">−</button><b></b><button data-d="1">+</button></div></div>
+      <div class="row"><span class="lbl">الطويلة بعد كل</span><div class="stepper" data-key="every" data-step="1" data-min="2" data-max="8"><button data-d="-1">−</button><b></b><button data-d="1">+</button></div></div>
+      <div class="row"><span class="lbl">ابدأ الاستراحة تلقائياً</span><input type="checkbox" class="switch" id="autoBreak"></div>
+    </div>
+
+    <div class="group-title">المزامنة مع الآيباد والتلفون (GitHub)</div>
+    <div class="group" id="syncGroup"></div>
+
+    <div class="group-title">نسخة احتياطية</div>
+    <div class="group">
+      <button class="row row-btn" id="exportBtn"></button>
+      <button class="row row-btn" id="importBtn"></button>
+      <div class="confirm-import" id="importConfirm" hidden></div>
+    </div>
+    <p class="note" id="dataNote"></p>
+    <input type="file" id="importFile" accept="application/json,.json" hidden>
+  </div>
+</div>
+
+<script>
+(() => {
+'use strict';
+
+/* =====================================================================
+   1. ثوابت وأدوات مساعدة
+   ===================================================================== */
+const STORAGE_KEY = 'top3.dashboard';
+const SYNC_KEY = 'top3.sync';                 // إعدادات المزامنة (التوكن) — بتضل على الجهاز بس
+const SCHEMA_VERSION = 2;
+const EPOCH = '1970-01-01T00:00:00.000Z';     // "ولا مرة تعدّلت" — أي تعديل حقيقي بيغلبها بالمزامنة
+const UNDO_MS = 5000;
+const BASE_TITLE = 'أهم 3 · مهام اليوم';
+const GIST_FILE = 'top3-dashboard.json';
+const GIST_DESC = 'Top3 Dashboard — sync data (لا تعدّل يدوياً)';
+const POMO_DEFAULT = { focus: 25, short: 5, long: 15, every: 4, autoBreak: true };
+const FOCUS_PRESETS = [15, 25, 50];
+const MILESTONES = [3, 7, 14, 21, 30, 50, 100, 200, 365];
+const SPRING_EASE = 'cubic-bezier(.34, 1.3, .64, 1)';
+const CATEGORIES = { work: 'شغل', study: 'دراسة', personal: 'شخصي' };
+const CAT_KEYS = Object.keys(CATEGORIES);
+const MODES = {
+  focus: { label: 'تركيز', color: '--orange' },
+  short: { label: 'استراحة قصيرة', color: '--teal' },
+  long:  { label: 'استراحة طويلة', color: '--indigo' },
+};
+const WEEKDAY_LETTERS = ['ح', 'ن', 'ث', 'ر', 'خ', 'ج', 'س']; // الأحد → السبت
+
+const $ = (sel, root = document) => root.querySelector(sel);
+const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
+const pad = n => String(n).padStart(2, '0');
+const dayKey = (d = new Date()) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+const keyOf = iso => (iso ? dayKey(new Date(iso)) : null);
+const shiftDay = (key, n) => { const [y, m, d] = key.split('-').map(Number); return dayKey(new Date(y, m - 1, d + n)); };
+const nowISO = () => new Date().toISOString();
+const ts = iso => Date.parse(iso || 0) || 0;
+const uid = () => (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function')
+  ? crypto.randomUUID()
+  : Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+const motionOK = () => !matchMedia('(prefers-reduced-motion: reduce)').matches;
+const fineHover = () => matchMedia('(hover: hover) and (pointer: fine)').matches;
+/* عدّ بالعربي: (مهمة وحدة، مهمتين، 3 مهام، 11 مهمة) */
+const countAr = (n, [one, two, few, many]) => n === 1 ? one : n === 2 ? two : (n >= 3 && n <= 10) ? `${n} ${few}` : `${n} ${many}`;
+const TASKS_W = ['مهمة وحدة', 'مهمتين', 'مهام', 'مهمة'];
+const HABITS_W = ['عادة وحدة', 'عادتين', 'عادات', 'عادة'];
+const POMO_W = ['جلسة وحدة', 'جلستين', 'جلسات', 'جلسة'];
+const fmtDays = n => countAr(n, ['يوم واحد', 'يومين', 'أيام', 'يوم']);
+const fmtEst = m => m < 60 ? `${m} د` : `${Math.floor(m / 60)} س${m % 60 ? ` ${m % 60} د` : ''}`;
+const fmtClock = ms => { const s = Math.max(0, Math.ceil(ms / 1000)); return `${pad(Math.floor(s / 60))}:${pad(s % 60)}`; };
+/* اختيار ثابت طول اليوم (عشان الرسالة ما تتغير مع كل render) */
+const pickDaily = arr => { const k = dayKey(); let h = 0; for (const c of k) h = (h * 31 + c.charCodeAt(0)) >>> 0; return arr[h % arr.length]; };
+const vibrate = ms => {
+  try {
+    const ua = navigator.userActivation;
+    if (navigator.vibrate && (!ua || ua.hasBeenActive)) navigator.vibrate(ms);
+  } catch (e) { /* iOS ما بيدعمها */ }
+};
+
+/* أيقونات خطية بأسلوب SF Symbols */
+const svg = p => `<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">${p}</svg>`;
+const ICON = {
+  check: svg('<path d="M6.5 12.5l3.5 3.5 7.5-8"/>'),
+  plus: svg('<path d="M12 5v14M5 12h14"/>'),
+  plusCircle: svg('<circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/>'),
+  x: svg('<path d="M17 7 7 17M7 7l10 10"/>'),
+  timer: svg('<circle cx="12" cy="13.5" r="7.5"/><path d="M12 10v3.5l2.3 1.6M9.5 3h5M18.5 6.5l1.2-1.2"/>'),
+  clock: svg('<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>'),
+  pencil: svg('<path d="M15.5 4.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4z"/><path d="M13.5 6.5l3 3"/>'),
+  trash: svg('<path d="M4 7h16M9.5 7V5a1.5 1.5 0 0 1 1.5-1.5h2A1.5 1.5 0 0 1 14.5 5v2M6 7l.9 12a2 2 0 0 0 2 1.8h6.2a2 2 0 0 0 2-1.8L18 7M10 11v6M14 11v6"/>'),
+  note: svg('<path d="M14 3.5H7a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8.5z"/><path d="M14 3.5v5h5M9 13h6M9 16.5h4"/>'),
+  chevron: svg('<path d="M6.5 9.5 12 15l5.5-5.5"/>'),
+  flame: svg('<path d="M12 21c3.9 0 6.5-2.6 6.5-6.2 0-3.4-2.2-5.4-3.9-7.4-.4 1.9-1.3 3-2.6 3.5.3-3.2-1-6-3.5-8.4.2 3.6-1.6 5.6-3.1 7.6-1 1.3-1.9 2.8-1.9 4.7C3.5 18.4 6.1 21 12 21z"/>'),
+  sparkles: svg('<path d="M10 3.5l1.6 4.4 4.4 1.6-4.4 1.6L10 15.5l-1.6-4.4L4 9.5l4.4-1.6zM17.5 14l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8z"/>'),
+  speaker: svg('<path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4.2 4.2 0 0 1 0 6M18.3 6.5a8 8 0 0 1 0 11"/>'),
+  speakerOff: svg('<path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M16 9.5l5 5M21 9.5l-5 5"/>'),
+  gear: svg('<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>'),
+  download: svg('<path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19.5h14"/>'),
+  upload: svg('<path d="M12 15V4M7.5 8.5 12 4l4.5 4.5M5 19.5h14"/>'),
+  arrowUp: svg('<path d="M12 19V5M6 11l6-6 6 6"/>'),
+  arrowDown: svg('<path d="M12 5v14M6 13l6 6 6-6"/>'),
+  minus: svg('<path d="M6 12h12"/>'),
+  unpin: svg('<path d="M12 5v11M7.5 11.5 12 16l4.5-4.5"/><path d="M6 19.5h12"/>'),
+  tray: svg('<path d="M4 13.5 6.5 5h11l2.5 8.5V18a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18z"/><path d="M4 13.5h4.5a3.5 3.5 0 0 0 7 0H20"/>'),
+  tomato: svg('<circle cx="12" cy="13.5" r="7"/><path d="M12 6.5c-.3-1.5.3-2.7 1.6-3.4M8.8 7.2 12 8.6l3.2-1.4"/>'),
+  coffee: svg('<path d="M5 9h11v5a5 5 0 0 1-5 5h-1a5 5 0 0 1-5-5zM16 10.5h1.5a2.5 2.5 0 0 1 0 5H16M8 3.5v2.5M11 3.5v2.5M14 3.5v2.5"/>'),
+  pause: svg('<path d="M9 6v12M15 6v12"/>'),
+  play: svg('<path d="M8 5.5v13l10.5-6.5z"/>'),
+  stop: svg('<rect x="6.5" y="6.5" width="11" height="11" rx="2.5"/>'),
+  expand: svg('<path d="M14 4.5h5.5V10M10 19.5H4.5V14M19.5 4.5 14 10M4.5 19.5 10 14"/>'),
+  shrink: svg('<path d="M19.5 4.5 14 10M14 5v5h5M4.5 19.5 10 14M10 19v-5H5"/>'),
+  cloud: svg('<path d="M7 18.5h10a4 4 0 0 0 .6-8 6 6 0 0 0-11.5 1.5A3.3 3.3 0 0 0 7 18.5z"/>'),
+  cloudOff: svg('<path d="M7 18.5h10a4 4 0 0 0 .6-8 6 6 0 0 0-11.5 1.5A3.3 3.3 0 0 0 7 18.5zM4 4l16 16"/>'),
+  sync: svg('<path d="M19.5 11A7.5 7.5 0 0 0 6 6.8L4.5 8.5M4.5 4.5v4h4M4.5 13A7.5 7.5 0 0 0 18 17.2l1.5-1.7M19.5 19.5v-4h-4"/>'),
+  link: svg('<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>'),
+};
+
+/* =====================================================================
+   2. البيانات
+   كل كيان عنده id + updatedAt، والمحذوفات بتنسجّل بـ deleted،
+   عشان المزامنة بين الأجهزة تقدر تدمج بدون ما يضيع شي.
+   ===================================================================== */
+/**
+ * State = {
+ *   schema, tasks:Task[], habits:Habit[],
+ *   focus:   { date, slots:[taskId|null x3], celebrated, updatedAt },   // أهم 3 لليوم
+ *   days:    { 'YYYY-MM-DD': { done, top3, pomos } },                   // سجل يومي
+ *   timer:   null | { taskId, mode:'focus'|'short'|'long', startedAt, endsAt, duration, pausedLeft },
+ *   timerAt, pomoCycle,                                                 // آخر تغيير بالمؤقت + عدد الجلسات بالدورة
+ *   deleted: { id: deletedAt },                                         // للمزامنة
+ *   settings:{ sound, pomo:{focus,short,long,every,autoBreak}, updatedAt },
+ *   lastDay
+ * }
+ * Task  = { id, title, category, estimate, notes, pomos, createdAt, updatedAt, done, doneAt }
+ * Habit = { id, name, createdAt, updatedAt, log:{ 'YYYY-MM-DD': true } }
+ */
+function defaultState() {
+  const today = dayKey(), t = nowISO();
+  return {
+    schema: SCHEMA_VERSION,
+    tasks: [],
+    habits: [
+      { id: 'habit-sport', name: 'رياضة', createdAt: t, updatedAt: EPOCH, log: {} },
+      { id: 'habit-read', name: 'قراءة', createdAt: t, updatedAt: EPOCH, log: {} },
+    ],
+    focus: { date: today, slots: [null, null, null], celebrated: false, updatedAt: EPOCH },
+    days: {},
+    timer: null, timerAt: EPOCH, pomoCycle: 0,
+    deleted: {},
+    settings: { sound: true, pomo: { ...POMO_DEFAULT }, updatedAt: EPOCH },
+    lastDay: today,
+  };
+}
+
+/* تنظيف وتوحيد أي بيانات جاية (من التخزين، من ملف استيراد، أو من المزامنة) */
+function normalize(raw) {
+  const s = defaultState();
+  if (!raw || typeof raw !== 'object') return s;
+  if (raw.data && typeof raw.data === 'object' && !Array.isArray(raw.tasks)) raw = raw.data; // ملف مغلّف
+
+  if (Array.isArray(raw.tasks)) {
+    s.tasks = raw.tasks
+      .filter(t => t && t.id && typeof t.title === 'string' && t.title.trim())
+      .map(t => {
+        const est = Number(t.estimate);
+        return {
+          id: String(t.id),
+          title: t.title.trim(),
+          category: CATEGORIES[t.category] ? t.category : 'personal',
+          estimate: Number.isFinite(est) && est > 0 ? Math.round(est) : null,
+          notes: typeof t.notes === 'string' ? t.notes : '',
+          pomos: Number.isInteger(t.pomos) && t.pomos > 0 ? t.pomos : 0,
+          createdAt: t.createdAt || nowISO(),
+          updatedAt: t.updatedAt || t.createdAt || nowISO(),
+          done: !!t.done,
+          doneAt: t.done ? (t.doneAt || nowISO()) : null,
+        };
+      });
+  }
+  const ids = new Set(s.tasks.map(t => t.id));
+  if (Array.isArray(raw.habits)) {
+    s.habits = raw.habits
+      .filter(h => h && h.id && typeof h.name === 'string')
+      .map(h => ({
+        id: String(h.id), name: h.name, createdAt: h.createdAt || nowISO(),
+        updatedAt: h.updatedAt || h.createdAt || EPOCH,
+        log: (h.log && typeof h.log === 'object') ? { ...h.log } : {},
+      }));
+  }
+  if (raw.focus && Array.isArray(raw.focus.slots)) {
+    const seen = new Set();
+    s.focus = {
+      date: raw.focus.date || s.focus.date,
+      slots: [0, 1, 2].map(i => {
+        const id = raw.focus.slots[i];
+        if (id && ids.has(id) && !seen.has(id)) { seen.add(id); return id; }
+        return null;
+      }),
+      celebrated: !!raw.focus.celebrated,
+      updatedAt: raw.focus.updatedAt || EPOCH,
+    };
+  }
+  if (raw.days && typeof raw.days === 'object') s.days = JSON.parse(JSON.stringify(raw.days));
+  if (raw.timer && raw.timer.endsAt) {
+    const tm = raw.timer;
+    const dur = Number(tm.duration) || (ts(tm.endsAt) - ts(tm.startedAt || tm.endsAt)) || 25 * 60000;
+    s.timer = {
+      taskId: tm.taskId && ids.has(tm.taskId) ? tm.taskId : null,
+      mode: MODES[tm.mode] ? tm.mode : 'focus',
+      startedAt: tm.startedAt || nowISO(),
+      endsAt: tm.endsAt,
+      duration: dur > 0 ? dur : 25 * 60000,
+      pausedLeft: Number.isFinite(tm.pausedLeft) ? tm.pausedLeft : null,
+    };
+  }
+  s.timerAt = raw.timerAt || EPOCH;
+  s.pomoCycle = Number.isInteger(raw.pomoCycle) && raw.pomoCycle > 0 ? raw.pomoCycle : 0;
+  if (raw.deleted && typeof raw.deleted === 'object') s.deleted = { ...raw.deleted };
+  if (raw.settings) {
+    s.settings.sound = raw.settings.sound !== false;
+    const p = raw.settings.pomo || {};
+    s.settings.pomo = {
+      focus: clamp(Math.round(+p.focus) || POMO_DEFAULT.focus, 1, 180),
+      short: clamp(Math.round(+p.short) || POMO_DEFAULT.short, 1, 30),
+      long: clamp(Math.round(+p.long) || POMO_DEFAULT.long, 5, 60),
+      every: clamp(Math.round(+p.every) || POMO_DEFAULT.every, 2, 8),
+      autoBreak: p.autoBreak !== false,
+    };
+    s.settings.updatedAt = raw.settings.updatedAt || EPOCH;
+  }
+  if (raw.lastDay) s.lastDay = raw.lastDay;
+  return s;
+}
+
+function load() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? normalize(JSON.parse(raw)) : defaultState();
+  } catch (e) { return defaultState(); }
+}
+
+let state = load();
+
+/* ---------- قراءات مشتقة ---------- */
+const getTask = id => state.tasks.find(t => t.id === id);
+const inSlot = id => state.focus.slots.includes(id);
+const isPostponed = t => !t.done && keyOf(t.createdAt) < dayKey();
+const doneToday = () => { const k = dayKey(); return state.tasks.filter(t => t.done && keyOf(t.doneAt) === k); };
+const openTasks = () => state.tasks.filter(t => !t.done);
+const pomo = () => state.settings.pomo;
+const todayPomos = () => (state.days[dayKey()] || {}).pomos || 0;
+function top3Status() {
+  const list = state.focus.slots.map(id => id && getTask(id)).filter(Boolean);
+  const done = list.filter(t => t.done).length;
+  return { filled: list.length, done, complete: list.length === 3 && done === 3 };
+}
+/* عدد الأيام المتتالية (لو اليوم لسا مش مكتمل، منبلش من امبارح) */
+function streakFrom(has) {
+  let d = dayKey(), n = 0;
+  if (!has(d)) d = shiftDay(d, -1);
+  while (has(d)) { n++; d = shiftDay(d, -1); }
+  return n;
+}
+const mainStreak = () => streakFrom(d => !!(state.days[d] && state.days[d].top3));
+const habitStreak = h => streakFrom(d => !!h.log[d]);
+const touchFocus = () => { state.focus.updatedAt = nowISO(); };
+const touchTimer = () => { state.timerAt = nowISO(); };
+
+/* =====================================================================
+   3. المزامنة عبر GitHub Gist
+   - ملف سري (secret gist) على حسابك، وكل جهاز بيقرأ ويكتب عليه.
+   - الدمج حسب updatedAt لكل مهمة/عادة، والمحذوفات بتنسجل، فما بيضيع تعديل.
+   ===================================================================== */
+function mergeStates(local, remoteRaw) {
+  const r = normalize(remoteRaw);
+  const out = normalize(JSON.parse(JSON.stringify(local)));
+
+  // المحذوفات (الأحدث بيغلب)
+  const deleted = { ...r.deleted };
+  for (const [id, at] of Object.entries(out.deleted)) if (!deleted[id] || ts(at) > ts(deleted[id])) deleted[id] = at;
+  const cutoff = Date.now() - 60 * 864e5;
+  for (const id of Object.keys(deleted)) if (ts(deleted[id]) < cutoff) delete deleted[id];
+
+  // دمج عناصر حسب id: آخر تعديل بيغلب، والمحذوف بيضل محذوف إلا إذا تعدّل بعد الحذف
+  const byId = (a, b) => {
+    const m = new Map();
+    for (const x of [...a, ...b]) { const cur = m.get(x.id); if (!cur || ts(x.updatedAt) > ts(cur.updatedAt)) m.set(x.id, x); }
+    return [...m.values()].filter(x => !deleted[x.id] || ts(x.updatedAt) > ts(deleted[x.id]));
+  };
+  out.tasks = byId(out.tasks, r.tasks).sort((a, b) => ts(b.createdAt) - ts(a.createdAt));
+  out.habits = byId(out.habits, r.habits).sort((a, b) => ts(a.createdAt) - ts(b.createdAt));
+  out.deleted = deleted;
+
+  // أهم 3: اليوم الأحدث، وبعدين آخر تعديل
+  if (r.focus.date > out.focus.date || (r.focus.date === out.focus.date && ts(r.focus.updatedAt) > ts(out.focus.updatedAt))) out.focus = r.focus;
+  const ids = new Set(out.tasks.map(t => t.id));
+  out.focus.slots = out.focus.slots.map(id => (id && ids.has(id) ? id : null));
+
+  // المؤقت
+  if (ts(r.timerAt) > ts(out.timerAt)) { out.timer = r.timer; out.timerAt = r.timerAt; out.pomoCycle = r.pomoCycle; }
+  if (out.timer && out.timer.taskId && !ids.has(out.timer.taskId)) out.timer.taskId = null;
+
+  // الإعدادات (الصوت بيضل خاص بكل جهاز)
+  if (ts(r.settings.updatedAt) > ts(out.settings.updatedAt)) out.settings = { ...r.settings, sound: out.settings.sound };
+
+  // السجل اليومي
+  for (const [k, v] of Object.entries(r.days)) {
+    const l = out.days[k];
+    out.days[k] = l ? { done: Math.max(l.done || 0, v.done || 0), top3: !!(l.top3 || v.top3), pomos: Math.max(l.pomos || 0, v.pomos || 0) } : v;
+  }
+  return out;
+}
+/* نسخة للمقارنة بدون الأشياء الخاصة بالجهاز */
+const syncView = s => JSON.stringify({ ...s, lastDay: null, settings: { ...s.settings, sound: null } });
+/* جهاز جديد ما فيه شي لسا؟ (عشان ناخد بيانات GitHub كما هي) */
+const isPristine = s => !s.tasks.length && !Object.keys(s.deleted).length && ts(s.focus.updatedAt) === 0 &&
+  ts(s.settings.updatedAt) === 0 && s.habits.every(h => ts(h.updatedAt) === 0 && !Object.keys(h.log).length);
+
+const Sync = {
+  cfg: (() => { try { return JSON.parse(localStorage.getItem(SYNC_KEY)) || null; } catch (e) { return null; } })(),
+  status: 'off', error: '', busy: false, again: false, timer: 0,
+  get on() { return !!(this.cfg && this.cfg.token && this.cfg.gistId); },
+  save() { try { this.cfg ? localStorage.setItem(SYNC_KEY, JSON.stringify(this.cfg)) : localStorage.removeItem(SYNC_KEY); } catch (e) { /* */ } },
+  setStatus(s, err = '') { this.status = s; this.error = err; renderSyncUI(); },
+
+  async api(path, { method = 'GET', body, token } = {}) {
+    const res = await fetch('https://api.github.com' + path, {
+      method, cache: 'no-store',
+      headers: {
+        Authorization: `Bearer ${token || this.cfg.token}`,
+        Accept: 'application/vnd.github+json',
+        'X-GitHub-Api-Version': '2022-11-28',
+        ...(body ? { 'Content-Type': 'application/json' } : {}),
+      },
+      body: body ? JSON.stringify(body) : undefined,
+    });
+    if (!res.ok) { const e = new Error('HTTP ' + res.status); e.status = res.status; throw e; }
+    return res.status === 204 ? null : res.json();
+  },
+  async readGist() {
+    const g = await this.api('/gists/' + this.cfg.gistId);
+    const f = g.files && g.files[GIST_FILE];
+    if (!f) return null;
+    let text = f.content;
+    if (f.truncated) text = await (await fetch(f.raw_url, { cache: 'no-store' })).text();
+    try { return JSON.parse(text); } catch (e) { return null; }
+  },
+  payload() { return JSON.stringify({ app: 'top3-dashboard', schema: SCHEMA_VERSION, syncedAt: nowISO(), data: state }); },
+  writeGist() { return this.api('/gists/' + this.cfg.gistId, { method: 'PATCH', body: { files: { [GIST_FILE]: { content: this.payload() } } } }); },
+
+  /* الربط لأول مرة: منلاقي الـ gist القديم أو منعمل واحد جديد */
+  async connect(token) {
+    this.setStatus('syncing');
+    let gistId = null;
+    for (let page = 1; page <= 5 && !gistId; page++) {
+      const list = await this.api(`/gists?per_page=100&page=${page}`, { token });
+      const hit = list.find(g => g.files && g.files[GIST_FILE]);
+      if (hit) gistId = hit.id;
+      if (list.length < 100) break;
+    }
+    if (gistId) {
+      this.cfg = { token, gistId };
+      const remote = await this.readGist();
+      if (remote && isPristine(state)) { state = normalize(remote); rollover(); commit({ silent: true }); render(); }
+    } else {
+      const g = await this.api('/gists', { method: 'POST', token, body: { description: GIST_DESC, public: false, files: { [GIST_FILE]: { content: this.payload() } } } });
+      this.cfg = { token, gistId: g.id };
+    }
+    this.save();
+    await this.sync();
+  },
+
+  /* سحب ← دمج ← رفع (لو في فرق) */
+  async sync() {
+    if (!this.on) return;
+    if (this.busy) { this.again = true; return; }
+    if (!navigator.onLine) { this.setStatus('offline'); return; }
+    this.busy = true; this.setStatus('syncing');
+    try {
+      const remote = await this.readGist();
+      if (remote) {
+        const merged = mergeStates(state, remote);
+        if (syncView(merged) !== syncView(state)) { state = merged; rollover(); commit({ silent: true }); render(); }
+      }
+      if (!remote || syncView(normalize(remote)) !== syncView(state)) await this.writeGist();
+      this.cfg.lastSync = nowISO(); this.save();
+      this.setStatus('idle');
+    } catch (e) {
+      if (e.status === 401) this.setStatus('error', 'التوكن مش صالح أو انتهى. افصل واربط من جديد.');
+      else if (e.status === 404) this.setStatus('error', 'ملف المزامنة مش موجود على GitHub. افصل واربط من جديد.');
+      else this.setStatus(navigator.onLine ? 'error' : 'offline', 'ما قدرت أتزامن، رح أحاول كمان شوي.');
+    } finally {
+      this.busy = false;
+      if (this.again) { this.again = false; this.schedule(600); }
+    }
+  },
+  schedule(ms = 2500) { if (!this.on) return; clearTimeout(this.timer); this.timer = setTimeout(() => this.sync(), ms); },
+  disconnect() { clearTimeout(this.timer); this.cfg = null; this.save(); this.setStatus('off'); },
+};
+
+/* حفظ + تحديث سجل اليوم + مزامنة */
+function commit({ silent = false } = {}) {
+  const k = dayKey();
+  state.days[k] = { ...(state.days[k] || {}), done: doneToday().length, top3: top3Status().complete };
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+  catch (e) { toast('ما قدرت أحفظ — مساحة التخزين ممتلئة؟'); }
+  if (!silent) Sync.schedule();
+}
+let saveTimer = 0;
+const saveSoon = () => { clearTimeout(saveTimer); saveTimer = setTimeout(commit, 400); };
+
+/* ---------- يوم جديد: المهام اللي ما خلصت بتنتقل تلقائياً ("متأجلة") وخانات أهم 3 بتفضى ---------- */
+function rollover() {
+  const today = dayKey();
+  let changed = false;
+  if (state.focus.date < today) {
+    state.focus = { date: today, slots: [null, null, null], celebrated: false, updatedAt: EPOCH };
+    changed = true;
+  }
+  if (state.lastDay !== today) {
+    const cutoff = shiftDay(today, -90); // المنجزات الأقدم من 90 يوم بتنمسح
+    state.tasks = state.tasks.filter(t => !t.done || keyOf(t.doneAt) >= cutoff);
+    state.pomoCycle = 0;
+    state.lastDay = today;
+    changed = true;
+  }
+  return changed;
+}
+
+/* =====================================================================
+   4. الأصوات (Web Audio) — ناعمة وخفيفة
+   ===================================================================== */
+const Sound = {
+  ctx: null, out: null,
+  ensure() {
+    if (!this.ctx) {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return false;
+      this.ctx = new AC();
+      const lp = this.ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 5200;
+      this.out = this.ctx.createGain(); this.out.gain.value = .9;
+      this.out.connect(lp).connect(this.ctx.destination);
+    }
+    if (this.ctx.state === 'suspended') this.ctx.resume();
+    return true;
+  },
+  tone(freq, at, dur, gain = .06, type = 'sine') {
+    const c = this.ctx, t0 = c.currentTime + at;
+    const o = c.createOscillator(), g = c.createGain();
+    o.type = type; o.frequency.setValueAtTime(freq, t0);
+    g.gain.setValueAtTime(.0001, t0);
+    g.gain.exponentialRampToValueAtTime(gain, t0 + .015);
+    g.gain.exponentialRampToValueAtTime(.0001, t0 + dur);
+    o.connect(g).connect(this.out);
+    o.start(t0); o.stop(t0 + dur + .05);
+  },
+  play(name) {
+    if (!state.settings.sound || !this.ensure()) return;
+    const T = this.tone.bind(this);
+    switch (name) {
+      case 'check':   T(880, 0, .2, .07); T(1318.5, .07, .32, .06); break;
+      case 'uncheck': T(660, 0, .14, .035); break;
+      case 'add':     T(1046.5, 0, .1, .035); break;
+      case 'drop':    T(784, 0, .12, .045); T(1175, .05, .16, .035); break;
+      case 'delete':  T(392, 0, .14, .04, 'triangle'); break;
+      case 'habit':   T(988, 0, .16, .06); T(1480, .06, .26, .05); break;
+      case 'start':   T(587, 0, .18, .045); T(880, .09, .24, .045); break;
+      case 'tap':     T(1200, 0, .05, .02); break;
+      case 'break':   T(659, 0, .3, .05); T(523, .14, .45, .045); break;
+      case 'celebrate':
+        [523.25, 659.25, 783.99, 1046.5, 1318.5].forEach((f, i) => T(f, i * .085, .55, .065, 'triangle'));
+        [1046.5, 1318.5, 1568].forEach(f => T(f, .5, 1.5, .035));
+        break;
+      case 'milestone':
+        [523.25, 659.25, 783.99, 1046.5, 1318.5, 1568, 2093].forEach((f, i) => T(f, i * .075, .6, .06, 'triangle'));
+        [1046.5, 1318.5, 1568, 2093].forEach(f => T(f, .6, 2, .03));
+        break;
+      case 'timer': // جرس ناعم
+        [0, .55].forEach(at => { T(784, at, 1.7, .08); T(1568, at, 1.1, .025); T(2352, at, .6, .01); });
+        break;
+    }
+  },
+};
+
+/* =====================================================================
+   5. عناصر الصفحة + حالة الواجهة
+   ===================================================================== */
+const el = {
+  bg: $('#bg'), dateLabel: $('#dateLabel'), greeting: $('#greeting'), motto: $('#motto'),
+  syncBtn: $('#syncBtn'), muteBtn: $('#muteBtn'), settingsBtn: $('#settingsBtn'),
+  top3: $('#top3'), top3Hint: $('#top3Hint'), top3Count: $('#top3Count'), slots: $$('.slot'),
+  habitList: $('#habitList'), habitAdd: $('#habitAdd'), habits: $('#habits'),
+  tasksPanel: $('#tasksPanel'), filter: $('#filter'), addForm: $('#addForm'), addInput: $('#addInput'), addCat: $('#addCat'),
+  taskList: $('#taskList'), listEmpty: $('#listEmpty'),
+  doneSection: $('#doneSection'), doneToggle: $('#doneToggle'), doneLabel: $('#doneLabel'), doneList: $('#doneList'),
+  ring: $('#ring'), ringProg: $('#ringProg'), ringPct: $('#ringPct'), ringBig: $('#ringBig'), ringSub: $('#ringSub'), cmp: $('#cmp'), pomoLine: $('#pomoLine'),
+  flame: $('#flame'), streakNum: $('#streakNum'), streakLbl: $('#streakLbl'), week: $('#week'), weekTotal: $('#weekTotal'),
+  pomoPop: $('#pomoPop'), ppCustom: $('#ppCustom'), ppHint: $('#ppHint'),
+  timerPill: $('#timerPill'), tpTime: $('#tpTime'), tpTask: $('#tpTask'), tpRing: $('#tpRing'), tpIcon: $('#tpIcon'),
+  tpOpen: $('#tpOpen'), tpTextBtn: $('#tpTextBtn'), tpPause: $('#tpPause'), tpStop: $('#tpStop'),
+  focusView: $('#focusView'), fvMode: $('#fvMode'), fvTask: $('#fvTask'), fvRing: $('#fvRing'), fvTime: $('#fvTime'),
+  fvDots: $('#fvDots'), fvStop: $('#fvStop'), fvPause: $('#fvPause'), fvMin: $('#fvMin'),
+  toasts: $('#toasts'), confetti: $('#confetti'), celebrate: $('#celebrate'),
+  settings: $('#settings'), settingsClose: $('#settingsClose'), soundSwitch: $('#soundSwitch'), autoBreak: $('#autoBreak'),
+  syncGroup: $('#syncGroup'),
+  exportBtn: $('#exportBtn'), importBtn: $('#importBtn'), importFile: $('#importFile'), importConfirm: $('#importConfirm'), dataNote: $('#dataNote'),
+};
+const ui = { filter: 'all', addCat: 'personal', expanded: new Set(), doneOpen: false, focusOpen: false, lastPct: null, lastMotto: '' };
+
+/* أيقونات ثابتة */
+$('#addIcon').outerHTML = ICON.plusCircle;
+$('#ppIcon').outerHTML = ICON.tomato;
+el.habitAdd.innerHTML = ICON.plus;
+el.settingsBtn.innerHTML = ICON.gear;
+el.tpStop.innerHTML = ICON.stop;
+el.fvStop.innerHTML = ICON.stop;
+el.fvMin.innerHTML = ICON.shrink;
+el.settingsClose.innerHTML = ICON.x;
+el.doneToggle.insertAdjacentHTML('beforeend', ICON.chevron);
+$('#soundLbl').insertAdjacentHTML('afterbegin', ICON.speaker);
+el.exportBtn.innerHTML = `<span class="lbl">${ICON.download}تصدير نسخة احتياطية (JSON)</span>`;
+el.importBtn.innerHTML = `<span class="lbl">${ICON.upload}استيراد نسخة احتياطية</span>`;
+
+/* الانكسار الحقيقي بيشتغل على متصفحات Chromium */
+if (navigator.userAgentData && navigator.userAgentData.brands.some(b => /Chromium/.test(b.brand))) {
+  document.documentElement.classList.add('refract');
+}
+
+/* =====================================================================
+   6. حركات مساعدة
+   ===================================================================== */
+/* شرارات + موجة من نقطة */
+function burst(x, y, { n = 12, colors = ['--green'], dist = 36, size = 6 } = {}) {
+  if (!motionOK()) return;
+  const cs = getComputedStyle(document.documentElement);
+  const cols = colors.map(c => (c.startsWith('--') ? cs.getPropertyValue(c).trim() : c));
+  for (let i = 0; i < n; i++) {
+    const a = (i / n) * Math.PI * 2 + Math.random() * .5, d = dist * (.65 + Math.random() * .7), s = size * (.6 + Math.random() * .6);
+    const p = document.createElement('i');
+    p.className = 'spark';
+    p.style.cssText = `--x0:${x - s / 2}px;--y0:${y - s / 2}px;--x1:${x + Math.cos(a) * d - s / 2}px;--y1:${y + Math.sin(a) * d - s / 2}px;--c:${cols[i % cols.length]};width:${s}px;height:${s}px`;
+    p.addEventListener('animationend', () => p.remove());
+    document.body.append(p);
+  }
+  const r = document.createElement('i');
+  r.className = 'ripple';
+  r.style.cssText = `left:${x}px;top:${y}px;--c:${cols[0]}`;
+  r.addEventListener('animationend', () => r.remove());
+  document.body.append(r);
+}
+const burstFrom = (node, opts) => { if (!node) return; const r = node.getBoundingClientRect(); burst(r.left + r.width / 2, r.top + r.height / 2, opts); };
+
+/* الأرقام بتعدّ لفوق/لتحت بدل ما تتغير فجأة */
+function countTo(node, to, fmt = v => String(Math.round(v)), dur = 750) {
+  const from = node._v ?? 0;
+  node._v = to;
+  cancelAnimationFrame(node._raf);
+  if (!motionOK() || from === to) { node.textContent = fmt(to); return; }
+  const t0 = performance.now();
+  const step = now => {
+    const p = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - p, 3);
+    node.textContent = fmt(from + (to - from) * e);
+    if (p < 1) node._raf = requestAnimationFrame(step);
+  };
+  node._raf = requestAnimationFrame(step);
+}
+const restartAnim = (node, cls) => { node.classList.remove(cls); void node.offsetWidth; node.classList.add(cls); };
+
+/* =====================================================================
+   7. الرسم (Render)
+   ===================================================================== */
+function render() {
+  renderHeader();
+  renderSlots();
+  renderHabits();
+  renderList();
+  renderStats();
+  renderTimer();
+}
+
+function renderHeader() {
+  const now = new Date();
+  el.dateLabel.textContent = new Intl.DateTimeFormat('ar-u-nu-latn', { weekday: 'long', day: 'numeric', month: 'long' }).format(now);
+  const h = now.getHours();
+  el.greeting.textContent = h < 12 ? 'صباح الخير' : h < 18 ? 'نهارك سعيد' : 'مساء الخير';
+  const m = motto();
+  if (m !== ui.lastMotto) {
+    el.motto.textContent = m;
+    if (ui.lastMotto) restartAnim(el.motto, 'swap');
+    ui.lastMotto = m;
+  }
+  el.muteBtn.innerHTML = state.settings.sound ? ICON.speaker : ICON.speakerOff;
+  el.muteBtn.title = state.settings.sound ? 'كتم الأصوات' : 'تشغيل الأصوات';
+}
+
+function motto() {
+  const st = top3Status();
+  if (!state.tasks.length) return 'ابدأ بكتابة أول مهمة، والباقي بيمشي.';
+  if (st.complete) return pickDaily(['يوم منتصر. كل اللي بعد هيك بونص.', 'خلّصت الأهم! استمتع بالباقي.', 'هيك الشغل! أهم 3 خلصوا.']);
+  if (st.filled === 0) return 'اختر أهم 3 مهام، وركّز عليهم قبل أي شي.';
+  if (state.timer && state.timer.mode === 'focus' && state.timer.pausedLeft == null) return 'وقت تركيز. شي واحد بس هلأ.';
+  if (st.done === 0) return pickDaily(['خطوة وحدة بتفرق. ابدأ بالأولى.', 'أصعب شي البداية، بعدها بيمشي.', 'ركّز على وحدة بس هلأ.']);
+  if (st.filled === 3 && st.done === 2) return 'باقي وحدة بس… قرّبت!';
+  if (st.done === 1) return 'بداية قوية! كمّل على اللي بعدها.';
+  return 'كمّل، أنت ماشي صح.';
+}
+
+/* سطر المهمة (بيتحدث مع كل تغيير) */
+function rowHTML(t, ctx) {
+  const timing = state.timer && state.timer.taskId === t.id && state.timer.mode === 'focus';
+  return `
+      <button class="check" aria-label="${t.done ? 'إلغاء الإنجاز' : 'إنجاز'}">${ICON.check}</button>
+      <div class="task-main">
+        <span class="title-text">${esc(t.title)}</span>
+        <span class="meta">
+          <span class="chip cat-${t.category}">${CATEGORIES[t.category]}</span>
+          ${isPostponed(t) ? '<span class="chip postponed">متأجلة</span>' : ''}
+          ${t.estimate ? `<span class="meta-item">${ICON.clock}${fmtEst(t.estimate)}</span>` : ''}
+          ${t.pomos ? `<span class="meta-item pomo" title="جلسات تركيز">${ICON.tomato}${t.pomos}</span>` : ''}
+          ${t.notes.trim() ? `<span class="meta-item" title="فيها ملاحظات">${ICON.note}</span>` : ''}
+          ${timing ? `<span class="meta-item live">${ICON.timer}<span class="live-time"></span></span>` : ''}
+        </span>
+      </div>
+      <div class="actions">
+        ${!t.done ? `<button class="act act-timer" data-act="timer" title="${timing ? 'وضع التركيز' : 'مؤقت تركيز'}">${ICON.timer}</button>` : ''}
+        ${ctx === 'slot' ? `<button class="act" data-act="unpin" title="رجّعها للقائمة">${ICON.unpin}</button>` : ''}
+        <button class="act" data-act="edit" title="تعديل (أو دبل كليك)">${ICON.pencil}</button>
+        <button class="act act-del" data-act="delete" title="حذف">${ICON.trash}</button>
+      </div>`;
+}
+/* لوحة التفاصيل (بتنبني مرة وحدة، وما منمسحها عشان ما يضيع التركيز وأنت عم تكتب) */
+function detailsHTML(t) {
+  const cats = CAT_KEYS.map(k => `<button class="cat-${k}${t.category === k ? ' on' : ''}" data-setcat="${k}">${CATEGORIES[k]}</button>`).join('');
+  return `
+    <div class="details"><div class="details-inner"><div class="details-body">
+      <div class="detail-row">
+        <label class="est" title="الوقت التقديري">${ICON.clock}<input type="number" inputmode="numeric" min="0" step="5" placeholder="—" value="${t.estimate || ''}" data-field="estimate"><span>دقيقة</span></label>
+        <div class="mini-seg">${cats}</div>
+      </div>
+      <textarea data-field="notes" rows="2" placeholder="ملاحظات…">${esc(t.notes)}</textarea>
+    </div></div></div>`;
+}
+const taskSig = (t, ctx) => [t.title, t.category, t.estimate, t.pomos, t.notes.trim() ? 1 : 0, t.done ? 1 : 0, isPostponed(t) ? 1 : 0,
+  state.timer && state.timer.taskId === t.id && state.timer.mode === 'focus' ? 1 : 0, ctx].join('|');
+
+function patchTask(li, t, ctx) {
+  const row = $('.task-row', li);
+  if (!row) {
+    li.innerHTML = `<div class="task-row">${rowHTML(t, ctx)}</div>${detailsHTML(t)}`;
+  } else {
+    row.innerHTML = rowHTML(t, ctx);
+    const est = $('[data-field="estimate"]', li), notes = $('[data-field="notes"]', li);
+    if (document.activeElement !== est) est.value = t.estimate || '';
+    if (document.activeElement !== notes) notes.value = t.notes;
+    $$('[data-setcat]', li).forEach(b => b.classList.toggle('on', b.dataset.setcat === t.category));
+  }
+  li.dataset.sig = taskSig(t, ctx);
+  li.classList.toggle('is-done', t.done);
+  li.classList.toggle('expanded', ui.expanded.has(t.id));
+  li.classList.toggle('timing', !!(state.timer && state.timer.taskId === t.id));
+}
+
+/* تحديث قائمة بالمفاتيح (keyed) + FLIP: العناصر بتتزحلق لمكانها الجديد بنعومة */
+function syncList(ul, items, ctx) {
+  const existing = new Map();
+  for (const c of ul.children) if (!c.classList.contains('leaving')) existing.set(c.dataset.id, c);
+  const flip = motionOK() && ul.getClientRects().length > 0;
+  const before = new Map();
+  if (flip) existing.forEach((li, id) => before.set(id, li.getBoundingClientRect().top));
+
+  const keep = new Set();
+  let prev = null;
+  for (const t of items) {
+    let li = existing.get(t.id);
+    if (!li) {
+      li = document.createElement('li');
+      li.className = 'task';
+      li.dataset.id = t.id;
+      patchTask(li, t, ctx);
+      if (motionOK()) {
+        li.classList.add('entering');
+        li.addEventListener('animationend', () => li.classList.remove('entering'), { once: true });
+      }
+    } else if (li.dataset.sig !== taskSig(t, ctx) && !li.classList.contains('editing') && !li.classList.contains('swiping')) {
+      patchTask(li, t, ctx);
+    } else {
+      li.classList.toggle('expanded', ui.expanded.has(t.id));
+    }
+    keep.add(t.id);
+    const ref = prev ? prev.nextSibling : ul.firstChild;
+    if (ref !== li) ul.insertBefore(li, ref);
+    prev = li;
+  }
+  existing.forEach((li, id) => { if (!keep.has(id)) leave(li); });
+
+  if (flip) before.forEach((top, id) => {
+    const li = existing.get(id);
+    if (!li || !keep.has(id)) return;
+    const dy = top - li.getBoundingClientRect().top;
+    if (Math.abs(dy) > 1) li.animate([{ transform: `translateY(${dy}px)` }, { transform: 'none' }], { duration: 450, easing: SPRING_EASE });
+  });
+}
+
+/* المهمة بتنكمش وبتختفي */
+function leave(li) {
+  if (!motionOK()) { li.remove(); return; }
+  li.style.height = li.offsetHeight + 'px';
+  li.classList.add('leaving');
+  void li.offsetHeight;
+  li.style.height = '0px';
+  setTimeout(() => li.remove(), 320);
+}
+
+function renderSlots() {
+  const st = top3Status();
+  state.focus.slots.forEach((id, i) => {
+    const t = id && getTask(id);
+    const slot = el.slots[i];
+    slot.classList.toggle('filled', !!t);
+    slot.classList.toggle('done', !!(t && t.done));
+    syncList($('.slot-list', slot), t ? [t] : [], 'slot');
+  });
+  el.top3.classList.toggle('complete', st.complete);
+  el.top3.classList.toggle('empty', st.filled === 0);
+  el.top3Count.textContent = `${st.done}/3`;
+  el.top3Count.classList.toggle('win', st.complete);
+
+  // تنبيه لطيف لما الخانات فاضية
+  if (st.filled === 0) {
+    const touch = !fineHover();
+    const html = openTasks().length
+      ? `${ICON.sparkles}اختر أهم 3 مهام لليوم <span>— ${touch ? 'اضغط مطوّل على مهمة واسحبها لهون' : 'اسحبهم من القائمة وأفلتهم بالخانات'}</span>`
+      : `${ICON.sparkles}اختر أهم 3 مهام لليوم <span>— اكتب مهامك تحت، وبعدين اسحب أهمهم لهون</span>`;
+    if (el.top3Hint.hidden || el.top3Hint.innerHTML !== html) el.top3Hint.innerHTML = html;
+    el.top3Hint.hidden = false;
+  } else el.top3Hint.hidden = true;
+}
+
+function renderList() {
+  const visible = t => ui.filter === 'all' || t.category === ui.filter;
+  const open = state.tasks.filter(t => !t.done && !inSlot(t.id) && visible(t));
+  syncList(el.taskList, open, 'list');
+
+  const done = doneToday().filter(t => !inSlot(t.id) && visible(t)).sort((a, b) => b.doneAt.localeCompare(a.doneAt));
+  syncList(el.doneList, done, 'done');
+  el.doneSection.hidden = done.length === 0;
+  el.doneLabel.textContent = `تمت (${done.length})`;
+  el.doneSection.classList.toggle('open', ui.doneOpen);
+
+  // حالة فاضية
+  const emptyHTML = !open.length ? (ui.filter !== 'all'
+    ? `${ICON.tray}ما في مهام مفتوحة بتصنيف "${CATEGORIES[ui.filter]}"`
+    : state.tasks.some(t => !t.done)
+      ? `${ICON.check}كل المهام بأهم 3 — ركّز عليهم`
+      : `${ICON.tray}القائمة فاضية. اكتب مهمة فوق واكبس Enter`) : '';
+  if (emptyHTML) {
+    if (el.listEmpty.innerHTML !== emptyHTML) el.listEmpty.innerHTML = emptyHTML;
+    el.listEmpty.hidden = false;
+  } else el.listEmpty.hidden = true;
+
+  // باقي المهام باهتة طول ما أهم 3 مش مخلصين
+  const st = top3Status();
+  el.tasksPanel.classList.toggle('dimmed', st.filled > 0 && !st.complete);
+}
+
+function renderHabits() {
+  const today = dayKey();
+  el.habitList.innerHTML = state.habits.map(h => {
+    const on = !!h.log[today], s = habitStreak(h);
+    return `<div class="habit-wrap">
+      <button class="habit${on ? ' on' : ''}" data-habit="${h.id}" title="${s ? `سلسلة ${fmtDays(s)}` : 'ابدأ السلسلة اليوم'}">
+        <span class="hcheck">${ICON.check}</span><span class="hname">${esc(h.name)}</span>
+        ${s ? `<span class="hstreak">${ICON.flame}${s}</span>` : ''}
+      </button>
+      <button class="habit-del" data-habit-del="${h.id}" title="حذف العادة">${ICON.x}</button>
+    </div>`;
+  }).join('');
+}
+
+function renderStats() {
+  // حلقة التقدم
+  const done = doneToday().length, open = openTasks().length, total = done + open;
+  const p = total ? done / total : 0;
+  const C = 2 * Math.PI * 50;
+  el.ringProg.style.strokeDasharray = C;
+  el.ringProg.style.strokeDashoffset = C * (1 - p);
+  countTo(el.ringPct, p * 100, v => Math.round(v) + '%');
+  if (ui.lastPct != null && p > ui.lastPct) restartAnim(el.ring, 'bump');
+  ui.lastPct = p;
+  el.ringBig.textContent = total ? `${done} من ${total} خلصوا` : 'ولا مهمة لسا';
+  const st = top3Status();
+  el.ringSub.textContent = st.complete ? 'أهم 3 خلصوا ✓' : `أهم 3: ${st.done} من 3`;
+
+  // مقارنة مع امبارح
+  const y = (state.days[shiftDay(dayKey(), -1)] || {}).done || 0;
+  const diff = done - y;
+  el.cmp.className = 'cmp ' + (diff > 0 ? 'up' : diff < 0 ? 'down' : 'same');
+  el.cmp.innerHTML = diff > 0 ? `${ICON.arrowUp}أكتر من امبارح بـ ${diff}`
+    : diff < 0 ? `${ICON.arrowDown}امبارح ${y}، باقيلك ${-diff}`
+    : `${ICON.minus}متل امبارح (${y})`;
+  const pm = todayPomos();
+  el.pomoLine.innerHTML = pm ? `${ICON.tomato}${countAr(pm, POMO_W)} تركيز اليوم` : '';
+
+  // الـ streak الرئيسي: الشعلة بتكبر وبتتوهج أكتر مع السلسلة
+  const s = mainStreak();
+  countTo(el.streakNum, s, v => { const n = Math.round(v); return n ? fmtDays(n) : '0'; });
+  el.streakLbl.textContent = s ? 'متتالية خلصت فيها أهم 3' : 'خلّص أهم 3 اليوم وابدأ السلسلة';
+  if (!el.flame.firstChild) el.flame.innerHTML = ICON.flame;
+  el.flame.classList.toggle('off', !s);
+  el.flame.style.setProperty('--fs', (1 + Math.min(s, 30) / 120).toFixed(3));
+
+  // رسم أسبوعي مصغّر
+  const today = dayKey();
+  const days = [...Array(7)].map((_, i) => shiftDay(today, i - 6));
+  const vals = days.map(d => (d === today ? done : ((state.days[d] || {}).done || 0)));
+  const max = Math.max(3, ...vals);
+  if (el.week.children.length !== 7) {
+    el.week.innerHTML = days.map(() => `<div class="wk"><div class="wk-bar-wrap"><div class="wk-bar" style="height:4%"></div></div><small></small></div>`).join('');
+    void el.week.offsetHeight; // عشان الأعمدة تطلع بحركة من تحت
+  }
+  days.forEach((d, i) => {
+    const wk = el.week.children[i], v = vals[i];
+    const [yy, mm, dd] = d.split('-').map(Number);
+    wk.className = 'wk' + (v ? ' has' : '') + ((state.days[d] || {}).top3 ? ' win' : '') + (d === today ? ' today' : '');
+    wk.title = countAr(v, TASKS_W) + ' منجزة';
+    const bar = $('.wk-bar', wk);
+    bar.style.transitionDelay = `${i * 40}ms`;
+    bar.style.height = Math.max(4, (v / max) * 100) + '%';
+    $('small', wk).textContent = WEEKDAY_LETTERS[new Date(yy, mm - 1, dd).getDay()];
+  });
+  const sum = vals.reduce((a, b) => a + b, 0);
+  el.weekTotal.textContent = sum ? countAr(sum, TASKS_W) : '0 مهام';
+}
+
+/* =====================================================================
+   8. الأفعال (إضافة، إنجاز، تعديل، حذف…)
+   ===================================================================== */
+function addTask(title) {
+  const t = {
+    id: uid(), title, category: ui.addCat, estimate: null, notes: '', pomos: 0,
+    createdAt: nowISO(), updatedAt: nowISO(), done: false, doneAt: null,
+  };
+  state.tasks.unshift(t);
+  commit(); render();
+  Sound.play('add');
+}
+
+function toggleDone(id, li) {
+  const t = getTask(id);
+  if (!t || (li && li.classList.contains('completing'))) return;
+  if (t.done) { // إلغاء الإنجاز
+    t.done = false; t.doneAt = null; t.updatedAt = nowISO();
+    Sound.play('uncheck');
+    commit(); render();
+    return;
+  }
+  // الحركة أولاً (ترجرج ← أخضر ← spring ← الصح بتنرسم والنص بيتشطب + شرارات) وبعدين منحدّث البيانات
+  Sound.play('check');
+  vibrate(12);
+  const nodes = $$(`.task[data-id="${CSS.escape(id)}"]`);
+  nodes.forEach(n => n.classList.add('completing'));
+  const chk = li ? $('.check', li) : nodes[0] && $('.check', nodes[0]);
+  setTimeout(() => burstFrom(chk, { n: 14, colors: ['--green', '--teal', '--yellow', '--green'], dist: 38 }), 110);
+  setTimeout(() => {
+    const cur = getTask(id);
+    if (!cur || cur.done) return;
+    cur.done = true; cur.doneAt = nowISO(); cur.updatedAt = nowISO();
+    if (state.timer && state.timer.taskId === id && state.timer.mode === 'focus') { state.timer = null; touchTimer(); }
+    ui.expanded.delete(id);
+    commit();
+    $$(`.task[data-id="${CSS.escape(id)}"]`).forEach(n => n.classList.remove('completing'));
+    render();
+    maybeCelebrate();
+  }, motionOK() ? 620 : 0);
+}
+
+function maybeCelebrate() {
+  if (top3Status().complete && !state.focus.celebrated) {
+    state.focus.celebrated = true; touchFocus();
+    commit();
+    celebrate();
+  }
+}
+
+function deleteTask(id) {
+  const idx = state.tasks.findIndex(t => t.id === id);
+  if (idx < 0) return;
+  const task = state.tasks[idx];
+  const slot = state.focus.slots.indexOf(id);
+  const hadTimer = state.timer && state.timer.taskId === id ? state.timer : null;
+  state.tasks.splice(idx, 1);
+  state.deleted[id] = nowISO();
+  if (slot > -1) { state.focus.slots[slot] = null; touchFocus(); }
+  if (hadTimer) { state.timer = null; touchTimer(); }
+  ui.expanded.delete(id);
+  commit(); render();
+  Sound.play('delete');
+  toast('انحذفت المهمة', {
+    action: 'تراجع', duration: UNDO_MS,
+    onAction() {
+      if (getTask(id)) return;
+      delete state.deleted[id];
+      task.updatedAt = nowISO();
+      state.tasks.splice(Math.min(idx, state.tasks.length), 0, task);
+      if (slot > -1 && !state.focus.slots[slot]) { state.focus.slots[slot] = id; touchFocus(); }
+      if (hadTimer && !state.timer && ts(hadTimer.endsAt) > Date.now()) { state.timer = hadTimer; touchTimer(); }
+      commit(); render();
+    },
+  });
+}
+
+function toggleExpand(id) {
+  if (ui.expanded.has(id)) ui.expanded.delete(id);
+  else { ui.expanded.clear(); ui.expanded.add(id); }
+  $$('.task').forEach(n => n.classList.toggle('expanded', ui.expanded.has(n.dataset.id)));
+}
+
+/* تعديل inline */
+function startEdit(li) {
+  const t = getTask(li.dataset.id);
+  const span = $('.title-text', li);
+  if (!t || !span || li.classList.contains('editing')) return;
+  li.classList.add('editing');
+  try { span.contentEditable = 'plaintext-only'; } catch (e) { span.contentEditable = 'true'; }
+  span.focus();
+  const r = document.createRange(); r.selectNodeContents(span);
+  const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r);
+
+  const finish = save => {
+    span.removeEventListener('keydown', onKey);
+    span.removeEventListener('blur', onBlur);
+    span.contentEditable = 'false';
+    li.classList.remove('editing');
+    const v = span.textContent.replace(/\s+/g, ' ').trim();
+    if (save && v && v !== t.title) { t.title = v; t.updatedAt = nowISO(); commit(); }
+    else span.textContent = t.title;
+    render();
+  };
+  const onKey = e => {
+    if (e.key === 'Enter') { e.preventDefault(); finish(true); }
+    else if (e.key === 'Escape') { e.preventDefault(); finish(false); }
+  };
+  const onBlur = () => finish(true);
+  span.addEventListener('keydown', onKey);
+  span.addEventListener('blur', onBlur);
+}
+
+/* أهم 3: وضع / تبديل / إرجاع */
+function placeInSlot(id, idx, from) {
+  const s = state.focus.slots;
+  if (from != null) { const tmp = s[idx]; s[idx] = id; s[from] = tmp; }
+  else { const cur = s.indexOf(id); if (cur > -1) s[cur] = null; s[idx] = id; }
+  state.focus.date = dayKey(); touchFocus();
+  commit(); render();
+  Sound.play('drop');
+  vibrate(8);
+  const slotEl = el.slots[idx];
+  setTimeout(() => burstFrom($('.check', slotEl) || slotEl, { n: 8, colors: ['--blue', '--teal'], dist: 28, size: 5 }), 120);
+  maybeCelebrate();
+}
+function unpin(idx) {
+  if (idx < 0) return;
+  state.focus.slots[idx] = null; touchFocus();
+  commit(); render();
+}
+
+/* =====================================================================
+   9. السحب والإفلات + السحب بالإصبع
+   - ماوس: سحب عادي بعد 6px.
+   - لمس: ضغطة مطوّلة (~0.4 ثانية) وبعدين سحب لخانات أهم 3.
+           سحب أفقي بالقائمة: يمين = إنجاز، يسار = حذف.
+   ===================================================================== */
+const drag = { pending: null, active: null, justDropped: false };
+const swipe = { active: null };
+const SWIPE_T = 90;
+
+const suppressClick = () => { drag.justDropped = true; setTimeout(() => { drag.justDropped = false; }, 0); };
+
+document.addEventListener('pointerdown', e => {
+  if (e.button !== 0 || drag.active || swipe.active) return;
+  const li = e.target.closest('.task');
+  if (!li || li.classList.contains('editing') || li.classList.contains('leaving') || li.closest('.drag-ghost')) return;
+  if (e.target.closest('button, input, textarea, .details')) return;
+  const t = getTask(li.dataset.id);
+  if (!t) return;
+  const slotEl = li.closest('.slot');
+  const p = { li, id: t.id, done: t.done, x: e.clientX, y: e.clientY, from: slotEl ? Number(slotEl.dataset.slot) : null, touch: e.pointerType !== 'mouse' };
+  if (p.touch && !t.done) {
+    p.lp = setTimeout(() => {
+      if (drag.pending !== p) return;
+      vibrate(15);
+      beginDrag();
+      moveDrag({ clientX: p.x, clientY: p.y });
+    }, 420);
+  }
+  drag.pending = p;
+});
+
+window.addEventListener('pointermove', e => {
+  const p = drag.pending;
+  if (p && !drag.active && !swipe.active) {
+    const dx = e.clientX - p.x, dy = e.clientY - p.y, dist = Math.hypot(dx, dy);
+    if (p.touch) {
+      if (dist < 8) return;
+      clearTimeout(p.lp);
+      if (p.from == null && Math.abs(dx) > Math.abs(dy) * 1.3) startSwipe(p);
+      else { drag.pending = null; return; } // سكرول عادي
+    } else {
+      if (dist < 6 || p.done) return;
+      beginDrag();
+    }
+  }
+  if (swipe.active) moveSwipe(e);
+  if (drag.active) moveDrag(e);
+});
+window.addEventListener('pointerup', e => {
+  if (drag.pending) clearTimeout(drag.pending.lp);
+  if (swipe.active) endSwipe();
+  if (drag.active) { moveDrag(e); endDrag(); } // منعيد حساب الهدف بمكان الإفلات بالضبط
+  drag.pending = null;
+});
+window.addEventListener('pointercancel', () => {
+  if (drag.pending) clearTimeout(drag.pending.lp);
+  if (swipe.active) { swipe.active.dx = 0; endSwipe(); }
+  if (drag.active) cancelDrag();
+  drag.pending = null;
+});
+/* أثناء السحب باللمس منمنع سكرول الصفحة */
+document.addEventListener('touchmove', e => { if (drag.active || swipe.active) e.preventDefault(); }, { passive: false });
+document.addEventListener('contextmenu', e => { if (drag.active || (drag.pending && drag.pending.touch)) e.preventDefault(); });
+
+function beginDrag() {
+  const p = drag.pending;
+  const { li } = p;
+  const r = li.getBoundingClientRect();
+  clearTimeout(clickTimer);
+  getSelection().removeAllRanges();
+  closePomoPop();
+
+  const ghost = document.createElement('div');
+  ghost.className = 'drag-ghost';
+  const w = Math.min(r.width, 400);
+  // لو المهمة عريضة، منحط الشبح تحت الإصبع/الماوس
+  const left = clamp(p.x - Math.min(p.x - r.left, w - 20), 8, innerWidth - w - 8);
+  ghost.style.cssText = `left:${left}px;top:${r.top}px;width:${w}px;`;
+  const card = li.cloneNode(true);
+  card.classList.remove('expanded', 'entering', 'leaving', 'swiping');
+  card.classList.add('ghost-card', 'glass');
+  const d = $('.details', card); if (d) d.remove();
+  ghost.append(card);
+  document.body.append(ghost);
+
+  li.classList.add('drag-source');
+  document.body.classList.add('is-dragging');
+  if (p.from != null) el.slots[p.from].classList.add('drag-from');
+  el.slots.forEach(s => { s.style.setProperty('--rx', '0deg'); s.style.setProperty('--ry', '0deg'); });
+  drag.active = { ...p, ghost, target: null };
+  drag.pending = null;
+}
+
+const within = (r, x, y, pad = 0) => x >= r.left - pad && x <= r.right + pad && y >= r.top - pad && y <= r.bottom + pad;
+
+function moveDrag(e) {
+  const a = drag.active;
+  if (!a) return;
+  a.ghost.style.transform = `translate(${e.clientX - a.x}px, ${e.clientY - a.y}px)`;
+  let target = null;
+  el.slots.forEach((s, i) => {
+    if (i === a.from) return;
+    const r = s.getBoundingClientRect();
+    const over = within(r, e.clientX, e.clientY);
+    const near = !over && within(r, e.clientX, e.clientY, 80);
+    if (over && !s.classList.contains('drop-over')) vibrate(6);
+    s.classList.toggle('drop-over', over);
+    s.classList.toggle('drop-near', near);
+    if (over) target = { type: 'slot', index: i };
+  });
+  if (!target && a.from != null && within(el.tasksPanel.getBoundingClientRect(), e.clientX, e.clientY)) target = { type: 'list' };
+  el.tasksPanel.classList.toggle('drop-over', !!target && target.type === 'list');
+  a.target = target;
+
+  // سكرول تلقائي لما تقرّب من حافة الشاشة (مفيد على التلفون)
+  const edge = 70;
+  if (e.clientY < edge) scrollBy(0, -10);
+  else if (e.clientY > innerHeight - edge) scrollBy(0, 10);
+}
+
+function clearDragUI() {
+  el.slots.forEach(s => s.classList.remove('drop-over', 'drop-near', 'drag-from'));
+  el.tasksPanel.classList.remove('drop-over');
+  document.body.classList.remove('is-dragging');
+}
+
+function endDrag() {
+  const a = drag.active;
+  drag.active = null;
+  suppressClick();
+  clearDragUI();
+  if (!a.target) { returnGhost(a); return; }
+  a.ghost.classList.add('dropping');
+  setTimeout(() => a.ghost.remove(), 200);
+  if (a.target.type === 'slot') placeInSlot(a.id, a.target.index, a.from);
+  else { unpin(a.from); Sound.play('drop'); }
+}
+
+function cancelDrag() { const a = drag.active; drag.active = null; clearDragUI(); returnGhost(a); }
+
+/* لو ما انحطت بمكان: بترجع لمكانها بحركة spring */
+function returnGhost(a) {
+  a.ghost.classList.add('returning');
+  a.ghost.style.transform = 'translate(0, 0)';
+  $('.ghost-card', a.ghost).style.animation = 'none';
+  setTimeout(() => { a.ghost.remove(); a.li.classList.remove('drag-source'); }, motionOK() ? 380 : 0);
+}
+
+/* السحب الأفقي بالإصبع */
+function startSwipe(p) {
+  drag.pending = null;
+  clearTimeout(clickTimer);
+  const row = $('.task-row', p.li);
+  const bg = document.createElement('div');
+  bg.className = 'swipe-bg';
+  bg.innerHTML = `<span class="sw sw-del">${ICON.trash}</span><span class="sw sw-done">${p.done ? ICON.arrowUp : ICON.check}</span>`;
+  p.li.prepend(bg);
+  p.li.classList.add('swiping');
+  swipe.active = { ...p, row, bg, dx: 0, armed: false };
+}
+function moveSwipe(e) {
+  const s = swipe.active;
+  const dx = e.clientX - s.x, abs = Math.abs(dx);
+  s.dx = dx;
+  const shown = Math.sign(dx) * (abs < 120 ? abs : 120 + (abs - 120) * .35); // مقاومة مطاطية
+  s.row.style.transform = `translateX(${shown}px)`;
+  const armed = abs > SWIPE_T;
+  if (armed !== s.armed) { s.armed = armed; if (armed) vibrate(8); }
+  s.bg.className = 'swipe-bg ' + (dx > 0 ? 'done' : 'del') + (armed ? ' armed' : '');
+}
+function endSwipe() {
+  const s = swipe.active;
+  swipe.active = null;
+  suppressClick();
+  const armed = Math.abs(s.dx) > SWIPE_T;
+  s.row.style.transition = 'transform .4s var(--spring)';
+  const cleanup = () => { s.bg.remove(); s.li.classList.remove('swiping'); s.row.style.transition = ''; s.row.style.transform = ''; };
+  if (armed && s.dx < 0) {
+    s.row.style.transform = `translateX(${-s.li.offsetWidth}px)`;
+    s.row.style.transition = 'transform .22s var(--ease-out)';
+    setTimeout(() => { cleanup(); deleteTask(s.id); }, 200);
+    return;
+  }
+  s.row.style.transform = 'translateX(0)';
+  setTimeout(cleanup, 400);
+  if (armed && s.dx > 0) toggleDone(s.id, s.li);
+}
+
+/* =====================================================================
+   10. الأحداث (event delegation)
+   ===================================================================== */
+let clickTimer = 0;
+
+document.addEventListener('click', e => {
+  if (drag.justDropped) return;
+  const li = e.target.closest('.task');
+
+  // أزرار المهمة (تظهر عند hover)
+  const act = e.target.closest('[data-act]');
+  if (act && li) {
+    const id = li.dataset.id;
+    if (act.dataset.act === 'timer') {
+      if (state.timer && state.timer.taskId === id && state.timer.mode === 'focus') openFocusView();
+      else openPomoPop(act, id);
+    }
+    else if (act.dataset.act === 'edit') startEdit(li);
+    else if (act.dataset.act === 'delete') deleteTask(id);
+    else if (act.dataset.act === 'unpin') unpin(state.focus.slots.indexOf(id));
+    return;
+  }
+  if (li && e.target.closest('.check')) { toggleDone(li.dataset.id, li); return; }
+
+  // تغيير التصنيف من التفاصيل
+  const setcat = e.target.closest('[data-setcat]');
+  if (setcat && li) {
+    const t = getTask(li.dataset.id);
+    t.category = setcat.dataset.setcat; t.updatedAt = nowISO();
+    commit(); render();
+    return;
+  }
+
+  // كبسة على المهمة = فتح التفاصيل (منستنى شوي عشان الدبل كليك على الكمبيوتر)
+  if (li && e.target.closest('.task-row') && !li.classList.contains('editing')) {
+    clearTimeout(clickTimer);
+    const id = li.dataset.id;
+    clickTimer = setTimeout(() => toggleExpand(id), fineHover() ? 230 : 0);
+    return;
+  }
+
+  // العادات
+  const hdel = e.target.closest('[data-habit-del]');
+  if (hdel) { deleteHabit(hdel.dataset.habitDel); return; }
+  const hb = e.target.closest('[data-habit]');
+  if (hb) { toggleHabit(hb.dataset.habit); return; }
+});
+
+document.addEventListener('dblclick', e => {
+  const li = e.target.closest('.task');
+  if (!li || !e.target.closest('.task-row') || e.target.closest('button')) return;
+  clearTimeout(clickTimer);
+  startEdit(li);
+});
+
+/* التفاصيل: الملاحظات بتنحفظ وأنت عم تكتب، والوقت عند التغيير */
+document.addEventListener('input', e => {
+  if (e.target.dataset.field !== 'notes') return;
+  const t = getTask(e.target.closest('.task').dataset.id);
+  if (!t) return;
+  t.notes = e.target.value; t.updatedAt = nowISO();
+  saveSoon();
+});
+document.addEventListener('focusout', e => {
+  if (e.target.dataset && e.target.dataset.field === 'notes') { commit(); render(); }
+});
+document.addEventListener('change', e => {
+  if (e.target.dataset.field !== 'estimate') return;
+  const t = getTask(e.target.closest('.task').dataset.id);
+  if (!t) return;
+  const v = Math.round(Number(e.target.value));
+  t.estimate = v > 0 ? Math.min(v, 1440) : null; t.updatedAt = nowISO();
+  commit(); render();
+});
+
+/* الإضافة: اكتب واكبس Enter */
+el.addForm.addEventListener('submit', e => {
+  e.preventDefault();
+  const v = el.addInput.value.replace(/\s+/g, ' ').trim();
+  if (!v) { restartAnim(el.addForm, 'shake'); return; }
+  addTask(v);
+  el.addInput.value = '';
+});
+el.addCat.addEventListener('click', () => {
+  ui.addCat = CAT_KEYS[(CAT_KEYS.indexOf(ui.addCat) + 1) % CAT_KEYS.length];
+  renderAddCat();
+  restartAnim(el.addCat, 'flip');
+  Sound.play('tap');
+});
+function renderAddCat() {
+  el.addCat.className = `chip cat-${ui.addCat}` + (el.addCat.classList.contains('flip') ? ' flip' : '');
+  el.addCat.textContent = CATEGORIES[ui.addCat];
+}
+
+/* الفلتر (segmented control) */
+el.filter.addEventListener('click', e => {
+  const b = e.target.closest('[data-filter]');
+  if (!b) return;
+  ui.filter = b.dataset.filter;
+  $$('button', el.filter).forEach(x => x.classList.toggle('on', x === b));
+  if (ui.filter !== 'all') { ui.addCat = ui.filter; renderAddCat(); }
+  positionThumb();
+  renderList();
+});
+function positionThumb() {
+  const on = $('button.on', el.filter), th = $('.seg-thumb', el.filter);
+  th.style.width = on.offsetWidth + 'px';
+  th.style.transform = `translateX(${on.offsetLeft}px)`;
+}
+
+/* قسم "تمت" */
+el.doneToggle.addEventListener('click', () => { ui.doneOpen = !ui.doneOpen; el.doneSection.classList.toggle('open', ui.doneOpen); });
+
+/* اختصارات الكيبورد */
+document.addEventListener('keydown', e => {
+  const typing = e.target.closest('input, textarea, [contenteditable="true"], [contenteditable="plaintext-only"]');
+  if (e.key === '/' && !typing) { e.preventDefault(); el.addInput.focus(); }
+  if (e.key === 'Escape') {
+    if (!el.pomoPop.hidden) closePomoPop();
+    else if (ui.focusOpen) closeFocusView();
+    else if (!el.settings.hidden) closeSettings();
+  }
+  if (e.key === ' ' && ui.focusOpen && !typing) { e.preventDefault(); togglePause(); }
+});
+
+/* =====================================================================
+   11. العادات اليومية
+   ===================================================================== */
+function toggleHabit(id) {
+  const h = state.habits.find(x => x.id === id);
+  if (!h) return;
+  const k = dayKey();
+  if (h.log[k]) delete h.log[k];
+  else { h.log[k] = true; Sound.play('habit'); vibrate(10); }
+  h.updatedAt = nowISO();
+  commit(); renderHabits();
+  const b = $(`[data-habit="${CSS.escape(id)}"]`);
+  if (b && h.log[k]) {
+    b.classList.add('pop');
+    burstFrom($('.hcheck', b), { n: 12, colors: ['--green', '--orange', '--pink', '--blue', '--yellow'], dist: 30, size: 5 });
+  }
+}
+function deleteHabit(id) {
+  const idx = state.habits.findIndex(h => h.id === id);
+  if (idx < 0) return;
+  const [h] = state.habits.splice(idx, 1);
+  state.deleted[id] = nowISO();
+  commit(); renderHabits();
+  toast(`انحذفت عادة "${h.name}"`, {
+    action: 'تراجع', duration: UNDO_MS,
+    onAction() { delete state.deleted[id]; h.updatedAt = nowISO(); state.habits.splice(idx, 0, h); commit(); renderHabits(); },
+  });
+}
+el.habitAdd.addEventListener('click', () => {
+  const input = document.createElement('input');
+  input.className = 'habit-input';
+  input.placeholder = 'عادة جديدة…';
+  input.maxLength = 30;
+  input.enterKeyHint = 'done';
+  el.habitAdd.hidden = true;
+  el.habits.append(input);
+  input.focus();
+  let done = false;
+  const finish = save => {
+    if (done) return; done = true;
+    const v = input.value.trim();
+    input.remove(); el.habitAdd.hidden = false;
+    if (save && v) {
+      state.habits.push({ id: uid(), name: v, createdAt: nowISO(), updatedAt: nowISO(), log: {} });
+      commit(); renderHabits(); Sound.play('add');
+    }
+  };
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter') finish(true);
+    if (e.key === 'Escape') finish(false);
+  });
+  input.addEventListener('blur', () => finish(true));
+});
+
+/* =====================================================================
+   12. مؤقت التركيز (بومودورو)
+   تركيز ← استراحة قصيرة ← … ← استراحة طويلة بعد كل N جلسات
+   ===================================================================== */
+const timeLeft = (tm = state.timer) => (tm.pausedLeft != null ? tm.pausedLeft : ts(tm.endsAt) - Date.now());
+
+function startTimer(mode, taskId, minutes, { sound = true } = {}) {
+  const ms = Math.round(minutes * 60000);
+  state.timer = { taskId: taskId || null, mode, startedAt: nowISO(), endsAt: new Date(Date.now() + ms).toISOString(), duration: ms, pausedLeft: null };
+  touchTimer();
+  commit(); render();
+  if (sound) Sound.play(mode === 'focus' ? 'start' : 'break');
+}
+function togglePause() {
+  const tm = state.timer;
+  if (!tm) return;
+  if (tm.pausedLeft != null) { tm.endsAt = new Date(Date.now() + tm.pausedLeft).toISOString(); tm.pausedLeft = null; }
+  else tm.pausedLeft = Math.max(0, timeLeft(tm));
+  touchTimer();
+  Sound.play('tap');
+  commit(); render();
+}
+function stopTimer() { state.timer = null; touchTimer(); commit(); render(); }
+
+/* خلص الوقت: الجلسة بتنحسب، وبتبلش الاستراحة تلقائياً (لو مفعّلة) */
+function finishTimer({ silent = false } = {}) {
+  const tm = state.timer;
+  if (!tm) return;
+  state.timer = null; touchTimer();
+  const t = tm.taskId && getTask(tm.taskId);
+  if (tm.mode === 'focus') {
+    if (t) { t.pomos = (t.pomos || 0) + 1; t.updatedAt = nowISO(); }
+    const k = dayKey();
+    state.days[k] = { ...(state.days[k] || {}), pomos: ((state.days[k] || {}).pomos || 0) + 1 };
+    state.pomoCycle = (state.pomoCycle || 0) + 1;
+    const isLong = state.pomoCycle % pomo().every === 0;
+    const mode = isLong ? 'long' : 'short', mins = isLong ? pomo().long : pomo().short;
+    commit(); render();
+    if (silent) return;
+    Sound.play('timer');
+    burstFrom(ui.focusOpen ? $('.fv-ring') : el.tpOpen, { n: 16, colors: ['--orange', '--yellow', '--red'], dist: ui.focusOpen ? 160 : 40 });
+    if (pomo().autoBreak) {
+      startTimer(mode, tm.taskId, mins, { sound: false });
+      toast(`🍅 خلصت جلسة تركيز! ${isLong ? `استراحة طويلة ${mins} د` : `استراحة ${mins} د`} — قوم تحرّك شوي`, { duration: 7000 });
+    } else {
+      toast('🍅 خلصت جلسة تركيز!', { action: `استراحة ${mins} د`, duration: 10000, onAction: () => startTimer(mode, tm.taskId, mins) });
+    }
+  } else {
+    commit(); render();
+    if (silent) return;
+    Sound.play('timer');
+    const back = t && !t.done ? tm.taskId : null;
+    toast('خلصت الاستراحة. يلا نرجع؟', { action: 'جلسة كمان', duration: 12000, onAction: () => startTimer('focus', back, pomo().focus) });
+  }
+}
+
+function renderTimer() {
+  const tm = state.timer;
+  if (!tm) { el.timerPill.hidden = true; closeFocusView(); document.title = BASE_TITLE; return; }
+  const t = tm.taskId && getTask(tm.taskId);
+  const m = MODES[tm.mode], paused = tm.pausedLeft != null;
+  [el.timerPill, el.focusView].forEach(n => { n.style.setProperty('--mc', `var(${m.color})`); n.classList.toggle('paused', paused); });
+  el.timerPill.hidden = false;
+  el.tpIcon.innerHTML = tm.mode === 'focus' ? ICON.tomato : ICON.coffee;
+  el.tpTask.textContent = tm.mode === 'focus' ? (t ? t.title : 'تركيز') : m.label;
+  el.tpPause.innerHTML = el.fvPause.innerHTML = paused ? ICON.play : ICON.pause;
+  el.tpPause.title = el.fvPause.title = paused ? 'كمّل' : 'إيقاف مؤقت';
+  el.fvMode.innerHTML = (tm.mode === 'focus' ? ICON.tomato : ICON.coffee) + m.label + (paused ? ' · متوقف' : '');
+  el.fvTask.textContent = tm.mode === 'focus' ? (t ? t.title : 'جلسة تركيز') : 'خذ نفس، اشرب مي، وتحرّك شوي';
+  const every = pomo().every, filled = tm.mode === 'long' ? every : state.pomoCycle % every;
+  el.fvDots.innerHTML = Array.from({ length: every }, (_, i) => `<i class="${i < filled ? 'on' : ''}"></i>`).join('');
+  tickTimer();
+}
+function tickTimer() {
+  const tm = state.timer;
+  if (!tm) return;
+  const left = timeLeft(tm);
+  if (tm.pausedLeft == null && left <= 0) { finishTimer(); return; }
+  const frac = clamp(1 - left / tm.duration, 0, 1);
+  const c1 = 2 * Math.PI * 15, c2 = 2 * Math.PI * 108;
+  el.tpRing.style.strokeDasharray = c1; el.tpRing.style.strokeDashoffset = c1 * frac;
+  el.fvRing.style.strokeDasharray = c2; el.fvRing.style.strokeDashoffset = c2 * frac;
+  const txt = fmtClock(left);
+  el.tpTime.textContent = el.fvTime.textContent = txt;
+  $$('.live-time').forEach(n => { n.textContent = txt; });
+  document.title = `${txt} · ${MODES[tm.mode].label}`;
+}
+setInterval(tickTimer, 1000);
+
+function openFocusView() {
+  if (!state.timer) return;
+  ui.focusOpen = true;
+  el.focusView.hidden = false;
+  el.focusView.classList.remove('out');
+  renderTimer();
+}
+function closeFocusView() {
+  if (!ui.focusOpen) return;
+  ui.focusOpen = false;
+  el.focusView.classList.add('out');
+  setTimeout(() => { if (!ui.focusOpen) el.focusView.hidden = true; }, 250);
+}
+el.tpOpen.addEventListener('click', openFocusView);
+el.tpTextBtn.addEventListener('click', openFocusView);
+el.tpPause.addEventListener('click', togglePause);
+el.fvPause.addEventListener('click', togglePause);
+el.tpStop.addEventListener('click', stopTimer);
+el.fvStop.addEventListener('click', stopTimer);
+el.fvMin.addEventListener('click', closeFocusView);
+
+/* اختيار المدة */
+function openPomoPop(anchor, taskId) {
+  const pop = el.pomoPop, cur = pomo().focus;
+  pop.dataset.task = taskId;
+  $$('[data-min]', pop).forEach(b => b.classList.toggle('on', +b.dataset.min === cur));
+  el.ppCustom.value = FOCUS_PRESETS.includes(cur) ? '' : cur;
+  el.ppHint.textContent = pomo().autoBreak ? `بعدها استراحة ${pomo().short} د تلقائياً` : 'الاستراحة بتبلش لما تختارها';
+  pop.hidden = false;
+  pop.style.visibility = 'hidden';
+  const r = anchor.getBoundingClientRect(), w = pop.offsetWidth, h = pop.offsetHeight;
+  const left = clamp(r.left + r.width / 2 - w / 2, 12, innerWidth - w - 12);
+  let top = r.bottom + 8;
+  if (top + h > innerHeight - 12) top = r.top - h - 8;
+  pop.style.left = left + 'px';
+  pop.style.top = Math.max(12, top) + 'px';
+  pop.style.visibility = '';
+  pop.style.animation = 'none'; void pop.offsetWidth; pop.style.animation = '';
+}
+function closePomoPop() { el.pomoPop.hidden = true; }
+function choosePomo(min) {
+  const id = el.pomoPop.dataset.task, t = getTask(id);
+  closePomoPop();
+  if (!t) return;
+  if (pomo().focus !== min) { state.settings.pomo.focus = min; state.settings.updatedAt = nowISO(); }
+  startTimer('focus', id, min);
+  toast(`بلّش التركيز ${min} د: ${t.title}`);
+}
+el.pomoPop.addEventListener('click', e => { const b = e.target.closest('[data-min]'); if (b) choosePomo(+b.dataset.min); });
+el.ppCustom.addEventListener('keydown', e => {
+  if (e.key !== 'Enter') return;
+  const v = Math.round(+el.ppCustom.value);
+  if (v >= 1) choosePomo(Math.min(v, 180));
+});
+document.addEventListener('pointerdown', e => {
+  if (!el.pomoPop.hidden && !e.target.closest('#pomoPop, [data-act="timer"]')) closePomoPop();
+});
+addEventListener('scroll', () => { if (!el.pomoPop.hidden && document.activeElement !== el.ppCustom) closePomoPop(); }, { passive: true });
+
+/* =====================================================================
+   13. Toast + تراجع
+   ===================================================================== */
+function toast(msg, { action, onAction, duration = 3000 } = {}) {
+  const t = document.createElement('div');
+  t.className = 'toast glass' + (action ? '' : ' no-btn');
+  t.innerHTML = `<span>${esc(msg)}</span>${action ? `<button class="toast-btn">${esc(action)}</button><span class="toast-bar" style="animation-duration:${duration}ms"></span>` : ''}`;
+  el.toasts.append(t);
+  while (el.toasts.children.length > 3) el.toasts.firstElementChild.remove();
+  let closed = false;
+  const close = () => {
+    if (closed) return; closed = true;
+    t.classList.add('out');
+    setTimeout(() => t.remove(), 260);
+  };
+  const timer = setTimeout(close, duration);
+  if (action) $('.toast-btn', t).addEventListener('click', () => { clearTimeout(timer); onAction(); close(); });
+}
+
+/* =====================================================================
+   14. الاحتفال (confetti + توهج + صوت + رسالة) + محطات السلسلة
+   ===================================================================== */
+function celebrate() {
+  const s = mainStreak();
+  const milestone = MILESTONES.includes(s);
+  Sound.play(milestone ? 'milestone' : 'celebrate');
+  vibrate([20, 40, 20]);
+  confetti(milestone ? 1.8 : 1);
+  restartAnim(el.top3, 'celebrating');
+  setTimeout(() => el.top3.classList.remove('celebrating'), 2200);
+
+  el.celebrate.innerHTML = `<div class="celebrate-card glass lens">
+      <div class="medal${milestone ? ' gold' : ''}">${milestone ? ICON.flame : ICON.check}</div>
+      <h3>${milestone ? `سلسلة ${fmtDays(s)}!` : 'خلّصت أهم 3 مهام!'}</h3>
+      <p>${milestone ? 'محطة جديدة. هيك بتنبني العادة الحقيقية.' : pickDaily(['أهم شي باليوم صار وراك.', 'هيك بتنبني الأيام الحلوة.', 'شغل نظيف. افتخر بحالك.'])}</p>
+      ${s && !milestone ? `<div class="streak-line">${ICON.flame}سلسلة ${fmtDays(s)}</div>` : ''}
+    </div>`;
+  el.celebrate.hidden = false;
+  el.celebrate.classList.remove('out');
+  const hide = () => {
+    if (el.celebrate.hidden || el.celebrate.classList.contains('out')) return;
+    el.celebrate.classList.add('out');
+    setTimeout(() => { el.celebrate.hidden = true; }, 300);
+  };
+  $('.celebrate-card', el.celebrate).addEventListener('click', hide);
+  setTimeout(hide, milestone ? 6500 : 4800);
+}
+
+function confetti(power = 1) {
+  if (!motionOK()) return;
+  const cv = el.confetti, ctx = cv.getContext('2d');
+  const dpr = devicePixelRatio || 1, W = innerWidth, H = innerHeight;
+  cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const cs = getComputedStyle(document.documentElement);
+  const colors = ['--green', '--blue', '--orange', '--pink', '--purple', '--yellow', '--teal'].map(v => cs.getPropertyValue(v).trim());
+  const r = el.top3.getBoundingClientRect();
+  const parts = [];
+  const burstC = (x, y, n, angle, spread, speed) => {
+    for (let i = 0; i < n * power; i++) {
+      const a = angle + (Math.random() - .5) * spread, v = speed * (.55 + Math.random() * .6);
+      parts.push({ x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, rot: Math.random() * 6.28, vr: (Math.random() - .5) * .35,
+        w: 6 + Math.random() * 6, h: 8 + Math.random() * 8, c: colors[i % colors.length], tilt: Math.random() * 6.28, round: Math.random() < .3 });
+    }
+  };
+  burstC(r.left + r.width / 2, Math.min(H * .5, r.top + r.height / 2), 90, -Math.PI / 2, 2.2, 17);
+  burstC(0, H * .75, 60, -Math.PI / 3, .8, 22);
+  burstC(W, H * .75, 60, -Math.PI * 2 / 3, .8, 22);
+  if (power > 1) setTimeout(() => { burstC(W * .25, H, 50, -Math.PI / 2, .6, 24); burstC(W * .75, H, 50, -Math.PI / 2, .6, 24); }, 450);
+  const start = performance.now(), life = 3.6 + (power - 1);
+  (function frame(now) {
+    const tSec = (now - start) / 1000;
+    ctx.clearRect(0, 0, W, H);
+    for (const p of parts) {
+      p.vy += .42; p.vx *= .985; p.vy *= .985;
+      p.x += p.vx; p.y += p.vy; p.rot += p.vr; p.tilt += .12;
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, Math.min(1, life - tSec));
+      ctx.translate(p.x, p.y); ctx.rotate(p.rot);
+      ctx.fillStyle = p.c;
+      if (p.round) { ctx.beginPath(); ctx.arc(0, 0, p.w / 2, 0, 6.28); ctx.fill(); }
+      else ctx.fillRect(-p.w / 2, -p.h / 2 * Math.abs(Math.cos(p.tilt)), p.w, p.h * Math.abs(Math.cos(p.tilt)));
+      ctx.restore();
+    }
+    if (tSec < life) requestAnimationFrame(frame); else ctx.clearRect(0, 0, W, H);
+  })(start);
+}
+
+/* =====================================================================
+   15. الإعدادات: الصوت + البومودورو + المزامنة + النسخ الاحتياطي
+   ===================================================================== */
+function setSound(on) { state.settings.sound = on; commit({ silent: true }); renderHeader(); el.soundSwitch.checked = on; if (on) Sound.play('add'); }
+el.muteBtn.addEventListener('click', () => setSound(!state.settings.sound));
+el.soundSwitch.addEventListener('change', () => setSound(el.soundSwitch.checked));
+
+function renderPomoSettings() {
+  const p = pomo();
+  $$('#pomoGroup .stepper').forEach(st => {
+    const k = st.dataset.key;
+    $('b', st).textContent = k === 'every' ? countAr(p[k], POMO_W) : `${p[k]} د`;
+  });
+  el.autoBreak.checked = p.autoBreak;
+}
+el.autoBreak.addEventListener('change', () => { state.settings.pomo.autoBreak = el.autoBreak.checked; state.settings.updatedAt = nowISO(); commit(); });
+
+function openSettings() {
+  el.soundSwitch.checked = state.settings.sound;
+  el.importConfirm.hidden = true;
+  renderPomoSettings();
+  renderSyncGroup();
+  el.dataNote.textContent = `${countAr(state.tasks.length, TASKS_W)}، ${countAr(state.habits.length, HABITS_W)} محفوظين على هالجهاز${Sync.on ? ' ومتزامنين مع GitHub' : ''}.`;
+  el.settings.hidden = false;
+  el.settings.classList.remove('out');
+}
+function closeSettings() {
+  el.settings.classList.add('out');
+  setTimeout(() => { el.settings.hidden = true; }, 220);
+}
+el.settingsBtn.addEventListener('click', openSettings);
+el.settingsClose.addEventListener('click', closeSettings);
+el.settings.addEventListener('click', e => {
+  if (e.target === el.settings) { closeSettings(); return; }
+  const sb = e.target.closest('.stepper button');
+  if (sb) {
+    const st = sb.closest('.stepper'), k = st.dataset.key, p = state.settings.pomo;
+    const next = clamp(p[k] + (+st.dataset.step) * (+sb.dataset.d), +st.dataset.min, +st.dataset.max);
+    if (next !== p[k]) { p[k] = next; state.settings.updatedAt = nowISO(); commit(); renderPomoSettings(); restartAnim($('b', st), 'bump'); Sound.play('tap'); }
+    return;
+  }
+  const id = e.target.closest('button') && e.target.closest('button').id;
+  if (id === 'connectBtn') onConnect();
+  else if (id === 'syncNowBtn') Sync.sync();
+  else if (id === 'disconnectBtn') { Sync.disconnect(); toast('انفصلت المزامنة على هالجهاز. بياناتك بتضل محفوظة هون.'); }
+});
+
+/* ---------- المزامنة: الواجهة ---------- */
+function renderSyncUI() {
+  const b = el.syncBtn;
+  b.hidden = !Sync.on;
+  b.className = 'icon-btn glass sync-' + Sync.status;
+  b.innerHTML = Sync.status === 'syncing' ? ICON.sync : (Sync.status === 'error' || Sync.status === 'offline') ? ICON.cloudOff : ICON.cloud;
+  b.title = { syncing: 'عم يتزامن…', error: Sync.error || 'في مشكلة بالمزامنة', offline: 'بدون إنترنت — رح يتزامن لما يرجع', idle: 'متزامن ✓ (اكبس لتزامن هلأ)' }[Sync.status] || 'مزامنة';
+  if (!el.settings.hidden) renderSyncGroup();
+}
+function renderSyncGroup() {
+  const g = el.syncGroup;
+  if (!Sync.on) {
+    const keep = $('#tokenInput') ? $('#tokenInput').value : '';
+    const busy = Sync.status === 'syncing';
+    g.innerHTML = `<div class="sync-box">
+      <p>مهامك بتنحفظ بملف سري (Gist) على حسابك بـ GitHub، وكل جهاز بتربطه بيقرأ ويكتب عليه تلقائياً.</p>
+      <ol class="steps">
+        <li><a href="https://github.com/settings/tokens/new?scopes=gist&description=Top3%20Dashboard" target="_blank" rel="noopener">اعمل توكن من GitHub</a> واختار صلاحية <b>gist</b> بس.</li>
+        <li>انسخه والصقه هون، واكبس ربط. على كل جهاز مرة وحدة.</li>
+      </ol>
+      <div class="token-row">
+        <input type="password" id="tokenInput" placeholder="ghp_…" autocomplete="off" autocapitalize="off" spellcheck="false">
+        <button class="btn primary" id="connectBtn"${busy ? ' disabled' : ''}>${busy ? 'عم يربط…' : 'ربط'}</button>
+      </div>
+      ${Sync.error ? `<div class="sync-err">${esc(Sync.error)}</div>` : ''}
+    </div>`;
+    $('#tokenInput').value = keep;
+    $('#tokenInput').addEventListener('keydown', e => { if (e.key === 'Enter') onConnect(); });
+  } else {
+    const last = Sync.cfg.lastSync ? new Intl.DateTimeFormat('ar-u-nu-latn', { hour: 'numeric', minute: '2-digit' }).format(new Date(Sync.cfg.lastSync)) : '—';
+    const label = { syncing: 'عم يتزامن…', idle: `متزامن ✓ · آخر مرة ${last}`, offline: 'بدون إنترنت — رح يتزامن لما يرجع', error: 'في مشكلة بالمزامنة' }[Sync.status] || 'جاهز';
+    g.innerHTML = `<div class="sync-box">
+      <div class="sync-status${Sync.status === 'error' ? ' error' : ''}">${Sync.status === 'error' ? ICON.cloudOff : ICON.cloud}${label}</div>
+      ${Sync.error ? `<div class="sync-err">${esc(Sync.error)}</div>` : ''}
+      <div class="btns"><button class="btn primary" id="syncNowBtn">زامن هلأ</button><button class="btn" id="disconnectBtn">افصل هالجهاز</button></div>
+    </div>`;
+  }
+}
+async function onConnect() {
+  const input = $('#tokenInput');
+  const token = input ? input.value.trim() : '';
+  if (!token) { if (input) { input.focus(); restartAnim(input.parentElement, 'shake'); } return; }
+  try {
+    await Sync.connect(token);
+    if (Sync.status === 'idle') { toast('انربطت المزامنة ✓'); confetti(.4); }
+  } catch (e) {
+    Sync.cfg = null; Sync.save();
+    Sync.setStatus('off', e.status === 401 ? 'التوكن غلط أو ما إله صلاحية gist.' : 'ما قدرت أوصل لـ GitHub. تأكد من الإنترنت.');
+  }
+}
+el.syncBtn.addEventListener('click', () => Sync.sync());
+
+/* ---------- التصدير والاستيراد ---------- */
+el.exportBtn.addEventListener('click', () => {
+  commit({ silent: true });
+  const payload = { app: 'top3-dashboard', schema: SCHEMA_VERSION, exportedAt: nowISO(), data: state };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `top3-backup-${dayKey()}.json`;
+  document.body.append(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  toast('تم تصدير النسخة الاحتياطية ✓');
+});
+
+el.importBtn.addEventListener('click', () => { el.importFile.value = ''; el.importFile.click(); });
+el.importFile.addEventListener('change', async () => {
+  const f = el.importFile.files[0];
+  if (!f) return;
+  let data;
+  try {
+    data = JSON.parse(await f.text());
+    const inner = data && data.data ? data.data : data;
+    if (!inner || !Array.isArray(inner.tasks)) throw new Error('bad');
+  } catch (e) { toast('الملف مش نسخة احتياطية صالحة'); return; }
+  const next = normalize(data);
+  // تأكيد داخل الواجهة بدل confirm()
+  el.importConfirm.hidden = false;
+  el.importConfirm.innerHTML = `<span>رح تستبدل بياناتك الحالية بـ ${countAr(next.tasks.length, TASKS_W)} و ${countAr(next.habits.length, HABITS_W)} من "${esc(f.name)}".</span>
+    <div class="btns"><button class="btn danger" id="doImport">استبدال</button><button class="btn" id="cancelImport">إلغاء</button></div>`;
+  $('#cancelImport').onclick = () => { el.importConfirm.hidden = true; };
+  $('#doImport').onclick = () => { importState(data); closeSettings(); };
+});
+function importState(data) {
+  const sound = state.settings.sound;
+  state = normalize(data);
+  state.settings.sound = sound;
+  // الاستيراد لازم يغلب بالمزامنة: منعلّم كل شي إنه تعدّل هلأ
+  const now = nowISO();
+  state.tasks.forEach(t => { t.updatedAt = now; });
+  state.habits.forEach(h => { h.updatedAt = now; });
+  state.focus.updatedAt = now; state.settings.updatedAt = now; state.timerAt = now;
+  ui.expanded.clear();
+  rollover();
+  commit(); render();
+  toast('تم الاستيراد ✓');
+}
+
+/* =====================================================================
+   16. اللمعة + الميلان ثلاثي الأبعاد + parallax الخلفية (كله مع الماوس)
+   ===================================================================== */
+const mouse = { x: -9999, y: -9999 };
+let specRaf = 0;
+function updatePointerFX() {
+  specRaf = 0;
+  for (const g of document.querySelectorAll('.glass')) {
+    const r = g.getBoundingClientRect();
+    if (r.bottom < 0 || r.top > innerHeight) continue;
+    g.style.setProperty('--mx', (mouse.x - r.left) + 'px');
+    g.style.setProperty('--my', (mouse.y - r.top) + 'px');
+    const dx = Math.max(r.left - mouse.x, 0, mouse.x - r.right), dy = Math.max(r.top - mouse.y, 0, mouse.y - r.bottom);
+    g.style.setProperty('--hl', (0.3 + 0.7 * (1 - Math.min(Math.hypot(dx, dy) / 380, 1))).toFixed(3));
+  }
+  if (!motionOK() || !fineHover()) return;
+  // خانات أهم 3 بتميل باتجاه الماوس
+  if (!drag.active) for (const s of el.slots) {
+    const r = s.getBoundingClientRect();
+    if (within(r, mouse.x, mouse.y)) {
+      const px = (mouse.x - r.left) / r.width - .5, py = (mouse.y - r.top) / r.height - .5;
+      s.style.setProperty('--rx', (-py * 7).toFixed(2) + 'deg');
+      s.style.setProperty('--ry', (px * 9).toFixed(2) + 'deg');
+    } else { s.style.setProperty('--rx', '0deg'); s.style.setProperty('--ry', '0deg'); }
+  }
+  // الخلفية بتتحرك شوي عكس الماوس
+  el.bg.style.setProperty('--px', ((mouse.x / innerWidth - .5) * 2).toFixed(3));
+  el.bg.style.setProperty('--py', ((mouse.y / innerHeight - .5) * 2).toFixed(3));
+}
+window.addEventListener('pointermove', e => {
+  mouse.x = e.clientX; mouse.y = e.clientY;
+  if (!specRaf) specRaf = requestAnimationFrame(updatePointerFX);
+}, { passive: true });
+window.addEventListener('scroll', () => { if (!specRaf) specRaf = requestAnimationFrame(updatePointerFX); }, { passive: true });
+document.addEventListener('pointerleave', () => { el.slots.forEach(s => { s.style.setProperty('--rx', '0deg'); s.style.setProperty('--ry', '0deg'); }); });
+
+/* =====================================================================
+   17. التشغيل
+   ===================================================================== */
+function checkDay() { if (rollover()) { commit(); render(); } }
+
+rollover();
+// مؤقت خلص وأنت برّا: جلسة التركيز بتنحسب
+if (state.timer && state.timer.pausedLeft == null && ts(state.timer.endsAt) <= Date.now()) {
+  const wasFocus = state.timer.mode === 'focus';
+  finishTimer({ silent: true });
+  if (wasFocus) setTimeout(() => toast('🍅 خلصت جلسة تركيز وأنت برّا — انحسبت.'), 900);
+}
+commit({ silent: true });
+renderAddCat();
+render();
+renderSyncUI();
+requestAnimationFrame(positionThumb);
+addEventListener('resize', positionThumb);
+setTimeout(() => document.body.classList.remove('intro'), 1400);
+
+setInterval(checkDay, 30000);                 // منتصف الليل: يوم جديد
+setInterval(renderHeader, 60000);             // التحية حسب الوقت
+setInterval(() => { if (!document.hidden) Sync.sync(); }, 60000); // سحب التغييرات من الأجهزة التانية
+document.addEventListener('visibilitychange', () => { if (!document.hidden) { checkDay(); tickTimer(); Sync.sync(); } });
+addEventListener('online', () => Sync.sync());
+addEventListener('offline', () => { if (Sync.on) Sync.setStatus('offline'); });
+if (Sync.on) Sync.sync();
+
+// مزامنة لو الصفحة مفتوحة بأكتر من تبويب
+addEventListener('storage', e => {
+  if (e.key !== STORAGE_KEY || !e.newValue) return;
+  try { state = normalize(JSON.parse(e.newValue)); render(); } catch (err) { /* تجاهل */ }
+});
+
+// PWA: بيشتغل بدون إنترنت (بس لما تكون الصفحة على http/https، مش file://)
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+  addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+}
+
+// للتجربة من الـ console
+window.dashboard = { get state() { return state; }, render, commit, celebrate, mergeStates, Sync, finishTimer };
+})();
+</script>
+</body>
+</html>
