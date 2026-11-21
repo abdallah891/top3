@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
 <title>أهم 3 · مهام اليوم</title>
+<script>
+  /* إذا في رمز PIN، منخبي المحتوى من أول لحظة (قبل ما تنرسم الصفحة) */
+  try { var s0 = JSON.parse(localStorage.getItem('top3.dashboard') || '{}'); if (s0.settings && s0.settings.lock && s0.settings.lock.hash) document.documentElement.classList.add('pin-boot'); } catch (e) {}
+</script>
 
 <!-- PWA: بتنضاف على الشاشة الرئيسية بالآيفون والآيباد وبتشتغل بدون إنترنت -->
 <link rel="manifest" href="manifest.webmanifest">
@@ -925,6 +929,53 @@ body.is-dragging, body.is-dragging * { cursor: grabbing !important; user-select:
 /* =====================================================================
    15. احترام prefers-reduced-motion
    ===================================================================== */
+/* =====================================================================
+   قفل الـ PIN (بأسلوب شاشة قفل الآيفون)
+   ===================================================================== */
+.pin-boot .app, .pin-boot .timer-pill, body.locked .app, body.locked .timer-pill, body.locked .focus-view { visibility: hidden; }
+.lock {
+  position: fixed; inset: 0; z-index: 200; display: grid; place-items: center;
+  padding: calc(env(safe-area-inset-top) + 16px) 16px calc(env(safe-area-inset-bottom) + 16px);
+  background: color-mix(in srgb, var(--bg) 45%, transparent);
+  -webkit-backdrop-filter: blur(40px) saturate(170%); backdrop-filter: blur(40px) saturate(170%);
+  animation: fadeIn .3s both;
+}
+.lock.out { animation: lockOut .45s var(--ease-out) forwards; pointer-events: none; }
+@keyframes lockOut { to { opacity: 0; transform: scale(1.06); } }
+.lock-inner { display: flex; flex-direction: column; align-items: center; text-align: center; animation: sheetIn .5s var(--spring) both; }
+.lock-icon { width: 58px; height: 58px; border-radius: 50%; display: grid; place-items: center; color: var(--text); background: var(--fill-2); margin-bottom: 14px; }
+.lock-icon .ic { width: 26px; height: 26px; }
+.lock.ok .lock-icon { color: #fff; background: var(--green); animation: habitPop .45s var(--spring); }
+.lock h2 { margin: 0; font-size: 22px; font-weight: 600; }
+.lock-sub { margin: 6px 0 0; min-height: 1.5em; font-size: 14px; color: var(--text-2); }
+.lock-sub.err { color: var(--red); }
+.pin-dots { display: flex; gap: 20px; margin: 22px 0 30px; direction: ltr; }
+.pin-dots i { width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid var(--text); transition: background .15s, border-color .2s; }
+.pin-dots i.on { background: var(--text); animation: dotPop .25s var(--spring); }
+@keyframes dotPop { 50% { transform: scale(1.35); } }
+.pin-dots.ok i { background: var(--green); border-color: var(--green); }
+.pin-dots.err i { border-color: var(--red); }
+.pin-dots.shake { animation: pinShake .45s; }
+@keyframes pinShake { 15% { transform: translateX(-14px); } 35% { transform: translateX(11px); } 55% { transform: translateX(-7px); } 75% { transform: translateX(4px); } }
+.pin-pad { direction: ltr; display: grid; grid-template-columns: repeat(3, 78px); gap: 16px 26px; }
+.pin-key {
+  width: 78px; height: 78px; border-radius: 50%; border: 0; cursor: pointer;
+  background: var(--fill-2); color: var(--text); font-size: 32px; font-weight: 400; font-variant-numeric: tabular-nums;
+  display: grid; place-items: center;
+  box-shadow: inset 0 1px 0 var(--spec-top), inset 0 0 0 .5px var(--glass-edge);
+  transition: background .25s, transform .3s var(--spring);
+}
+.pin-key:hover { background: color-mix(in srgb, var(--fill-2) 60%, var(--hover)); }
+.pin-key:active, .pin-key.press { background: color-mix(in srgb, var(--text) 22%, transparent); transform: scale(.92); transition-duration: .05s; }
+.pin-key.ghost { background: none; box-shadow: none; font-size: 15px; font-weight: 500; }
+.pin-key.ghost .ic { width: 26px; height: 26px; }
+.pin-key.blank { visibility: hidden; }
+.lock.wait .pin-key:not(.ghost) { opacity: .35; pointer-events: none; }
+.lock-link { margin-top: 26px; border: 0; background: none; color: var(--blue); font-size: 14px; font-weight: 500; cursor: pointer; }
+.lock-recover { margin-top: 14px; display: flex; flex-direction: column; gap: 8px; width: min(320px, 90vw); font-size: 13px; color: var(--text-2); line-height: 1.6; }
+.lock-recover .token-row input { background: var(--fill-2); }
+@media (max-width: 640px) { .pin-pad { grid-template-columns: repeat(3, 74px); gap: 14px 22px; } .pin-key { width: 74px; height: 74px; } }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; transition-delay: 0s !important; }
   .blob { animation: none; translate: none; }
@@ -1125,6 +1176,26 @@ body.is-dragging, body.is-dragging * { cursor: grabbing !important; user-select:
   </div>
 </div>
 
+<!-- شاشة القفل -->
+<div class="lock" id="lock" hidden>
+  <div class="lock-inner">
+    <div class="lock-icon" id="lockIcon"></div>
+    <h2 id="lockTitle">أدخل الرمز</h2>
+    <p class="lock-sub" id="lockSub"></p>
+    <div class="pin-dots" id="pinDots"><i></i><i></i><i></i><i></i></div>
+    <div class="pin-pad" id="pinPad">
+      <button class="pin-key" data-pin="1">1</button><button class="pin-key" data-pin="2">2</button><button class="pin-key" data-pin="3">3</button>
+      <button class="pin-key" data-pin="4">4</button><button class="pin-key" data-pin="5">5</button><button class="pin-key" data-pin="6">6</button>
+      <button class="pin-key" data-pin="7">7</button><button class="pin-key" data-pin="8">8</button><button class="pin-key" data-pin="9">9</button>
+      <button class="pin-key ghost" id="pinCancel" data-pin="cancel">إلغاء</button>
+      <button class="pin-key" data-pin="0">0</button>
+      <button class="pin-key ghost" id="pinDel" data-pin="del" aria-label="مسح"></button>
+    </div>
+    <button class="lock-link" id="lockForgot">نسيت الرمز؟</button>
+    <div class="lock-recover" id="lockRecover" hidden></div>
+  </div>
+</div>
+
 <div class="toasts" id="toasts"></div>
 <canvas id="confetti"></canvas>
 <div class="celebrate" id="celebrate" hidden></div>
@@ -1136,6 +1207,9 @@ body.is-dragging, body.is-dragging * { cursor: grabbing !important; user-select:
     <div class="group">
       <div class="row"><span class="lbl" id="soundLbl">الأصوات</span><input type="checkbox" class="switch" id="soundSwitch"></div>
     </div>
+
+    <div class="group-title">القفل</div>
+    <div class="group" id="lockGroup"></div>
 
     <div class="group-title">مؤقت التركيز (بومودورو)</div>
     <div class="group" id="pomoGroup">
@@ -1255,6 +1329,8 @@ const ICON = {
   cloud: svg('<path d="M7 18.5h10a4 4 0 0 0 .6-8 6 6 0 0 0-11.5 1.5A3.3 3.3 0 0 0 7 18.5z"/>'),
   cloudOff: svg('<path d="M7 18.5h10a4 4 0 0 0 .6-8 6 6 0 0 0-11.5 1.5A3.3 3.3 0 0 0 7 18.5zM4 4l16 16"/>'),
   sync: svg('<path d="M19.5 11A7.5 7.5 0 0 0 6 6.8L4.5 8.5M4.5 4.5v4h4M4.5 13A7.5 7.5 0 0 0 18 17.2l1.5-1.7M19.5 19.5v-4h-4"/>'),
+  lock: svg('<rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/>'),
+  backspace: svg('<path d="M9 5.5h10a1.5 1.5 0 0 1 1.5 1.5v10a1.5 1.5 0 0 1-1.5 1.5H9L3.5 12z"/><path d="M11.5 9.5l5 5M16.5 9.5l-5 5"/>'),
   link: svg('<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>'),
 };
 
@@ -1290,7 +1366,7 @@ function defaultState() {
     days: {},
     timer: null, timerAt: EPOCH, pomoCycle: 0,
     deleted: {},
-    settings: { sound: true, pomo: { ...POMO_DEFAULT }, updatedAt: EPOCH },
+    settings: { sound: true, pomo: { ...POMO_DEFAULT }, lock: null, updatedAt: EPOCH },
     lastDay: today,
   };
 }
@@ -1369,6 +1445,8 @@ function normalize(raw) {
       every: clamp(Math.round(+p.every) || POMO_DEFAULT.every, 2, 8),
       autoBreak: p.autoBreak !== false,
     };
+    const lk = raw.settings.lock;
+    s.settings.lock = lk && lk.hash && lk.salt ? { hash: String(lk.hash), salt: String(lk.salt) } : null;
     s.settings.updatedAt = raw.settings.updatedAt || EPOCH;
   }
   if (raw.lastDay) s.lastDay = raw.lastDay;
@@ -1647,7 +1725,9 @@ const el = {
   fvDots: $('#fvDots'), fvStop: $('#fvStop'), fvPause: $('#fvPause'), fvMin: $('#fvMin'),
   toasts: $('#toasts'), confetti: $('#confetti'), celebrate: $('#celebrate'),
   settings: $('#settings'), settingsClose: $('#settingsClose'), soundSwitch: $('#soundSwitch'), autoBreak: $('#autoBreak'),
-  syncGroup: $('#syncGroup'),
+  syncGroup: $('#syncGroup'), lockGroup: $('#lockGroup'),
+  lock: $('#lock'), lockIcon: $('#lockIcon'), lockTitle: $('#lockTitle'), lockSub: $('#lockSub'), pinDots: $('#pinDots'),
+  pinPad: $('#pinPad'), pinCancel: $('#pinCancel'), pinDel: $('#pinDel'), lockForgot: $('#lockForgot'), lockRecover: $('#lockRecover'),
   exportBtn: $('#exportBtn'), importBtn: $('#importBtn'), importFile: $('#importFile'), importConfirm: $('#importConfirm'), dataNote: $('#dataNote'),
 };
 const ui = { filter: 'all', addCat: 'personal', expanded: new Set(), doneOpen: false, focusOpen: false, lastPct: null, lastMotto: '',
@@ -2807,6 +2887,7 @@ function openSettings() {
   el.soundSwitch.checked = state.settings.sound;
   el.importConfirm.hidden = true;
   renderPomoSettings();
+  renderLockGroup();
   renderSyncGroup();
   el.dataNote.textContent = `${countAr(state.tasks.length, TASKS_W)}، ${countAr(state.habits.length, HABITS_W)} محفوظين على هالجهاز${Sync.on ? ' ومتزامنين مع GitHub' : ''}.`;
   el.settings.hidden = false;
@@ -2831,6 +2912,178 @@ el.settings.addEventListener('click', e => {
   if (id === 'connectBtn') onConnect();
   else if (id === 'syncNowBtn') Sync.sync();
   else if (id === 'disconnectBtn') { Sync.disconnect(); toast('انفصلت المزامنة على هالجهاز. بياناتك بتضل محفوظة هون.'); }
+});
+
+/* ---------- قفل الـ PIN ----------
+   الرمز ما بينحفظ كما هو، بينحفظ "بصمته" (SHA-256 مع salt)، وبيتزامن مع باقي الإعدادات
+   عشان تحطه مرة وحدة لكل أجهزتك. هاد قفل للشاشة، مش تشفير للبيانات. */
+const PIN_LEN = 4, PIN_MAX_FAILS = 5, PIN_WAIT_MS = 30000, AUTO_LOCK_MS = 5 * 60000;
+const hasPin = () => !!(state.settings.lock && state.settings.lock.hash);
+const Lock = { mode: null, entry: '', first: '', onDone: null, onCancel: null, fails: 0, until: 0, hiddenAt: 0, busy: false };
+
+async function hashPin(pin, salt) {
+  const data = new TextEncoder().encode(`top3:${salt}:${pin}`);
+  if (crypto.subtle) {
+    const buf = await crypto.subtle.digest('SHA-256', data);
+    return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+  let h = 2166136261; for (const b of data) { h ^= b; h = Math.imul(h, 16777619) >>> 0; } // احتياط لو ما في crypto.subtle
+  return 'fnv' + h.toString(16);
+}
+
+el.lockIcon.innerHTML = ICON.lock;
+el.pinDel.innerHTML = ICON.backspace;
+
+/* mode: unlock (فتح) | verify (تأكيد قبل الإلغاء) | set1 / set2 (رمز جديد + تأكيده) */
+function openPin(mode, { onDone, onCancel } = {}) {
+  Object.assign(Lock, { mode, entry: '', first: '', onDone, onCancel, busy: false });
+  el.lock.hidden = false;
+  el.lock.classList.remove('out', 'ok');
+  el.lockRecover.hidden = true;
+  if (mode === 'unlock') { document.body.classList.add('locked'); closePomoPop(); }
+  renderPin();
+}
+function renderPin(msg = '', isErr = false) {
+  const m = Lock.mode;
+  el.lockTitle.textContent = { unlock: 'أدخل الرمز', verify: 'أدخل الرمز الحالي', set1: 'اختر رمز من 4 أرقام', set2: 'أكّد الرمز' }[m] || '';
+  const waitLeft = Math.ceil((Lock.until - Date.now()) / 1000);
+  const waiting = waitLeft > 0;
+  el.lock.classList.toggle('wait', waiting);
+  el.lockSub.classList.toggle('err', isErr || waiting);
+  el.lockSub.textContent = waiting ? `محاولات كتير غلط. استنى ${waitLeft} ثانية` :
+    msg || { unlock: 'الداشبورد مقفولة', verify: 'عشان تشيل القفل', set1: 'رح تحتاجه كل ما تفتح الداشبورد', set2: 'اكتبه مرة كمان' }[m] || '';
+  $$('i', el.pinDots).forEach((d, i) => d.classList.toggle('on', i < Lock.entry.length));
+  el.pinCancel.textContent = 'إلغاء';
+  el.pinCancel.classList.toggle('blank', m === 'unlock');
+  el.lockForgot.hidden = m !== 'unlock';
+  if (waiting) { clearTimeout(Lock.waitT); Lock.waitT = setTimeout(() => renderPin(), 1000); }
+}
+async function pinKey(k) {
+  if (!Lock.mode || Lock.busy) return;
+  if (k === 'cancel') { if (Lock.mode !== 'unlock') closePin(false); return; }
+  if (Date.now() < Lock.until) return;
+  if (k === 'del') { Lock.entry = Lock.entry.slice(0, -1); renderPin(); return; }
+  if (Lock.entry.length >= PIN_LEN) return;
+  el.pinDots.classList.remove('err', 'shake', 'ok');
+  Lock.entry += k;
+  Sound.play('tap');
+  renderPin();
+  if (Lock.entry.length < PIN_LEN) return;
+
+  Lock.busy = true;
+  const pin = Lock.entry;
+  await new Promise(r => setTimeout(r, 140)); // خلي النقطة الرابعة تبين
+  if (Lock.mode === 'unlock' || Lock.mode === 'verify') {
+    const lk = state.settings.lock;
+    if (lk && await hashPin(pin, lk.salt) === lk.hash) { Lock.fails = 0; pinOK(); }
+    else pinFail('رمز غلط', true);
+  } else if (Lock.mode === 'set1') {
+    Object.assign(Lock, { first: pin, entry: '', mode: 'set2', busy: false });
+    renderPin();
+  } else if (Lock.mode === 'set2') {
+    if (pin === Lock.first) {
+      const salt = uid();
+      state.settings.lock = { hash: await hashPin(pin, salt), salt };
+      state.settings.updatedAt = nowISO();
+      commit();
+      pinOK();
+    } else { Lock.mode = 'set1'; pinFail('الرمزين مش متطابقين، جرّب من جديد', false); }
+  }
+}
+function pinOK() {
+  el.pinDots.classList.add('ok');
+  el.lock.classList.add('ok');
+  Sound.play('habit');
+  vibrate(10);
+  setTimeout(() => closePin(true), 320);
+}
+function pinFail(msg, counts) {
+  el.pinDots.classList.add('err');
+  restartAnim(el.pinDots, 'shake');
+  Sound.play('delete');
+  vibrate([30, 40, 30]);
+  if (counts && ++Lock.fails >= PIN_MAX_FAILS) { Lock.fails = 0; Lock.until = Date.now() + PIN_WAIT_MS; }
+  setTimeout(() => { Lock.entry = ''; Lock.busy = false; el.pinDots.classList.remove('ok'); renderPin(msg, true); }, 450);
+}
+function closePin(success) {
+  const cb = success ? Lock.onDone : Lock.onCancel;
+  const wasUnlock = Lock.mode === 'unlock';
+  Lock.mode = null; Lock.busy = false;
+  el.lock.classList.add('out');
+  setTimeout(() => { if (!Lock.mode) el.lock.hidden = true; }, 450);
+  if (wasUnlock) {
+    document.documentElement.classList.remove('pin-boot');
+    document.body.classList.remove('locked');
+    // الصفحة بتظهر بنفس حركة الدخول
+    restartAnim(document.body, 'intro');
+    setTimeout(() => document.body.classList.remove('intro'), 1400);
+    requestAnimationFrame(positionThumb);
+  }
+  if (cb) cb();
+}
+el.pinPad.addEventListener('click', e => {
+  const k = e.target.closest('[data-pin]');
+  if (k) pinKey(k.dataset.pin);
+});
+/* كيبورد الكمبيوتر: أرقام + Backspace + Esc */
+document.addEventListener('keydown', e => {
+  if (!Lock.mode || e.target.closest('#lockRecover')) return;
+  e.stopImmediatePropagation();
+  let k = null;
+  if (/^[0-9]$/.test(e.key)) k = e.key;
+  else if (e.key === 'Backspace') k = 'del';
+  else if (e.key === 'Escape') k = 'cancel';
+  if (!k) return;
+  e.preventDefault();
+  const btn = $(`[data-pin="${k}"]`, el.pinPad);
+  if (btn) { btn.classList.add('press'); setTimeout(() => btn.classList.remove('press'), 120); }
+  pinKey(k);
+}, true);
+
+/* نسيت الرمز؟ بتفتح بتوكن GitHub (بيثبت إنك صاحب الحساب) */
+el.lockForgot.addEventListener('click', () => {
+  const r = el.lockRecover;
+  r.hidden = false;
+  if (Sync.on) {
+    r.innerHTML = `<span>اكتب توكن GitHub اللي ربطت فيه المزامنة، والقفل بينشال.</span>
+      <div class="token-row"><input type="password" id="recoverToken" placeholder="ghp_…" autocomplete="off" autocapitalize="off" spellcheck="false"><button class="btn primary" id="recoverBtn">افتح</button></div>`;
+    const input = $('#recoverToken');
+    const go = () => {
+      if (input.value.trim() === Sync.cfg.token) {
+        state.settings.lock = null; state.settings.updatedAt = nowISO(); commit();
+        closePin(true);
+        toast('انشال القفل. بتقدر تعمل رمز جديد من الإعدادات.');
+      } else { restartAnim(input.parentElement, 'shake'); input.select(); }
+    };
+    $('#recoverBtn').addEventListener('click', go);
+    input.addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
+    input.focus();
+  } else {
+    r.innerHTML = `<span>المزامنة مش مربوطة على هالجهاز، فما في طريقة تفتحه غير إنك تمسح بيانات هالموقع من إعدادات المتصفح (رح تنمسح المهام اللي على هالجهاز).</span>`;
+  }
+});
+
+/* إعدادات القفل */
+function renderLockGroup() {
+  const on = hasPin();
+  el.lockGroup.innerHTML = `
+    <div class="row"><span class="lbl">${ICON.lock}قفل برمز PIN</span><input type="checkbox" class="switch" id="lockSwitch"${on ? ' checked' : ''}></div>
+    ${on ? `<button class="row row-btn" id="changePin"><span class="lbl">${ICON.pencil}غيّر الرمز</span></button>` : ''}`;
+  $('#lockSwitch').addEventListener('change', e => {
+    if (e.target.checked) openPin('set1', { onDone: () => { renderLockGroup(); toast('القفل مفعّل 🔒 — على كل أجهزتك'); }, onCancel: renderLockGroup });
+    else openPin('verify', {
+      onDone: () => { state.settings.lock = null; state.settings.updatedAt = nowISO(); commit(); renderLockGroup(); toast('انشال القفل'); },
+      onCancel: renderLockGroup,
+    });
+  });
+  const ch = $('#changePin');
+  if (ch) ch.addEventListener('click', () => openPin('verify', { onDone: () => setTimeout(() => openPin('set1', { onDone: () => toast('تغيّر الرمز ✓') }), 460) }));
+}
+
+/* قفل تلقائي لما ترجع بعد 5 دقايق */
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) { Lock.hiddenAt = Date.now(); return; }
+  if (hasPin() && !Lock.mode && Lock.hiddenAt && Date.now() - Lock.hiddenAt > AUTO_LOCK_MS) openPin('unlock');
 });
 
 /* ---------- المزامنة: الواجهة ---------- */
@@ -2983,6 +3236,8 @@ commit({ silent: true });
 renderAddCat();
 render();
 renderSyncUI();
+if (hasPin()) openPin('unlock');
+else document.documentElement.classList.remove('pin-boot');
 requestAnimationFrame(positionThumb);
 addEventListener('resize', positionThumb);
 setTimeout(() => document.body.classList.remove('intro'), 1400);
