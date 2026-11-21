@@ -179,7 +179,7 @@ input, textarea { font: inherit; color: inherit; }
 .eyebrow { font-size: 13px; font-weight: 600; color: var(--text-2); margin-bottom: 2px; }
 .large-title { font-size: 40px; line-height: 1.15; font-weight: 800; margin: 0; }
 .motto { margin: 6px 0 0; font-size: 16px; color: var(--text-2); min-height: 1.4em; }
-.motto.swap { animation: mottoIn .5s var(--spring); }
+.motto.swap, .fc-center.swap { animation: mottoIn .5s var(--spring); }
 @keyframes mottoIn { from { opacity: 0; transform: translateY(6px); filter: blur(4px); } }
 .top-actions { display: flex; gap: 10px; padding-bottom: 6px; }
 .icon-btn {
@@ -194,7 +194,7 @@ input, textarea { font: inherit; color: inherit; }
 body.intro .rise { animation: rise .75s var(--spring) backwards; animation-delay: calc(var(--i, 0) * 70ms); }
 @keyframes rise { from { opacity: 0; transform: translateY(22px) scale(.97); filter: blur(6px); } }
 
-.layout { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 28px; align-items: start; }
+.layout { display: grid; grid-template-columns: minmax(0, 1fr) 330px; gap: 28px; align-items: start; }
 .side-col { position: sticky; top: 24px; display: flex; flex-direction: column; gap: 18px; }
 .section-head { display: flex; align-items: center; gap: 10px; margin: 0 4px 12px; }
 .section-head h2 { margin: 0; font-size: 22px; font-weight: 700; }
@@ -246,9 +246,9 @@ body.intro .rise { animation: rise .75s var(--spring) backwards; animation-delay
 }
 .slot-empty b { display: block; font-size: 30px; font-weight: 700; line-height: 1; margin-bottom: 4px; color: var(--text-3); }
 .slot.filled .slot-empty { opacity: 0; }
-.top3.empty .slot-empty { animation: breathe 3s ease-in-out infinite; }
-.top3.empty .slot:nth-child(2) .slot-empty { animation-delay: .4s; }
-.top3.empty .slot:nth-child(3) .slot-empty { animation-delay: .8s; }
+.top3.is-empty .slot-empty { animation: breathe 3s ease-in-out infinite; }
+.top3.is-empty .slot:nth-child(2) .slot-empty { animation-delay: .4s; }
+.top3.is-empty .slot:nth-child(3) .slot-empty { animation-delay: .8s; }
 @keyframes breathe { 50% { border-color: color-mix(in srgb, var(--blue) 45%, transparent); } }
 .slot-list { list-style: none; margin: 0; padding: 0; position: relative; }
 .slot .task-row { padding: 2px 0 0 30px; align-items: flex-start; cursor: grab; }
@@ -497,8 +497,8 @@ button.chip.flip { animation: chipFlip .4s var(--spring); }
 .swipe-bg.done .sw-done, .swipe-bg.del .sw-del { opacity: 1; transform: scale(.9); }
 .swipe-bg.armed .sw { transform: scale(1.2); }
 
-.empty { text-align: center; color: var(--text-3); padding: 26px 10px 18px; font-size: 14px; animation: hintIn .5s var(--spring); }
-.empty .ic { width: 34px; height: 34px; stroke-width: 1.3; display: block; margin: 0 auto 8px; animation: floaty 3s ease-in-out infinite; }
+.list-empty { text-align: center; color: var(--text-3); padding: 26px 10px 18px; font-size: 14px; animation: hintIn .5s var(--spring); }
+.list-empty .ic { width: 34px; height: 34px; stroke-width: 1.3; display: block; margin: 0 auto 8px; animation: floaty 3s ease-in-out infinite; }
 @keyframes floaty { 50% { transform: translateY(-4px); } }
 
 /* قسم "تمت" المطوي */
@@ -612,7 +612,74 @@ body.is-dragging, body.is-dragging * { cursor: grabbing !important; user-select:
 .pp-custom input::placeholder { color: var(--text-3); font-weight: 500; font-size: 12px; }
 .pp-hint { font-size: 11.5px; color: var(--text-2); margin: 9px 4px 0; }
 
-/* الحبة الصغيرة العائمة */
+/* بطاقة البومودورو (ظاهرة دايماً) */
+.focus-card { --r: 30px; --mc: var(--orange); padding: 18px 20px 20px; transition: box-shadow .4s; }
+.focus-card.running { box-shadow: inset 0 1px 0 0 var(--spec-top), inset 0 0 0 1px color-mix(in srgb, var(--mc) 35%, transparent), 0 14px 40px -12px color-mix(in srgb, var(--mc) 45%, transparent); }
+.fc-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 14px; }
+.fc-title { display: inline-flex; align-items: center; gap: 7px; font-size: 16px; font-weight: 700; }
+.fc-title .ic { color: var(--mc); width: 19px; height: 19px; transition: color .4s; }
+.fc-count { display: inline-flex; align-items: center; gap: 4px; font-size: 12.5px; font-weight: 600; color: var(--text-2); }
+.fc-count .ic { width: 14px; height: 14px; color: var(--orange); }
+.fc-main { display: flex; align-items: center; gap: 16px; }
+.fc-ring { position: relative; width: 116px; height: 116px; flex: none; }
+.fc-ring::before {
+  content: ""; position: absolute; inset: 10%; border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--mc) 28%, transparent), transparent 70%);
+  opacity: 0; transition: opacity .4s;
+}
+.focus-card.running:not(.paused) .fc-ring::before { opacity: 1; animation: breatheGlow 4s ease-in-out infinite; }
+.fc-ring svg { position: relative; width: 100%; height: 100%; transform: rotate(-90deg); }
+.fc-ring circle { fill: none; stroke-width: 8; }
+.fc-ring .track { stroke: var(--fill-2); }
+.fc-ring .prog { stroke: var(--mc); stroke-linecap: round; stroke-dasharray: 326.73; stroke-dashoffset: 0; transition: stroke-dashoffset 1s linear, stroke .4s; }
+.focus-card:not(.running) .fc-ring .prog { opacity: .35; }
+.fc-center { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; }
+.fc-time { font-size: 29px; font-weight: 300; font-variant-numeric: tabular-nums; direction: ltr; line-height: 1; }
+.fc-mode { font-size: 11.5px; font-weight: 600; color: var(--mc); margin-top: 4px; transition: color .4s; }
+.focus-card.paused .fc-time { animation: blink 1.4s ease-in-out infinite; }
+.fc-side { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+.fc-label { font-size: 12px; font-weight: 600; color: var(--text-2); }
+.fc-presets { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.fc-presets button {
+  height: 36px; border: 0; border-radius: 11px; background: var(--fill); cursor: pointer; font-size: 15px; font-weight: 700;
+  display: flex; align-items: baseline; justify-content: center; gap: 2px; padding-top: 8px;
+  transition: background .2s, color .2s, transform .3s var(--spring);
+}
+.fc-presets button small { font-size: 10px; font-weight: 600; color: var(--text-2); }
+.fc-presets button:hover { background: var(--fill-2); }
+.fc-presets button:active { transform: scale(.9); }
+.fc-presets button.on { background: color-mix(in srgb, var(--orange) 18%, transparent); color: var(--orange); }
+.fc-select {
+  -webkit-appearance: none; appearance: none; width: 100%; height: 36px; border: 0; border-radius: 11px; cursor: pointer;
+  background: var(--fill); color: var(--text); font-size: 13px; padding: 0 12px 0 30px; text-overflow: ellipsis;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238e8e93' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6.5 9.5 12 15l5.5-5.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: left 10px center; background-size: 14px;
+}
+.fc-select:focus { outline: 0; box-shadow: inset 0 0 0 1.5px var(--blue); }
+.fc-start {
+  width: 100%; height: 46px; margin-top: 14px; border: 0; border-radius: 15px; cursor: pointer;
+  background: var(--orange); color: #fff; font-size: 15.5px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  box-shadow: 0 10px 24px -10px var(--orange), inset 0 1px 0 rgba(255, 255, 255, .35);
+  transition: transform .35s var(--spring), box-shadow .3s;
+}
+.fc-start .ic { width: 18px; height: 18px; fill: currentColor; }
+.fc-start:hover { transform: translateY(-1px) scale(1.01); box-shadow: 0 14px 30px -10px var(--orange), inset 0 1px 0 rgba(255, 255, 255, .35); }
+.fc-start:active { transform: scale(.96); }
+.fc-run { display: none; }
+.focus-card.running .fc-idle { display: none; }
+.focus-card.running .fc-run { display: flex; }
+.fc-run-task { font-size: 15px; font-weight: 600; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.fc-controls { display: flex; gap: 8px; }
+.fc-btn { width: 40px; height: 40px; border-radius: 50%; border: 0; cursor: pointer; display: grid; place-items: center; background: var(--fill-2); color: var(--text); transition: transform .3s var(--spring), background .2s, color .2s; }
+.fc-btn:hover { transform: scale(1.08); }
+.fc-btn:active { transform: scale(.88); }
+.fc-btn .ic { width: 17px; height: 17px; stroke-width: 2; }
+.fc-btn.main { width: 48px; height: 48px; background: var(--mc); color: #fff; box-shadow: 0 8px 20px -8px var(--mc); }
+.fc-btn.main .ic { width: 21px; height: 21px; }
+.fc-btn.stop:hover { color: var(--red); }
+
+/* الحبة الصغيرة العائمة (بتظهر بس لما بطاقة البومودورو مش ظاهرة على الشاشة) */
 .timer-pill {
   --r: 999px; --mc: var(--orange); position: fixed; bottom: 24px; left: 24px; z-index: 50;
   display: flex; align-items: center; gap: 8px; padding: 6px 6px 6px 8px; max-width: 360px;
@@ -795,8 +862,14 @@ body.is-dragging, body.is-dragging * { cursor: grabbing !important; user-select:
    ===================================================================== */
 @media (max-width: 1024px) {
   .app { padding: calc(env(safe-area-inset-top) + 28px) 28px calc(env(safe-area-inset-bottom) + 130px); }
-  .layout { grid-template-columns: 1fr; }
-  .side-col { position: static; }
+  /* ترتيب الأقسام على الآيباد والتلفون: أهم 3 ← البومودورو ← العادات ← المهام ← التقدم */
+  .layout { display: flex; flex-direction: column; align-items: stretch; gap: 0; }
+  .main-col, .side-col { display: contents; }
+  .top3 { order: 1; }
+  .focus-card { order: 2; margin-bottom: 18px; }
+  .habits { order: 3; }
+  .tasks { order: 4; margin-bottom: 18px; }
+  .stats { order: 5; }
   .stats { display: grid; grid-template-columns: auto 1fr 1.2fr; gap: 0 24px; align-items: center; }
   .stats .stat-sep { display: none; }
   .stats .week-box { grid-column: 3; grid-row: 1 / span 2; }
@@ -829,6 +902,9 @@ body.is-dragging, body.is-dragging * { cursor: grabbing !important; user-select:
   .stats { display: block; padding: 18px; }
   .stats .stat-sep { display: block; margin: 14px 0; }
   .ring { width: 96px; height: 96px; }
+  .focus-card { --r: 24px; padding: 16px; }
+  .fc-ring { width: 104px; height: 104px; }
+  .fc-time { font-size: 26px; }
   .timer-pill { left: 12px; right: 12px; bottom: calc(env(safe-area-inset-bottom) + 12px); max-width: none; }
   .tp-text { flex: 1; }
   .tp-text span { max-width: none; }
@@ -935,7 +1011,7 @@ body.is-dragging, body.is-dragging * { cursor: grabbing !important; user-select:
           <button type="button" class="chip cat-personal" id="addCat" title="غيّر التصنيف">شخصي</button>
         </form>
         <ul class="task-list" id="taskList"></ul>
-        <div class="empty" id="listEmpty" hidden></div>
+        <div class="list-empty" id="listEmpty" hidden></div>
         <div class="done-section" id="doneSection" hidden>
           <button class="done-toggle" id="doneToggle"><span id="doneLabel">تمت</span></button>
           <div class="done-wrap"><div><ul class="task-list" id="doneList"></ul></div></div>
@@ -945,6 +1021,39 @@ body.is-dragging, body.is-dragging * { cursor: grabbing !important; user-select:
 
     <!-- 5) التحفيز -->
     <aside class="side-col">
+      <!-- 4) مؤقت التركيز (بومودورو) — ظاهر دايماً -->
+      <section class="focus-card glass lens rise" style="--i:2" id="focusCard">
+        <div class="fc-head">
+          <span class="fc-title"><span id="fcIcon"></span>مؤقت التركيز</span>
+          <span class="fc-count" id="fcCount"></span>
+        </div>
+        <div class="fc-main">
+          <div class="fc-ring">
+            <svg viewBox="0 0 120 120"><circle class="track" cx="60" cy="60" r="52"/><circle class="prog" id="fcRing" cx="60" cy="60" r="52"/></svg>
+            <div class="fc-center"><div class="fc-time" id="fcTime">25:00</div><div class="fc-mode" id="fcMode">جاهز</div></div>
+          </div>
+          <div class="fc-side fc-idle">
+            <span class="fc-label">المدة</span>
+            <div class="fc-presets">
+              <button data-fc-min="15">15<small>د</small></button>
+              <button data-fc-min="25">25<small>د</small></button>
+              <button data-fc-min="50">50<small>د</small></button>
+            </div>
+            <span class="fc-label">على أي مهمة؟</span>
+            <select class="fc-select" id="fcTask" aria-label="المهمة"></select>
+          </div>
+          <div class="fc-side fc-run">
+            <div class="fc-run-task" id="fcRunTask"></div>
+            <div class="fc-controls">
+              <button class="fc-btn main" id="fcPause"></button>
+              <button class="fc-btn stop" id="fcStop" title="إنهاء"></button>
+              <button class="fc-btn" id="fcExpand" title="شاشة كاملة"></button>
+            </div>
+          </div>
+        </div>
+        <button class="fc-start fc-idle" id="fcStart"></button>
+      </section>
+
       <section class="stats glass lens rise" style="--i:3" id="stats">
         <div class="ring-wrap">
           <div class="ring" id="ring">
@@ -1530,6 +1639,8 @@ const el = {
   ring: $('#ring'), ringProg: $('#ringProg'), ringPct: $('#ringPct'), ringBig: $('#ringBig'), ringSub: $('#ringSub'), cmp: $('#cmp'), pomoLine: $('#pomoLine'),
   flame: $('#flame'), streakNum: $('#streakNum'), streakLbl: $('#streakLbl'), week: $('#week'), weekTotal: $('#weekTotal'),
   pomoPop: $('#pomoPop'), ppCustom: $('#ppCustom'), ppHint: $('#ppHint'),
+  focusCard: $('#focusCard'), fcCount: $('#fcCount'), fcRing: $('#fcRing'), fcTime: $('#fcTime'), fcMode: $('#fcMode'),
+  fcTask: $('#fcTask'), fcStart: $('#fcStart'), fcRunTask: $('#fcRunTask'), fcPause: $('#fcPause'), fcStop: $('#fcStop'), fcExpand: $('#fcExpand'),
   timerPill: $('#timerPill'), tpTime: $('#tpTime'), tpTask: $('#tpTask'), tpRing: $('#tpRing'), tpIcon: $('#tpIcon'),
   tpOpen: $('#tpOpen'), tpTextBtn: $('#tpTextBtn'), tpPause: $('#tpPause'), tpStop: $('#tpStop'),
   focusView: $('#focusView'), fvMode: $('#fvMode'), fvTask: $('#fvTask'), fvRing: $('#fvRing'), fvTime: $('#fvTime'),
@@ -1539,7 +1650,8 @@ const el = {
   syncGroup: $('#syncGroup'),
   exportBtn: $('#exportBtn'), importBtn: $('#importBtn'), importFile: $('#importFile'), importConfirm: $('#importConfirm'), dataNote: $('#dataNote'),
 };
-const ui = { filter: 'all', addCat: 'personal', expanded: new Set(), doneOpen: false, focusOpen: false, lastPct: null, lastMotto: '' };
+const ui = { filter: 'all', addCat: 'personal', expanded: new Set(), doneOpen: false, focusOpen: false, lastPct: null, lastMotto: '',
+  fcTask: null, fcManual: false, fcOpts: '', fcVisible: true };
 
 /* أيقونات ثابتة */
 $('#addIcon').outerHTML = ICON.plusCircle;
@@ -1549,6 +1661,10 @@ el.settingsBtn.innerHTML = ICON.gear;
 el.tpStop.innerHTML = ICON.stop;
 el.fvStop.innerHTML = ICON.stop;
 el.fvMin.innerHTML = ICON.shrink;
+$('#fcIcon').outerHTML = ICON.tomato;
+el.fcStop.innerHTML = ICON.stop;
+el.fcExpand.innerHTML = ICON.expand;
+el.fcStart.innerHTML = `${ICON.play}ابدأ التركيز`;
 el.settingsClose.innerHTML = ICON.x;
 el.doneToggle.insertAdjacentHTML('beforeend', ICON.chevron);
 $('#soundLbl').insertAdjacentHTML('afterbegin', ICON.speaker);
@@ -1755,7 +1871,7 @@ function renderSlots() {
     syncList($('.slot-list', slot), t ? [t] : [], 'slot');
   });
   el.top3.classList.toggle('complete', st.complete);
-  el.top3.classList.toggle('empty', st.filled === 0);
+  el.top3.classList.toggle('is-empty', st.filled === 0);
   el.top3Count.textContent = `${st.done}/3`;
   el.top3Count.classList.toggle('win', st.complete);
 
@@ -2422,13 +2538,52 @@ function finishTimer({ silent = false } = {}) {
   }
 }
 
+/* بطاقة البومودورو: قبل البدء (المدة + المهمة + ابدأ) وأثناء التشغيل (الوقت + تحكم) */
+function renderFocusCard() {
+  const tm = state.timer, fc = el.focusCard;
+  const running = !!tm, paused = running && tm.pausedLeft != null;
+  const m = running ? MODES[tm.mode] : MODES.focus;
+  fc.classList.toggle('running', running);
+  fc.classList.toggle('paused', paused);
+  fc.style.setProperty('--mc', `var(${m.color})`);
+  const pm = todayPomos();
+  el.fcCount.innerHTML = pm ? `${ICON.tomato}${countAr(pm, POMO_W)} اليوم` : 'ولا جلسة لسا اليوم';
+
+  if (!running) {
+    $$('[data-fc-min]', fc).forEach(b => b.classList.toggle('on', +b.dataset.fcMin === pomo().focus));
+    // قائمة المهام: أهم 3 أولاً، وبعدين الباقي
+    const top = state.focus.slots.map(id => id && getTask(id)).filter(t => t && !t.done);
+    const rest = openTasks().filter(t => !inSlot(t.id));
+    // تلقائياً: أول مهمة من أهم 3 ما خلصت — إلا إذا إنت اخترت بإيدك وهي لسا موجودة
+    const cur = ui.fcTask && getTask(ui.fcTask);
+    if (ui.fcManual && ui.fcTask && (!cur || cur.done)) ui.fcManual = false;
+    if (!ui.fcManual) ui.fcTask = top[0] ? top[0].id : '';
+    const opt = t => `<option value="${esc(t.id)}">${esc(t.title)}</option>`;
+    const html = '<option value="">بدون مهمة محددة</option>'
+      + (top.length ? `<optgroup label="أهم 3">${top.map(opt).join('')}</optgroup>` : '')
+      + (rest.length ? `<optgroup label="باقي المهام">${rest.map(opt).join('')}</optgroup>` : '');
+    if (html !== ui.fcOpts) { el.fcTask.innerHTML = html; ui.fcOpts = html; }
+    el.fcTask.value = ui.fcTask || '';
+    el.fcTime.textContent = fmtClock(pomo().focus * 60000);
+    el.fcMode.textContent = 'جاهز';
+    el.fcRing.style.strokeDashoffset = 0;
+  } else {
+    const t = tm.taskId && getTask(tm.taskId);
+    el.fcRunTask.textContent = tm.mode === 'focus' ? (t ? t.title : 'جلسة تركيز') : 'خذ نفس، اشرب مي، وتحرّك شوي';
+    el.fcMode.textContent = m.label + (paused ? ' · متوقف' : '');
+    el.fcPause.innerHTML = paused ? ICON.play : ICON.pause;
+    el.fcPause.title = paused ? 'كمّل' : 'إيقاف مؤقت';
+  }
+}
+
 function renderTimer() {
+  renderFocusCard();
   const tm = state.timer;
   if (!tm) { el.timerPill.hidden = true; closeFocusView(); document.title = BASE_TITLE; return; }
   const t = tm.taskId && getTask(tm.taskId);
   const m = MODES[tm.mode], paused = tm.pausedLeft != null;
   [el.timerPill, el.focusView].forEach(n => { n.style.setProperty('--mc', `var(${m.color})`); n.classList.toggle('paused', paused); });
-  el.timerPill.hidden = false;
+  el.timerPill.hidden = ui.fcVisible && !ui.focusOpen;
   el.tpIcon.innerHTML = tm.mode === 'focus' ? ICON.tomato : ICON.coffee;
   el.tpTask.textContent = tm.mode === 'focus' ? (t ? t.title : 'تركيز') : m.label;
   el.tpPause.innerHTML = el.fvPause.innerHTML = paused ? ICON.play : ICON.pause;
@@ -2448,8 +2603,9 @@ function tickTimer() {
   const c1 = 2 * Math.PI * 15, c2 = 2 * Math.PI * 108;
   el.tpRing.style.strokeDasharray = c1; el.tpRing.style.strokeDashoffset = c1 * frac;
   el.fvRing.style.strokeDasharray = c2; el.fvRing.style.strokeDashoffset = c2 * frac;
+  el.fcRing.style.strokeDashoffset = 2 * Math.PI * 52 * frac;
   const txt = fmtClock(left);
-  el.tpTime.textContent = el.fvTime.textContent = txt;
+  el.tpTime.textContent = el.fvTime.textContent = el.fcTime.textContent = txt;
   $$('.live-time').forEach(n => { n.textContent = txt; });
   document.title = `${txt} · ${MODES[tm.mode].label}`;
 }
@@ -2475,6 +2631,35 @@ el.fvPause.addEventListener('click', togglePause);
 el.tpStop.addEventListener('click', stopTimer);
 el.fvStop.addEventListener('click', stopTimer);
 el.fvMin.addEventListener('click', closeFocusView);
+
+/* أحداث بطاقة البومودورو */
+el.focusCard.addEventListener('click', e => {
+  const b = e.target.closest('[data-fc-min]');
+  if (!b) return;
+  const min = +b.dataset.fcMin;
+  if (pomo().focus !== min) { state.settings.pomo.focus = min; state.settings.updatedAt = nowISO(); commit(); }
+  Sound.play('tap');
+  renderFocusCard();
+  restartAnim(el.fcTime.parentElement, 'swap');
+});
+el.fcTask.addEventListener('change', () => { ui.fcTask = el.fcTask.value; ui.fcManual = true; });
+el.fcStart.addEventListener('click', () => {
+  const id = el.fcTask.value || null, t = id && getTask(id);
+  startTimer('focus', id, pomo().focus);
+  burstFrom($('.fc-ring', el.focusCard), { n: 12, colors: ['--orange', '--yellow'], dist: 70, size: 5 });
+  toast(`بلّش التركيز ${pomo().focus} د${t ? `: ${t.title}` : ''}`);
+});
+el.fcPause.addEventListener('click', togglePause);
+el.fcStop.addEventListener('click', stopTimer);
+el.fcExpand.addEventListener('click', openFocusView);
+
+/* الحبة العائمة بتظهر بس لما بطاقة البومودورو تطلع برا الشاشة */
+if ('IntersectionObserver' in window) {
+  new IntersectionObserver(([entry]) => {
+    ui.fcVisible = entry.isIntersecting;
+    if (state.timer) el.timerPill.hidden = ui.fcVisible && !ui.focusOpen;
+  }, { threshold: 0.25 }).observe(el.focusCard);
+}
 
 /* اختيار المدة */
 function openPomoPop(anchor, taskId) {
